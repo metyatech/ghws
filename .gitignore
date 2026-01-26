@@ -1,0 +1,8 @@
+*
+!.gitignore
+!agent-ruleset.json
+!AGENTS.md
+!README.md
+!LICENSE
+!agent-rules-local/
+!agent-rules-local/**
