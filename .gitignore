@@ -6,3 +6,9 @@
 !LICENSE
 !agent-rules-local/
 !agent-rules-local/**
+!.github/
+!.github/**
+!CHANGELOG.md
+!SECURITY.md
+!CONTRIBUTING.md
+!CODE_OF_CONDUCT.md
