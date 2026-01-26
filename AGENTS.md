@@ -23,6 +23,7 @@
 - ユーザーが「常にこうして下さい」など恒常運用の指示を明示した場合は、その指示自体をルールとして適切なモジュールに追記する。
 - ユーザーが「必ず」「つねに」などの強い必須指定を含む指示を出した場合は、その指示がグローバルかプロジェクト固有かを判断し、適切なモジュールに追記して再生成する。
 - When updating rules, infer the core intent; if it represents a global policy, record it in global rules rather than project-local rules.
+- When updating rules, include a colorized diff-style summary in the final response; prefer `git diff --color=always` when available.
 
 ## ルール修正時の注意点
 
@@ -80,6 +81,7 @@
 - 公開（npm 等）を行ったら、対応する Git タグ（例: `v1.2.3`）を作成して push する。
 - GitHub Releases を作成し、本文は `CHANGELOG.md` の該当バージョンを基準に記述する。
 - バージョンは `package.json`（等の管理対象）と Git タグの間で不整合を起こさない。
+- When asked to choose a version number, always decide it yourself (do not ask the user).
 - When bumping a version, always create the GitHub Release and publish the package (e.g., npm) as part of the same update.
 - For npm publishing, ask the user to run `npm publish` instead of executing it directly.
 - Before publishing, run any required prep commands (e.g., `npm install`, `npm test`, `npm pack --dry-run`) and only attempt `npm publish` once the environment is ready. If authentication errors occur, ask the user to complete the publish step.
@@ -177,6 +179,7 @@ Write final responses to the user in Japanese unless the user requests otherwise
 - Populate public package metadata (name, description, repository, issues, homepage, engines) for published artifacts.
 - Validate executable entrypoints and any required shebangs so published commands run after install.
 - Run dependency security checks appropriate to the ecosystem before release and address critical issues.
+- Always run dependency security checks before release and report results in the final response.
 - When creating or updating LICENSE files, set the copyright holder name to "metyatech".
 
 # 品質（テスト・検証・エラーハンドリング）
