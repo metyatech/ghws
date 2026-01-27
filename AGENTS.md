@@ -24,7 +24,8 @@
 - ユーザーが「必ず」「つねに」などの強い必須指定を含む指示を出した場合は、その指示がグローバルかプロジェクト固有かを判断し、適切なモジュールに追記して再生成する。
 - When updating rules, infer the core intent; if it represents a global policy, record it in global rules rather than project-local rules.
 - When you acknowledge a new persistent instruction, update the appropriate rule module in the same change set and regenerate `AGENTS.md`.
-- When updating rules, include a colorized diff-style summary in the final response; prefer `git diff --color=always` when available.
+- When updating rules, include a colorized diff-style summary in the final response; prefer `git diff --color=always` when available. Exclude `AGENTS.md` from the diff output.
+- Always include raw ANSI escape codes in diff outputs (e.g., paste the direct output of `git diff --color=always` without sanitizing or reformatting) so the response renders with colors in compatible UIs.
 
 ## ルール修正時の注意点
 
@@ -104,6 +105,7 @@
 - 「既存に合わせる」よりも「理想的な状態（読みやすさ・保守性・一貫性・安全性）」を優先する。
 - ただし、目的と釣り合わない大改修や無関係な改善はしない。
 - 根本原因を修正できる場合は、場当たり的なフォールバックや回避策を追加しない（ノイズ/負債化するため）。
+- When a bug originates in a dependency you control or can patch, fix the dependency first; only add app-level workarounds as a last resort after documenting why the dependency fix is not feasible.
 - 不明点や判断が分かれる点は、独断で進めず確認する。
 - 推測だけで判断して進めない。根拠が不足している場合は確認する。
 - 原因・根拠を未確認のまま「可能性が高い」などの推測で実装・修正しない。まず事実確認し、確認できない場合はユーザーに確認する。
@@ -116,12 +118,14 @@
 ## 設計・実装の原則（共通）
 
 - 責務を小さく保ち、関心を分離する（単一責任）。
+- ツールやモジュールの責務は狭く定義し、用途が曖昧になる広い責務設計を避ける。
 - 依存関係の方向を意識し、差し替えが必要な箇所は境界を分離する（抽象化/インターフェース等）。
 - 継承より合成を優先し、差分を局所化する（過度な階層化を避ける）。
 - グローバルな共有可変状態を増やさない（所有者と寿命が明確な場所へ閉じ込める）。
 - 深いネストを避け、ガード節/関数分割で見通しを保つ。
 - 意図が分かる命名にする（曖昧な省略や「Utils」的な雑多化を避ける）。
 - ハードコードを避け、設定/定数/データへ寄せられるものは寄せる（変更点を1箇所に集約する）。
+- Always keep everything DRY (implementations, schemas, specs, docs, tests, configs, scripts, and any other artifacts): extract shared structures into reusable definitions/modules and reference them instead of duplicating.
 - 変更により不要になったコード/ヘルパー/分岐/コメント/暫定対応は、指示がなくても削除する（残すか迷う場合は確認する）。
 - 未使用の関数/型/定数/ファイルは残さず削除する（意図的に残す場合は理由を明記する）。
 
@@ -206,6 +210,7 @@ Write final responses to the user in Japanese unless the user requests otherwise
 ## テスト
 
 - 進め方: 実装や修正より先にテストを追加し、先に失敗を確認してから本実装を行う（test-first）を必ず守る。
+- Always add end-to-end (E2E) tests for user-visible changes. If an E2E harness is missing, add one in the same change set (prefer existing ecosystem tools) and run it; if it cannot be run, document why and provide a manual verification plan.
 - 常に多様な入力パターンを想定したテストを作成する（必須）。
 - テストは、合理的に想定できる限りの観点を網羅する（成功/失敗/境界値/無効入力/状態遷移/並行実行/再試行/回復など）。不足がある場合は理由と代替検証を明記し、ユーザーの明示許可を得る。
 - 最小のテストだけにせず、期待される挙動の全範囲（成功/失敗、境界値、無効入力、代表的な状態遷移）を網羅する。
