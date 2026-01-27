@@ -19,7 +19,6 @@
 - ルール変更は共通ルール、プロジェクト固有ルール、ルールセット定義（例: `agent-ruleset.json` や ruleset bundle）に対して行い、合成ツールで `AGENTS.md` を再生成する。
 - 生成済みの `AGENTS.md` は直接編集しない（編集が必要なら元ルールへ反映する）。
 - `AGENTS.md` は生成物だが例外として `.gitignore` に追加せず、再生成してコミットする。
-- `AGENTS.md` を合成する際は、合成元にしたファイルのパス一覧を `AGENTS.md` に必ず含める。
 - ユーザーから「ルールを更新して」と依頼された場合、特段の指示がない限り「適切なルールモジュールとルールセットを更新し、再生成する」ことを意味する。
 - ユーザーが「常にこうして下さい」など恒常運用の指示を明示した場合は、その指示自体をルールとして適切なモジュールに追記する。
 - ユーザーが「必ず」「つねに」などの強い必須指定を含む指示を出した場合は、その指示がグローバルかプロジェクト固有かを判断し、適切なモジュールに追記して再生成する。
@@ -39,6 +38,12 @@
 
 - 各プロジェクトのルートに `AGENTS.md` を置く。
 - サブツリーに別プロジェクトがある場合のみ、そのルートに `AGENTS.md` を置く（同一プロジェクト内で重複配置しない）。
+
+# Browser automation (Codex)
+
+- For web automation, use the `agent-browser` CLI.
+- Prefer the ref-based workflow: `agent-browser open <url>` → `agent-browser snapshot -i --json` → interact using `@eN` refs → re-snapshot after changes.
+- If browser launch fails due to missing Playwright binaries, run `npx playwright install chromium` and retry.
 
 # CLI behavior standards
 
