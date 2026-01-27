@@ -19,10 +19,12 @@
 - ルール変更は共通ルール、プロジェクト固有ルール、ルールセット定義（例: `agent-ruleset.json` や ruleset bundle）に対して行い、合成ツールで `AGENTS.md` を再生成する。
 - 生成済みの `AGENTS.md` は直接編集しない（編集が必要なら元ルールへ反映する）。
 - `AGENTS.md` は生成物だが例外として `.gitignore` に追加せず、再生成してコミットする。
+- `AGENTS.md` を合成する際は、合成元にしたファイルのパス一覧を `AGENTS.md` に必ず含める。
 - ユーザーから「ルールを更新して」と依頼された場合、特段の指示がない限り「適切なルールモジュールとルールセットを更新し、再生成する」ことを意味する。
 - ユーザーが「常にこうして下さい」など恒常運用の指示を明示した場合は、その指示自体をルールとして適切なモジュールに追記する。
 - ユーザーが「必ず」「つねに」などの強い必須指定を含む指示を出した場合は、その指示がグローバルかプロジェクト固有かを判断し、適切なモジュールに追記して再生成する。
 - When updating rules, infer the core intent; if it represents a global policy, record it in global rules rather than project-local rules.
+- When you acknowledge a new persistent instruction, update the appropriate rule module in the same change set and regenerate `AGENTS.md`.
 - When updating rules, include a colorized diff-style summary in the final response; prefer `git diff --color=always` when available.
 
 ## ルール修正時の注意点
@@ -279,3 +281,4 @@ Write final responses to the user in Japanese unless the user requests otherwise
 - If the target repository already exists under the current `ghws` workspace, edit it in place.
 - If the target repository is not present under the current `ghws` workspace, clone it from GitHub with `--recursive` and then work in the cloned folder.
 - When adding a new repository, create it under the `ghws` workspace first and then push it to GitHub.
+- Never clone repositories that are not managed by the user into the `ghws` workspace.
