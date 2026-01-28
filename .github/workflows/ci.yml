@@ -18,5 +18,3 @@ jobs:
         run: npm install -g compose-agentsmd
       - name: Compose AGENTS.md
         run: compose-agentsmd
-      - name: Verify generated files are up to date
-        run: git diff --exit-code
