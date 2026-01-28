@@ -100,6 +100,7 @@
 - JavaScript は、ツール都合で必要な設定ファイル等に限定する。
 - 外部依存で汎用的な解決ができる場合は積極的に採用する。内製は外部依存が適切に見つからない場合のみに限定する。
 - 対象ツール/フレームワークに公式チュートリアルや推奨される標準手法がある場合は、それを第一優先で採用する（明確な理由がある場合を除く）。
+- Use established icon libraries instead of creating custom icons or inline SVGs; do not handcraft new icons.
 - Prefer existing internet-hosted tools/libraries for reusable functionality; if none exist, externalize the shared logic into a separate repository/module and reference it via remote dependency (never local filesystem paths).
 - When building a feature that appears reusable across repositories or generally useful, explicitly assess reuse first: look for existing solutions, and if none fit, propose creating a new repository/module and publishing it with proper maintenance hygiene instead of embedding the logic in a single repo.
 - 「既存に合わせる」よりも「理想的な状態（読みやすさ・保守性・一貫性・安全性）」を優先する。
@@ -119,6 +120,7 @@
 
 - 責務を小さく保ち、関心を分離する（単一責任）。
 - ツールやモジュールの責務は狭く定義し、用途が曖昧になる広い責務設計を避ける。
+- 互換性維持（後方互換オプションやエイリアスなど）は、ユーザーが明示的に指示した場合のみ行う。
 - 依存関係の方向を意識し、差し替えが必要な箇所は境界を分離する（抽象化/インターフェース等）。
 - 継承より合成を優先し、差分を局所化する（過度な階層化を避ける）。
 - グローバルな共有可変状態を増やさない（所有者と寿命が明確な場所へ閉じ込める）。
