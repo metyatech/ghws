@@ -3,7 +3,11 @@
 - Before starting any work, run `compose-agentsmd` from the project root.
 - To update shared rules, run `compose-agentsmd edit-rules`, edit the workspace rules, then run `compose-agentsmd apply-rules`.
 - Do not edit `AGENTS.md` directly; update the source rules and regenerate.
-- When updating rules, include a detailed summary of what changed (added/removed/modified items) in the final response.
+- When updating rules, include a colorized diff-style summary in the final response. Use `git diff --stat` first, then include the raw ANSI-colored output of `git diff --color=always` (no sanitizing or reformatting), and limit the output to the rule files that changed.
+- Also provide a short, copy-pasteable command the user can run to view the diff in the same format. Use absolute paths so it works regardless of the current working directory, and scope it to the changed rule files.
+- If a diff is provided, a separate detailed summary is not required. If a diff is not possible, include a detailed summary of what changed (added/removed/modified items).
+
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/agent-rules-composition.md
 
 # AGENTS ルール運用（合成）
 
@@ -40,11 +44,15 @@
 - 各プロジェクトのルートに `AGENTS.md` を置く。
 - サブツリーに別プロジェクトがある場合のみ、そのルートに `AGENTS.md` を置く（同一プロジェクト内で重複配置しない）。
 
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/browser-automation.md
+
 # Browser automation (Codex)
 
 - For web automation, use the `agent-browser` CLI (via the installed `agent-browser` skill when available).
 - Prefer the ref-based workflow: `agent-browser open <url>` → `agent-browser snapshot -i --json` → interact using `@eN` refs → re-snapshot after changes.
 - If browser launch fails due to missing Playwright binaries, run `npx playwright install chromium` and retry.
+
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/cli-behavior-standards.md
 
 # CLI behavior standards
 
@@ -57,11 +65,15 @@
 - Provide controllable logging (`--quiet`, `--verbose`, or `--trace`) so users can diagnose failures without changing code.
 - Use deterministic exit codes (0 success, non-zero failure) and avoid silent fallbacks.
 
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/command-execution.md
+
 ## コマンド実行
 
 - ユーザーが明示しない限り、コマンドにラッパーやパイプを付加しない。
 - ビルド/テスト/実行は、各リポジトリの標準スクリプト/手順（`package.json`、README等）を優先する。
 - When running git commands that could open an editor, avoid interactive prompts by using `--no-edit` where applicable or setting `GIT_EDITOR=true` for that command.
+
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/distribution-and-release.md
 
 # 配布と公開
 
@@ -93,6 +105,8 @@
 - When bumping a version, always create the GitHub Release and publish the package (e.g., npm) as part of the same update.
 - For npm publishing, ask the user to run `npm publish` instead of executing it directly.
 - Before publishing, run any required prep commands (e.g., `npm install`, `npm test`, `npm pack --dry-run`) and only attempt `npm publish` once the environment is ready. If authentication errors occur, ask the user to complete the publish step.
+
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/implementation-and-coding-standards.md
 
 ## 実装・技術選定
 
@@ -144,10 +158,14 @@
 - CLIのコマンド例には、必須パラメーターを必ず含める。
 - ドキュメントの例には、ユーザー固有のローカルパスや個人情報に該当する値を含めない（例: `D:\\ghws\\...` など）。
 
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/json-schema-validation.md
+
 # JSON schema validation
 
 - When defining or changing a JSON configuration specification, always create or update a JSON Schema for it.
 - Validate JSON configuration files against the schema as part of the tool's normal execution.
+
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/languages-and-writing.md
 
 # Languages and writing
 
@@ -160,11 +178,15 @@ Write final responses to the user in Japanese unless the user requests otherwise
 - Unless specified otherwise, write developer-facing documentation (e.g., `README.md`), code comments, and commit messages in English.
 - Write rule modules in English.
 
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/markdown-linking.md
+
 # Markdown Linking Rules
 
 ## Link format
 - When a Markdown document references another local file, the link must use a
   relative path from the Markdown file.
+
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/multi-repo-workflow.md
 
 # Multi-repo workflow
 
@@ -187,6 +209,8 @@ Write final responses to the user in Japanese unless the user requests otherwise
 - 変更したリポジトリ内の手元検証を優先する（例: `npm run build`, `npm test`）。
 - 共通モジュール側の変更が利用側に影響しうる場合は、少なくとも1つの利用側リポジトリで動作確認（ビルド等）を行う。
 
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/publication-standards.md
+
 # Publication standards
 
 - Define a SemVer policy and document what counts as a breaking change.
@@ -196,6 +220,8 @@ Write final responses to the user in Japanese unless the user requests otherwise
 - Run dependency security checks appropriate to the ecosystem before release and address critical issues.
 - Always run dependency security checks before release and report results in the final response.
 - When creating or updating LICENSE files, set the copyright holder name to "metyatech".
+
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/quality-testing-and-errors.md
 
 # 品質（テスト・検証・エラーハンドリング）
 
@@ -259,6 +285,8 @@ Write final responses to the user in Japanese unless the user requests otherwise
 - ログは冗長にしないが、原因特定に必要なコンテキスト（識別子や入力条件）を含める。
 - 秘密情報/個人情報をログに出さない（必要ならマスク/分離する）。
 
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/readme-standards.md
+
 ## Documentation (README)
 
 - Every repository (module) must include a `README.md`.
@@ -266,6 +294,8 @@ Write final responses to the user in Japanese unless the user requests otherwise
 - For any source code change, always check whether the README is affected. If it is, update the README at the same time as the code changes (do not defer it to a later step).
   - Impact examples: usage/API/behavior, setup steps, dev commands, environment variables, configuration, release/deploy steps, supported versions, breaking changes.
   - Even when a README update is not needed, explain why in the final response (do not skip silently).
+
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/repository-hygiene-and-file-naming.md
 
 # 生成物
 
@@ -279,6 +309,8 @@ Write final responses to the user in Japanese unless the user requests otherwise
 
 - 命名規則（大文字小文字、略語、区切り方）をリポジトリ内で一貫させ、混在があれば整合するようにリネームする。
 
+Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/50d89aee11b78e6a85d6e01f8e607674c1840b0f/rules/global/user-identity-and-accounts.md
+
 # User Identity and Accounts
 
 - The user's name is "metyatech".
@@ -286,6 +318,8 @@ Write final responses to the user in Japanese unless the user requests otherwise
 - The user has GitHub and npm accounts.
 - Use the `gh` CLI to verify GitHub details when needed.
 - When publishing, cloning, adding submodules, or splitting repositories, prefer the user's "metyatech" ownership unless explicitly instructed otherwise.
+
+Source: D:/ghws/agent-rules-local/ghws-workspace.md
 
 # GHWS workspace repository management
 
