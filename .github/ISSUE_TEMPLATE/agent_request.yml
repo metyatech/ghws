@@ -1,0 +1,57 @@
+name: Agent request
+description: Ask the agent to plan and execute work autonomously
+title: "[Agent] "
+labels:
+  - agent:request
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What outcome do you want?
+      placeholder: "Example: Add CSV export to qti-reporter."
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      description: Which repositories can the agent change?
+      options:
+        - This repository only
+        - Multiple repositories (list below)
+        - Organization-wide if needed
+    validations:
+      required: true
+  - type: textarea
+    id: repos
+    attributes:
+      label: Repository list (if applicable)
+      description: Provide repo names if you chose multiple repositories.
+      placeholder: "Example: qti-reporter, qti-xml-core"
+    validations:
+      required: false
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints
+      description: Any constraints, deadlines, or preferences?
+      placeholder: "Example: Keep dependencies minimal."
+    validations:
+      required: false
+  - type: checkboxes
+    id: autonomy
+    attributes:
+      label: Autonomy
+      description: Confirm the agent may proceed end-to-end.
+      options:
+        - label: "Yes, proceed autonomously (plan, implement, test, and release if applicable)."
+          required: true
+  - type: textarea
+    id: success
+    attributes:
+      label: Acceptance criteria
+      description: How will you know the work is complete?
+      placeholder: "Example: CLI supports --format csv and tests pass."
+    validations:
+      required: false

@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a problem with the ghws workspace repository
+about: Report a problem with this repository
 title: "[Bug] "
 labels: bug
 assignees: ""

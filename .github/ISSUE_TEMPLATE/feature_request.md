@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an improvement for the ghws workspace repository
+about: Suggest an improvement for this repository
 title: "[Feature] "
 labels: enhancement
 assignees: ""
