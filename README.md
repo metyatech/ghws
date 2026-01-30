@@ -16,7 +16,10 @@ This repository is a lightweight workspace index for managing the user's GitHub 
 
 ## Development commands
 
-- No build or test commands are required.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-hooks.ps1` configures git hooks.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/lint.ps1` validates the ruleset JSON.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test.ps1` checks the documented automation link.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build.ps1` regenerates `AGENTS.md`.
 - `compose-agentsmd` regenerates `AGENTS.md` from the configured ruleset.
 
 ## Environment variables

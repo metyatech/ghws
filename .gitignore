@@ -8,7 +8,11 @@
 !agent-rules-local/**
 !.github/
 !.github/**
+!.githooks/
+!.githooks/**
 !CHANGELOG.md
 !SECURITY.md
 !CONTRIBUTING.md
 !CODE_OF_CONDUCT.md
+!scripts/
+!scripts/**
