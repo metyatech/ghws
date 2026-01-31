@@ -1,7 +1,7 @@
 {
   "source": "github:metyatech/agent-rules",
   "output": "AGENTS.md",
-  "domains": [
-    "ghws"
+  "extra": [
+    "agent-rules-local/ghws-workspace.md"
   ]
 }

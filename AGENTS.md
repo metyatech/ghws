@@ -150,7 +150,7 @@ Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/5428d4dac46aecff41
 
 - When a Markdown document links to a local file, use a path relative to the Markdown file.
 
-Source: C:/Users/Origin/.agentsmd/cache/metyatech/agent-rules/5428d4dac46aecff41d766e5e611e92cfa1b1212/rules/domains/ghws/ghws-workspace.md
+Source: D:/ghws/agent-rules-local/ghws-workspace.md
 
 # GHWS workspace repository management
 

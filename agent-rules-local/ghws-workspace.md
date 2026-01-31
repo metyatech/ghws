@@ -1,5 +1,6 @@
 # GHWS workspace repository management
 
+- Apply these rules only when the repository path is under the ghws workspace root; ignore this module for standalone clones outside ghws.
 - These rules apply only when working inside the `ghws` workspace repository (the exact path may vary).
 - All folders in this workspace (except `agent-rules-local`) are Git repositories connected to GitHub.
 - Some repositories are not owned by the user, but the user can commit and push to them.
