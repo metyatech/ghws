@@ -29,3 +29,7 @@ This repository is a lightweight workspace index for managing the user's GitHub 
 ## Release / deploy
 
 - Not applicable. This repository is a workspace index and is not released as a package.
+
+## Overview
+This repository contains the ghws project.
+
