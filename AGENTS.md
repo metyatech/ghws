@@ -41,7 +41,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 
 - Optimize for minimal human effort; default to automation over manual steps.
 - Drive work from the desired outcome: infer acceptance criteria, choose the shortest safe path, and execute end-to-end.
-- Assume end-to-end autonomy for repository operations (issue triage, PRs, merges, releases, repo admin) unless the user restricts scope.
+- Assume end-to-end autonomy for repository operations (issue triage, PRs, direct pushes to main/master, merges, releases, repo admin) unless the user restricts scope.
 - When work reveals rule gaps, redundancy, or misplacement, proactively update rule modules/rulesets (including moves/renames) and regenerate AGENTS.md without waiting for explicit user requests.
 - When something is unclear, investigate to resolve it; do not proceed with unresolved material uncertainty. If still unclear, ask and include what you checked.
 - Ask only blocking questions; for non-material ambiguities, pick the lowest-risk option, state the assumption, and proceed.
@@ -163,4 +163,5 @@ Source: agent-rules-local/ghws-workspace.md
 - If the target repository already exists under the current `ghws` workspace, edit it in place.
 - If the target repository is not present under the current `ghws` workspace, clone it from GitHub with `--recursive` and then work in the cloned folder.
 - When adding a new repository, create it under the `ghws` workspace first and then push it to GitHub.
+- For account-wide requests, treat all user-owned repositories as in scope; repository creation, splitting, and deletion are allowed when needed.
 - Never clone repositories that are not managed by the user into the `ghws` workspace.
