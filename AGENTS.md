@@ -118,6 +118,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-error
 - For deterministic output files, use full-content snapshot/golden tests.
 - Prefer making nondeterministic failures reproducible over adding sleeps/retries; do not mask flakiness.
 - For integration boundaries (network/DB/external services/UI flows), add an integration/E2E/contract test that exercises the boundary when feasible; avoid unit-only coverage for integration bugs.
+- For non-trivial changes, create a small test matrix (scenarios × inputs × states) and cover the highest-risk combinations; document intentional gaps.
 
 ## Exceptions
 
