@@ -145,6 +145,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/writing-and-documentation
 ## User responses
 
 - Respond in Japanese unless the user requests otherwise.
+- Always report whether you committed and whether you pushed; include repo(s), branch(es), and commit hash(es) when applicable.
 - After completing a response, emit the Windows SystemSounds.Asterisk sound via PowerShell when possible.
 
 ## Developer-facing writing
