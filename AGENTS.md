@@ -111,10 +111,13 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-error
 ## Tests (behavior changes)
 
 - Follow test-first: add/update tests, observe failure, implement the fix, then observe pass.
+- For bug fixes, add a regression test that fails before the fix at the level where the bug occurs (unit/integration/E2E).
 - Add/update automated tests for behavior changes and regression coverage.
-- Cover success, failure, boundary, invalid input, and key state transitions; include representative concurrency/retry/recovery when relevant.
+- Cover success, failure, boundary, invalid input, and key state transitions (including first-run/cold-start vs subsequent-run behavior when relevant); include representative concurrency/retry/recovery when relevant.
 - Keep tests deterministic; minimize time/random/external I/O; inject when needed.
 - For deterministic output files, use full-content snapshot/golden tests.
+- Prefer making nondeterministic failures reproducible over adding sleeps/retries; do not mask flakiness.
+- For integration boundaries (network/DB/external services/UI flows), add an integration/E2E/contract test that exercises the boundary when feasible; avoid unit-only coverage for integration bugs.
 
 ## Exceptions
 
