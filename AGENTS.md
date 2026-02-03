@@ -96,7 +96,8 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-error
 
 - Do not claim "fixed"/"done" unless it is verified by reproducing the issue and/or running the relevant checks.
 - Prefer a green baseline: if relevant checks fail before you change anything, report it and get explicit user approval before proceeding.
-- If you cannot fully verify, explicitly state what is unverified, why, and provide exact commands/steps for the user to verify; do not guess.
+- If you cannot reproduce/verify, do not guess a fix; request missing info or create a failing regression test.
+- Always report verification: list the exact commands/steps run and their outcome; if anything is unverified, state why and how to verify.
 
 ## Verification
 
