@@ -204,8 +204,13 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/observability-and-diagnos
 
 ## Metrics
 
-- For long-running services, expose metrics for latency, error rate, throughput, and saturation; add domain metrics for critical flows.
-- Treat missing metrics as a defect when they block verification or incident response.
+- Instrument the golden signals (latency, traffic, errors, saturation) for each service and critical dependency; define concrete SLIs/SLOs for user-facing flows.
+- Use OpenTelemetry Metrics for instrumentation and OTLP for export; using vendor-specific metrics SDKs directly is an exception and requires explicit user approval.
+- Use the right metric types (counters for monotonic totals, histograms for latencies/sizes, gauges for current values) and include explicit units in names.
+- Keep metric names and label keys stable; use a consistent namespace and Prometheus-style `snake_case` naming with base-unit suffixes (e.g., `http_server_request_duration_seconds`).
+- Constrain label cardinality: labels must come from small bounded sets; never use user identifiers, raw URLs, request bodies, or other unbounded values as labels.
+- Ensure correlation: when supported, record exemplars or identifiers that let you jump from a metric spike to representative traces/logs.
+- Treat missing/incorrect metrics as a defect when they block verification, incident response, or SLO evaluation; add/adjust dashboards and alerts with behavior changes that impact reliability/performance.
 
 ## Tracing
 
