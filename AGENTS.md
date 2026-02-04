@@ -107,10 +107,10 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-error
 - If you are unsure what constitutes the full suite, run the repo's default verify/CI commands rather than guessing.
 - Before committing code changes, run the full suite; if a relevant check is missing and feasible to add, add it in the same change set.
 - Enforce via CI: run the full suite on pull requests and on pushes to the default branch; if no CI harness exists, add one using repo-standard commands.
-- Prefer protected merges: configure required status checks on the default branch when feasible.
+- Configure required status checks on the default branch when you have permission; otherwise report the limitation.
 - Do not rely on smoke-only gating or scheduled-only full runs for correctness; merges must require the full suite.
 - Ensure commit-time automation (pre-commit or repo-native) runs the full suite when feasible.
-- If required checks cannot be run, explain why and list the exact commands for the user.
+- If required checks cannot be run, treat it as an exception: explain why, provide exact commands/steps, and get explicit user approval before proceeding.
 - Never disable checks, weaken assertions, loosen types, or add retries solely to make checks pass.
 
 ## Tests (behavior changes)
@@ -122,7 +122,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-error
 - Keep tests deterministic; minimize time/random/external I/O; inject when needed.
 - For deterministic output files, use full-content snapshot/golden tests.
 - Prefer making nondeterministic failures reproducible over adding sleeps/retries; do not mask flakiness.
-- For integration boundaries (network/DB/external services/UI flows), add an integration/E2E/contract test that exercises the boundary when feasible; avoid unit-only coverage for integration bugs.
+- For integration boundaries (network/DB/external services/UI flows), add an integration/E2E/contract test that exercises the boundary; avoid unit-only coverage for integration bugs.
 - For non-trivial changes, create a small test matrix (scenarios × inputs × states) and cover the highest-risk combinations; document intentional gaps.
 
 ## Exceptions
