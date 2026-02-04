@@ -45,6 +45,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 - Do not preserve backward compatibility unless explicitly requested; avoid legacy aliases and compatibility shims by default.
 - When work reveals rule gaps, redundancy, or misplacement, proactively update rule modules/rulesets (including moves/renames) and regenerate AGENTS.md without waiting for explicit user requests.
 - After each task, run a brief retrospective; if you notice avoidable mistakes, missing checks, or recurring back-and-forth, encode the fix as a rule update and regenerate AGENTS.md.
+- Treat these rules as the source of truth; do not override them with repository conventions. If a repo conflicts, update the repo to comply or update the rules to encode the exception; do not make undocumented exceptions.
 - When something is unclear, investigate to resolve it; do not proceed with unresolved material uncertainty. If still unclear, ask and include what you checked.
 - Do not proceed based on assumptions or guesses without explicit user approval; hypotheses may be discussed but must not drive action.
 - Ask only blocking questions; for non-material ambiguities, pick the lowest-risk option, state the assumption, and proceed.
@@ -93,8 +94,8 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/linting-formatting-and-st
 
 - Every code repo must have a formatter and a linter/static analyzer for its primary languages.
 - Prefer one formatter and one linter per language; avoid overlapping tools that fight each other.
-- Prefer repository-standard tooling. If a repo already has an established toolchain, keep it unless the task is explicitly to migrate tooling.
-- If a repo lacks tooling, add it using the defaults below; do not invent new combinations.
+- Follow the standard toolchains below. If a repo conflicts, migrate it to comply unless the user explicitly restricts scope.
+- If you believe an exception is needed, encode it as a rule update and regenerate AGENTS.md before proceeding.
 - Enforce in CI: run formatting checks (verify-no-changes) and linting on pull requests and require them for merges.
 - Treat warnings as errors in CI; when a tool cannot, use its strictest available setting so warnings fail CI.
 - Do not disable rules globally; keep suppressions narrow, justified, and time-bounded.
@@ -110,16 +111,14 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/linting-formatting-and-st
 
 ### JavaScript / TypeScript (incl. React/Next)
 
-- Default format+lint: ESLint + Prettier.
-- Existing toolchains: keep Biome if already established; do not run both.
+- Format+lint: ESLint + Prettier.
 - Typecheck: `tsc` with strict settings for TS projects.
 - Dependency scan: `osv-scanner`. If unsupported, use the package manager's audit tooling.
 
 ### Python
 
 - Format+lint: Ruff.
-- Default typecheck: Pyright.
-- Existing toolchains: keep mypy if already established; do not run both.
+- Typecheck: Pyright.
 - Dependency scan: pip-audit.
 
 ### Go
