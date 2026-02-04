@@ -107,6 +107,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-error
 - Before committing code changes, run the applicable lint/test/build commands; if a relevant check is missing and feasible to add, add it in the same change set.
 - Ensure commit-time automation (pre-commit or repo-native) runs applicable lint/test/build checks for code changes when feasible.
 - If required checks cannot be run, explain why and list the exact commands for the user.
+- Prefer CI as enforcement: ensure lint/typecheck/test/build run on pull requests; if no CI harness exists, add one using repo-standard commands.
 - Never disable checks, weaken assertions, loosen types, or add retries solely to make checks pass.
 
 ## Tests (behavior changes)
