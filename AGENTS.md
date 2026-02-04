@@ -96,18 +96,21 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-error
 ## Definition of done
 
 - Do not claim "fixed"/"done" unless it is verified by reproducing the issue and/or running the relevant checks.
+- For code changes, treat "relevant checks" as the repo's full lint/typecheck/test/build suite (prefer CI results).
 - Prefer a green baseline: if relevant checks fail before you change anything, report it and get explicit user approval before proceeding.
 - If you cannot reproduce/verify, do not guess a fix; request missing info or create a failing regression test.
 - Always report verification: list the exact commands/steps run and their outcome; if anything is unverified, state why and how to verify.
 
 ## Verification
 
-- Run the smallest relevant set of lint/typecheck/test/build checks the repo supports using repo-standard commands.
-- If you are unsure what checks are relevant, run the repo's default full suite rather than guessing.
-- Before committing code changes, run the applicable lint/test/build commands; if a relevant check is missing and feasible to add, add it in the same change set.
-- Ensure commit-time automation (pre-commit or repo-native) runs applicable lint/test/build checks for code changes when feasible.
+- Run the repo's full lint/typecheck/test/build checks using repo-standard commands.
+- If you are unsure what constitutes the full suite, run the repo's default verify/CI commands rather than guessing.
+- Before committing code changes, run the full suite; if a relevant check is missing and feasible to add, add it in the same change set.
+- Enforce via CI: run the full suite on pull requests and on pushes to the default branch; if no CI harness exists, add one using repo-standard commands.
+- Prefer protected merges: configure required status checks on the default branch when feasible.
+- Do not rely on smoke-only gating or scheduled-only full runs for correctness; merges must require the full suite.
+- Ensure commit-time automation (pre-commit or repo-native) runs the full suite when feasible.
 - If required checks cannot be run, explain why and list the exact commands for the user.
-- Prefer CI as enforcement: ensure lint/typecheck/test/build run on pull requests; if no CI harness exists, add one using repo-standard commands.
 - Never disable checks, weaken assertions, loosen types, or add retries solely to make checks pass.
 
 ## Tests (behavior changes)
