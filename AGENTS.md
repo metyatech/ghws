@@ -64,7 +64,8 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 - If elevated privileges are required, use sudo where available; otherwise run as Administrator.
 - Keep changes scoped to affected repositories; when shared modules change, update consumers and verify at least one.
 - If no branch is specified, work on the current branch; direct commits to main/master are allowed.
-- After addressing PR comments, resolve related conversations; after completing a PR, merge it, sync the target branch, and delete the PR branch locally and remotely.
+- After addressing PR review feedback, resolve the corresponding review thread(s) before concluding; if you lack permission, state it explicitly.
+- After completing a PR, merge it, sync the target branch, and delete the PR branch locally and remotely.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding-standards.md
 
