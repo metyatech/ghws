@@ -250,8 +250,12 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/planning-and-approval-gat
 - Allowed before approval:
   - Clarifying questions and read-only inspection (reading files, searching, and `git status` / `git diff` / `git log`).
   - Any unavoidable automated work triggered as a side-effect of those read-only commands.
-  - Routine automated code-quality work that must not adversely affect program behavior: formatter/linter/typecheck/test/build runs (including auto-fix/formatting that modifies files) and dependency installation required to run them, as long as they do not publish/deploy/migrate anything.
-- Before any other state-changing execution (writing or modifying files, running formatters that write changes, installing dependencies that modify lockfiles, or running git commands beyond status/diff/log), do all of the following:
+  - Any command execution that must not adversely affect program behavior or external systems (including changes made by tooling), such as:
+    - Installing/restoring dependencies using repo-standard tooling (lockfile changes are allowed).
+    - Running formatters/linters/typecheck/tests/builds (including auto-fix/formatting that modifies files).
+    - Running code generation/build steps that are deterministic and repo-scoped.
+    - Running these from clean → dirty → clean is acceptable; publishing/deploying/migrating is not.
+- Before any other state-changing execution (e.g., writing or modifying files by hand, changing runtime behavior, or running git commands beyond status/diff/log), do all of the following:
   - Restate the request as concrete acceptance criteria (explicit goal, success/failure conditions).
   - Produce a written plan (use your planning tool when available) focused on the goal, approach, and verification checkpoints (do not enumerate per-file implementation details or exact commands unless the requester asks).
   - Confirm the plan with the requester, ask for approval explicitly, and wait for a clear “yes” before executing.
