@@ -67,7 +67,9 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 - After addressing PR review feedback, resolve the corresponding review thread(s) before concluding; if you lack permission, state it explicitly.
 - After pushing fixes for PR review feedback, re-request review from the same reviewer(s) when possible; if there are no current reviewers, ask who should review.
 - For Codex re-review: comment `@codex review` on the PR.
-- For Copilot re-review: remove Copilot from PR Reviewers and add it back (UI).
+- For Copilot re-review: use `gh api` to remove+re-request the bot reviewer `copilot-pull-request-reviewer[bot]` (do not rely on `gh pr edit --add-reviewer Copilot`).
+  - Remove: `gh api --method DELETE /repos/{owner}/{repo}/pulls/{pr}/requested_reviewers -f "reviewers[]=copilot-pull-request-reviewer[bot]"`
+  - Add: `gh api --method POST /repos/{owner}/{repo}/pulls/{pr}/requested_reviewers -f "reviewers[]=copilot-pull-request-reviewer[bot]"`
 - After completing a PR, merge it, sync the target branch, and delete the PR branch locally and remotely.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding-standards.md
@@ -242,14 +244,15 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/planning-and-approval-gat
 
 # Planning and approval gate
 
-- Default to a two-phase workflow: plan first, execute after explicit user approval.
+- Default to a two-phase workflow: clarify + plan first, execute after explicit user approval.
+- If a request may require any state-changing work, you MUST first dialogue with the requester to clarify details and make the goal explicit. Do not proceed while the goal is ambiguous.
 - Before any state-changing execution (writing or modifying files, running formatters/linters/tests/builds, installing dependencies, or running git commands beyond status/diff/log), do all of the following:
-  - Restate the request as concrete acceptance criteria.
+  - Restate the request as concrete acceptance criteria (explicit goal, success/failure conditions).
   - Ask blocking questions and list key assumptions/risks.
   - Produce a written plan (use your planning tool, e.g., `update_plan`) including the intended file changes and the commands you plan to run.
-  - Ask for approval explicitly and wait for a clear “yes” before executing.
-- Allowed before approval: clarifying questions and read-only inspection (reading files, searching, and `git status` / `git diff` / `git log`).
-- Exception: if the user explicitly requests immediate execution (e.g., “skip planning”, “just do it”), proceed without this gate.
+  - Confirm the plan with the requester, ask for approval explicitly, and wait for a clear “yes” before executing.
+- Allowed before approval: clarifying questions and read-only inspection (reading files, searching, and `git status` / `git diff` / `git log`), plus any unavoidable automated work triggered as a side-effect of those read-only commands.
+- No other exceptions: even if the user requests immediate execution (e.g., “skip planning”, “just do it”), treat that as a request to move quickly through this gate, not to bypass it.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-errors.md
 
@@ -338,10 +341,10 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/writing-and-documentation
 
 ## README and docs
 
-- Every repository must include README.md covering overview/purpose, setup, dev commands (build/test/lint), required env/config, and release/deploy steps if applicable.
-- For any code change, assess README impact and update it in the same change set when needed.
-- If a README update is not needed, explain why in the final response.
-- CLI examples in docs must include required parameters.
+- Every repository must include README.md covering overview/purpose, supported environments/compatibility, install/setup, usage examples, dev commands (build/test/lint/format), required env/config, release/deploy steps if applicable, and links to SECURITY.md / CONTRIBUTING.md / LICENSE / CHANGELOG.md when they exist.
+- For any change, assess documentation impact and update all affected docs in the same change set so docs match behavior (README, docs/, examples, comments, templates, ADRs/specs, diagrams).
+- If no documentation updates are needed, explain why in the final response.
+- For CLIs, document every parameter (required and optional) with a description and at least one example; also include at least one end-to-end example command.
 - Do not include user-specific local paths, fixed workspace directories, drive letters, or personal data in doc examples. Prefer repo-relative paths and placeholders so instructions work in arbitrary environments.
 
 ## Markdown linking
