@@ -31,7 +31,9 @@ These are non-negotiable completion gates for any state-changing work and for an
 - Maintain an explicit mapping: `AC -> evidence (tests/commands/manual steps)`.
 - For code or runtime-behavior changes, automated tests are required unless the requester explicitly approves skipping.
 - Bugfixes MUST include a regression test that fails before the fix and passes after.
-- Run the repo's full verification suite (lint/format/typecheck/test/build) using repo-standard commands; for non-code changes, run the relevant subset and justify.
+- Run the repo's full verification suite (lint/format/typecheck/test/build) using a single repo-standard `verify` command when available; if missing, add it.
+- Enforce verification locally via commit-time hooks (pre-commit or repo-native) and in CI; skipping requires explicit requester approval.
+- For non-code changes, run the relevant subset and justify.
 - If required checks cannot be run, stop and ask for explicit approval to proceed with partial verification, and provide an exact manual verification plan.
 
 ## Final response (MUST include)
@@ -321,10 +323,10 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-error
 - Follow "Delivery hard gates" for running and reporting verification.
 - If you are unsure what constitutes the full suite, run the repo's default verify/CI commands rather than guessing.
 - Before committing code changes, run the full suite; if a relevant check is missing and feasible to add, add it in the same change set.
-- Enforce via CI: run the full suite on pull requests and on pushes to the default branch; if no CI harness exists, add one using repo-standard commands.
+- Enforce via CI: run the full suite on pull requests and on pushes to the default branch, and make it a required status check for merges; if no CI harness exists, add one using repo-standard commands.
 - Configure required status checks on the default branch when you have permission; otherwise report the limitation.
 - Do not rely on smoke-only gating or scheduled-only full runs for correctness; merges must require the full suite.
-- Ensure commit-time automation (pre-commit or repo-native) runs the full suite when feasible.
+- Ensure commit-time automation (pre-commit or repo-native) runs the full suite and blocks commits.
 - Never disable checks, weaken assertions, loosen types, or add retries solely to make checks pass.
 
 ## Tests (behavior changes)
