@@ -1,12 +1,42 @@
 <!-- markdownlint-disable MD025 -->
 # Tool Rules (compose-agentsmd)
 - Before starting any work, run `compose-agentsmd` from the project root.
+- `compose-agentsmd` intentionally regenerates `AGENTS.md`; any resulting `AGENTS.md` diff is expected and must not be treated as an unexpected external change.
+- If `compose-agentsmd` is not available, install it via npm: `npm install -g compose-agentsmd`.
 - To update shared rules, run `compose-agentsmd edit-rules`, edit the workspace rules, then run `compose-agentsmd apply-rules`.
+- `compose-agentsmd apply-rules` pushes the rules workspace when `source` is GitHub (if the workspace is clean), then regenerates `AGENTS.md` with refreshed rules.
 - Do not edit `AGENTS.md` directly; update the source rules and regenerate.
+- `tools/tool-rules.md` is the shared rule source for all repositories that use compose-agentsmd.
+- Before applying any rule updates, present the planned changes first (prefer a colorized diff-style preview), ask for explicit approval, then make the edits.
 - These tool rules live in tools/tool-rules.md in the compose-agentsmd repository; do not duplicate them in global rule modules.
 - When updating rules, include a colorized diff-style summary in the final response. Use `git diff --stat` first, then include the raw ANSI-colored output of `git diff --color=always` (no sanitizing or reformatting), and limit the output to the rule files that changed.
 - Also provide a short, copy-pasteable command the user can run to view the diff in the same format. Use absolute paths so it works regardless of the current working directory, and scope it to the changed rule files.
 - If a diff is provided, a separate detailed summary is not required. If a diff is not possible, include a detailed summary of what changed (added/removed/modified items).
+
+Source: github:metyatech/agent-rules@HEAD/rules/global/00-delivery-hard-gates.md
+
+# Delivery hard gates
+
+These are non-negotiable completion gates for feature work and bugfixes.
+
+## Acceptance criteria (AC)
+
+- Before implementation, list Acceptance Criteria (AC) as binary, testable statements.
+- If AC are ambiguous or not testable, ask blocking questions before proceeding.
+
+## Evidence and verification
+
+- For each AC, define verification evidence (automated test preferred; otherwise a deterministic manual procedure).
+- Maintain an explicit mapping: `AC -> evidence (tests/commands/manual steps)`.
+- Bugfixes MUST include a regression test that fails before the fix and passes after.
+- Run the repo's full verification suite (lint/format/typecheck/test/build) using repo-standard commands.
+- If required checks cannot be run, stop and ask for explicit approval to proceed with partial verification, and provide an exact manual verification plan.
+
+## Final response (MUST include)
+
+- AC list.
+- `AC -> evidence` mapping with outcomes (PASS/FAIL/NOT RUN).
+- The exact verification commands executed and their outcomes.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/agent-rules-composition.md
 
@@ -45,6 +75,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 - Do not preserve backward compatibility unless explicitly requested; avoid legacy aliases and compatibility shims by default.
 - When work reveals rule gaps, redundancy, or misplacement, proactively update rule modules/rulesets (including moves/renames) and regenerate AGENTS.md without waiting for explicit user requests.
 - After each task, run a brief retrospective; if you notice avoidable mistakes, missing checks, or recurring back-and-forth, encode the fix as a rule update and regenerate AGENTS.md.
+- Because session memory resets between tasks, treat rule files as persistent memory; when any issue or avoidable mistake occurs, update rules in the same task to prevent recurrence.
 - Treat these rules as the source of truth; do not override them with repository conventions. If a repo conflicts, update the repo to comply or update the rules to encode the exception; do not make undocumented exceptions.
 - When something is unclear, investigate to resolve it; do not proceed with unresolved material uncertainty. If still unclear, ask and include what you checked.
 - Do not proceed based on assumptions or guesses without explicit user approval; hypotheses may be discussed but must not drive action.
@@ -87,6 +118,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Use clear, intention-revealing naming; avoid "Utils" dumping grounds.
 - Prefer configuration/constants over hardcoding; consolidate change points.
 - Keep everything DRY across code, specs, docs, tests, configs, and scripts; proactively refactor repeated procedures into shared configs/scripts with small, local overrides.
+- Persist durable runtime/domain data in a database with a fully normalized schema (3NF/BCNF target): store each fact once with keys/constraints, and compute derived statuses/views at read time instead of duplicating them.
 - Fix root causes; remove obsolete/unused code, branches, comments, and helpers.
 - Externalize large embedded strings/templates/rules when possible.
 - Do not commit build artifacts (follow the repo's .gitignore).
@@ -119,6 +151,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/linting-formatting-and-st
 ### JavaScript / TypeScript (incl. React/Next)
 
 - Format+lint: ESLint + Prettier.
+- When configuring Prettier, always add and maintain `.prettierignore` so generated/build outputs and composed files are not formatted/linted as source (e.g., `dist/`, build artifacts, and `AGENTS.md` when generated by compose-agentsmd).
 - Typecheck: `tsc` with strict settings for TS projects.
 - Dependency scan: `osv-scanner`. If unsupported, use the package manager's audit tooling.
 
@@ -256,9 +289,13 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/planning-and-approval-gat
     - Running code generation/build steps that are deterministic and repo-scoped.
     - Running these from clean → dirty → clean is acceptable; publishing/deploying/migrating is not.
 - Before any other state-changing execution (e.g., writing or modifying files by hand, changing runtime behavior, or running git commands beyond status/diff/log), do all of the following:
-  - Restate the request as concrete acceptance criteria (explicit goal, success/failure conditions).
+  - Restate the request as concrete acceptance criteria (explicit goal, success/failure conditions). AC MUST be binary and testable.
+  - For each AC, include a verification method (test/command/manual) in the plan.
   - Produce a written plan (use your planning tool when available) focused on the goal, approach, and verification checkpoints (do not enumerate per-file implementation details or exact commands unless the requester asks).
   - Confirm the plan with the requester, ask for approval explicitly, and wait for a clear “yes” before executing.
+  - Once the requester has approved a plan, proceed within that plan without re-requesting approval; re-request approval only when you change or expand the plan.
+  - Do not treat the original task request as plan approval; approval must be an explicit response to the presented plan.
+- If state-changing execution starts without the required post-plan “yes”, stop immediately, report the gate miss, add/update a prevention rule, regenerate AGENTS.md, and then restart from the approval gate.
 - No other exceptions: even if the user requests immediate execution (e.g., “skip planning”, “just do it”), treat that as a request to move quickly through this gate, not to bypass it.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-errors.md
@@ -275,7 +312,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-error
 - For code changes, treat "relevant checks" as the repo's full lint/typecheck/test/build suite (prefer CI results).
 - Prefer a green baseline: if relevant checks fail before you change anything, report it and get explicit user approval before proceeding.
 - If you cannot reproduce/verify, do not guess a fix; request missing info or create a failing regression test.
-- Always report verification: list the exact commands/steps run and their outcome; if anything is unverified, state why and how to verify.
+- Always report evidence: map each Acceptance Criteria item to verification evidence (tests/commands/manual steps) and report outcomes; if anything is unverified, state why and how to verify.
 
 ## Verification
 
