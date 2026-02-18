@@ -132,6 +132,8 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - For GUI changes, prioritize ergonomics and discoverability so first-time users can complete core flows without external documents.
 - Every user-facing GUI component (inputs, actions, status indicators, lists, and dialog controls) must include an in-app explanation (for example tooltip, context help panel, or equivalent).
 - Do not rely on README-only guidance for GUI operation; critical usage guidance must be available inside the GUI itself.
+- For GUI styling, prefer frameworks and component libraries that provide a modern, polished appearance out of the box (e.g., Material Design, shadcn/ui, Fluent); avoid hand-crafting extensive custom styles when an established design system can achieve the same result with less effort.
+- When selecting a UI framework, prioritize built-in component quality and default aesthetics over raw flexibility; the goal is a standard, modern-looking UI with minimal custom styling code.
 - Keep everything DRY across code, specs, docs, tests, configs, and scripts; proactively refactor repeated procedures into shared configs/scripts with small, local overrides.
 - Persist durable runtime/domain data in a database with a fully normalized schema (3NF/BCNF target): store each fact once with keys/constraints, and compute derived statuses/views at read time instead of duplicating them.
 - Fix root causes; remove obsolete/unused code, branches, comments, and helpers.
@@ -391,17 +393,48 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-error
 - Log minimally but with diagnostic context; never log secrets or personal data.
 - Remove temporary debugging/instrumentation before the final patch.
 
-Source: github:metyatech/agent-rules@HEAD/rules/global/superpowers-integration.md
+Source: github:metyatech/agent-rules@HEAD/rules/global/skill-authoring.md
 
-# Superpowers integration
+# Skill authoring standards
 
-- If Superpowers skills are available in the current agent environment, use them to drive *how* you work (design, planning, debugging, TDD, review) instead of inventing an ad-hoc process.
-- Do not duplicate Superpowers installation/usage instructions in this ruleset; follow Superpowers’ own guidance for loading/invoking skills.
-- The hard gates in this ruleset still apply when using Superpowers workflows:
-  - Before any state-changing work: present AC + AC->evidence + a plan, then wait for an explicit “yes”.
-  - After changes: report AC -> evidence outcomes and the exact verification commands executed.
-- When a Superpowers workflow asks for writing docs / commits / pushes, treat those as state-changing steps: include them in the plan and require explicit requester approval before doing them.
-- If Superpowers skills are unavailable, proceed with these rules as the fallback.
+## SKILL.md format (Agent Skills open standard)
+
+- Follow the Agent Skills open standard (agentskills.io/specification).
+- SKILL.md frontmatter must contain only `name` and `description`; do not add platform-specific fields.
+- `name`: lowercase alphanumeric and hyphens only, max 64 characters.
+- `description`: explain when the skill should and should not trigger; this is the only text used for skill selection.
+
+## Platform independence
+
+- SKILL.md body must be platform-agnostic: do not reference platform-specific tool names
+  (e.g., `Task`, `TeamCreate`, `codex exec`, Cursor-specific APIs).
+- Write instructions in terms of intent ("launch a background agent", "track tasks",
+  "create a team") and let each agent use its own tools.
+- Platform-specific invocation examples (`/skill` for Claude Code, `$skill` for Codex)
+  belong in README.md, not in SKILL.md.
+
+## Distribution
+
+- Each skill lives in its own repository.
+- Use clear, descriptive repository names (e.g., `skill-manager`).
+- Keep SKILL.md at the repository root for `npx skills add` compatibility.
+- Install and manage skills via `npx skills add <owner>/<repo>` (vercel-labs/skills);
+  do not build custom installers.
+
+## Publishing
+
+- Default to public repositories so skills are installable by anyone
+  via `npx skills add`.
+- Write SKILL.md and README.md with external users in mind:
+  assume no prior knowledge of internal conventions.
+- Include a LICENSE file (prefer MIT).
+
+## Content guidelines
+
+- Write SKILL.md body and README.md in English (developer-facing).
+- Keep instructions concise, action-oriented, and testable.
+- Do not duplicate rules already covered by AGENTS.md global rules
+  (e.g., TDD, verification, planning gates); reference them instead.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/user-identity-and-accounts.md
 
