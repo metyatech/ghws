@@ -306,11 +306,25 @@ The following operations require explicit delegation from the delegating agent o
 - Delegated agents inherit the delegating agent's repository access scope but must not expand it.
 - Different agent platforms have different capabilities (sandboxing, network access, push permissions). Fail explicitly when a required capability is unavailable in the current environment rather than attempting workarounds.
 
+## Cost optimization (model selection)
+
+- When spawning agents, use the cheapest available model tier that can handle the task.
+- Evaluate from cheapest up: upgrade only if the cheaper tier would likely fail.
+- When uncertain, prefer the cheaper option; retry with a stronger model if the agent struggles.
+
+## Parallel execution safety
+
+- Do not run multiple agents that modify the same files or repository concurrently.
+- Independent tasks across different repositories may run in parallel.
+- If two tasks target the same repository, assess conflict risk: non-overlapping files may run in parallel; overlapping files must run sequentially.
+- When in doubt, run sequentially to avoid merge conflicts and inconsistent state.
+
 Source: github:metyatech/agent-rules@HEAD/rules/global/planning-and-approval-gate.md
 
 # Planning and approval gate
 
 - Default to a two-phase workflow: clarify goal + plan first, execute after explicit requester approval.
+- In delegated mode (see Multi-agent delegation), the delegation itself constitutes plan approval. Do not re-request approval from the human user. If scope expansion is needed, fail back to the delegating agent.
 - If a request may require any state-changing work, you MUST first dialogue with the requester to clarify details and make the goal explicit. Do not proceed while the goal is ambiguous.
 - Allowed before approval:
   - Clarifying questions and read-only inspection (reading files, searching, and `git status` / `git diff` / `git log`).
@@ -323,11 +337,11 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/planning-and-approval-gat
 - Before any other state-changing execution (e.g., writing or modifying files by hand, changing runtime behavior, or running git commands beyond status/diff/log), do all of the following:
   - Restate the request as Acceptance Criteria (AC) and verification methods, following "Delivery hard gates".
   - Produce a written plan (use your planning tool when available) focused on the goal, approach, and verification checkpoints (do not enumerate per-file implementation details or exact commands unless the requester asks).
-  - Confirm the plan with the requester, ask for approval explicitly, and wait for a clear “yes” before executing.
+  - Confirm the plan with the requester, ask for approval explicitly, and wait for a clear "yes" before executing.
   - Once the requester has approved a plan, proceed within that plan without re-requesting approval; re-request approval only when you change or expand the plan.
   - Do not treat the original task request as plan approval; approval must be an explicit response to the presented plan.
-- If state-changing execution starts without the required post-plan “yes”, stop immediately, report the gate miss, add/update a prevention rule, regenerate AGENTS.md, and then restart from the approval gate.
-- No other exceptions: even if the user requests immediate execution (e.g., “skip planning”, “just do it”), treat that as a request to move quickly through this gate, not to bypass it.
+- If state-changing execution starts without the required post-plan "yes", stop immediately, report the gate miss, add/update a prevention rule, regenerate AGENTS.md, and then restart from the approval gate.
+- No other exceptions: even if the user requests immediate execution (e.g., "skip planning", "just do it"), treat that as a request to move quickly through this gate, not to bypass it.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-errors.md
 
