@@ -69,6 +69,13 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/agent-rules-composition.m
 - Use short, action-oriented bullets; avoid numbered lists unless order matters.
 - Prefer the most general applicable rule to avoid duplication.
 
+## Rule placement (global vs domain)
+
+- Decide rule placement based on **where the rule is needed**, not what topic it covers.
+- If the rule could be needed from any workspace or repository, make it global.
+- Only use domain rules when the rule is strictly relevant inside repositories that opt in to that domain.
+- Before choosing domain, verify: "Will this rule ever be needed when working from a workspace that does not include this domain?" If yes, make it global.
+
 Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 
 # Autonomous operations
