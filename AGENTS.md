@@ -308,9 +308,11 @@ The following operations require explicit delegation from the delegating agent o
 
 ## Cost optimization (model selection)
 
-- When spawning agents, use the cheapest available model tier that can handle the task.
-- Evaluate from cheapest up: upgrade only if the cheaper tier would likely fail.
-- When uncertain, prefer the cheaper option; retry with a stronger model if the agent struggles.
+- When spawning agents, minimize the **total cost to achieve the goal**, not just the per-invocation model cost.
+- On flat-rate platforms (e.g., Codex where all models cost the same): use the most capable available model — there is no cost difference, so capability is the only variable.
+- On tiered platforms (e.g., Claude Code with haiku/sonnet/opus): prefer cheaper models only when they can reliably succeed on the first attempt.
+- A more expensive model that succeeds immediately is cheaper overall than a cheaper model that requires retries.
+- Selection principle: "Same outcome achieved → prefer cheaper; cheaper model likely to fail → use the model that will succeed."
 
 ## Parallel execution safety
 
