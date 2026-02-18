@@ -81,18 +81,17 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 # Autonomous operations
 
 - Optimize for minimal human effort; default to automation over manual steps.
-- Drive work from the desired outcome: infer acceptance criteria, choose the highest-quality safe path that satisfies the requested quality/ideal bar, and execute end-to-end.
+- Drive work from the desired outcome: choose the highest-quality safe path that satisfies the requested quality/ideal bar, and execute end-to-end.
 - Treat speed as a secondary optimization; never trade down correctness, safety, robustness, or verifiability unless the requester explicitly approves that tradeoff.
 - Assume end-to-end autonomy for repository operations (issue triage, PRs, direct pushes to main/master, merges, releases, repo admin) only within repositories under the user's control (e.g., owned by metyatech or where the user has explicit maintainer/push authority), unless the user restricts scope; for third-party repos, require explicit user request before any of these operations.
 - Do not preserve backward compatibility unless explicitly requested; avoid legacy aliases and compatibility shims by default.
 - When work reveals rule gaps, redundancy, or misplacement, proactively update rule modules/rulesets (including moves/renames) and regenerate AGENTS.md without waiting for explicit user requests.
-- After each task, run a brief retrospective; if you notice avoidable mistakes, missing checks, or recurring back-and-forth, encode the fix as a rule update and regenerate AGENTS.md.
-- If you state a persistent workflow change (e.g., "from now on", "I'll always"), immediately propose the corresponding rule update and request approval in the same task; do not leave it as an unrecorded promise.
+- After each task, briefly assess whether avoidable mistakes occurred. In direct mode, propose rule updates if warranted. In delegated mode, include improvement suggestions in the task result.
+- If you state a persistent workflow change (e.g., `from now on`, `I'll always`), immediately propose the corresponding rule update and request approval in the same task; do not leave it as an unrecorded promise. When operating under a multi-agent-delegation model, follow that rule module's guidance on restricted operations before proposing changes.
 - Because session memory resets between tasks, treat rule files as persistent memory; when any issue or avoidable mistake occurs, update rules in the same task to prevent recurrence.
 - Treat these rules as the source of truth; do not override them with repository conventions. If a repo conflicts, update the repo to comply or update the rules to encode the exception; do not make undocumented exceptions.
 - When something is unclear, investigate to resolve it; do not proceed with unresolved material uncertainty. If still unclear, ask and include what you checked.
 - Do not proceed based on assumptions or guesses without explicit user approval; hypotheses may be discussed but must not drive action.
-- Ask only blocking questions; for non-material ambiguities, pick the lowest-risk option, state the assumption, and proceed.
 - Make decisions explicit when they affect scope, risk, cost, or irreversibility.
 - Prefer asynchronous, low-friction control channels (GitHub Issues/PR comments) unless a repository mandates another.
 - Design autonomous workflows for high volume: queue requests, set concurrency limits, and auto-throttle to prevent overload.
@@ -118,6 +117,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
   - Remove: `gh api --method DELETE /repos/{owner}/{repo}/pulls/{pr}/requested_reviewers -f "reviewers[]=copilot-pull-request-reviewer[bot]"`
   - Add: `gh api --method POST /repos/{owner}/{repo}/pulls/{pr}/requested_reviewers -f "reviewers[]=copilot-pull-request-reviewer[bot]"`
 - After completing a PR, merge it, sync the target branch, and delete the PR branch locally and remotely.
+- Agent platforms have different execution capabilities (sandboxing, network access, push permissions). Do not assume capabilities beyond what the current platform provides; fail explicitly when a required capability is unavailable.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding-standards.md
 
@@ -166,6 +166,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/linting-formatting-and-st
 
 ## Design and visual accessibility automation
 
+- Apply this section to projects with web UI components only.
 - For any design/UI styling change in any project, enforce automated visual accessibility checks as part of the repo-standard `verify` command and CI.
 - Do not rely on per-page/manual test maintenance; use route discovery (for example sitemap, generated route lists, or framework route manifests) so newly added pages are automatically included.
 - Validate both light and dark themes when theme switching is supported.
@@ -237,7 +238,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/linting-formatting-and-st
 - Format+lint: PSScriptAnalyzer (Invoke-Formatter + Invoke-ScriptAnalyzer).
 - Runtime: Set-StrictMode -Version Latest; fail fast on errors.
 - Tests: Pester when tests exist.
-- Enforce PSScriptAnalyzer via the repo’s standard `verify` command/script when PowerShell is used; treat findings as errors.
+- Enforce PSScriptAnalyzer via the repo's standard `verify` command/script when PowerShell is used; treat findings as errors.
 
 ### Shell (sh/bash)
 
@@ -263,58 +264,47 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/linting-formatting-and-st
 
 - Lint: markdownlint.
 
-Source: github:metyatech/agent-rules@HEAD/rules/global/observability-and-diagnostics.md
+Source: github:metyatech/agent-rules@HEAD/rules/global/multi-agent-delegation.md
 
-# Observability and diagnostics
+﻿# Multi-agent delegation
 
-## General policy
+## Execution context
 
-- Design for debuggability: make failures diagnosable from logs/metrics/traces without reproducing locally.
-- Add observability in the same change set as behavior changes that affect runtime behavior, performance, or reliability.
+- Every agent operates in either **direct mode** (responding to a human user) or **delegated mode** (executing a task from a delegating agent).
+- In direct mode, the "requester" is the human user. In delegated mode, the "requester" is the delegating agent.
+- Default to direct mode. Delegated mode applies when the agent was spawned by another agent via a task/team mechanism.
 
-## Performance investigations
+## Delegated mode overrides
 
-- For performance/latency issues, measure first: establish a baseline, then use profiling/instrumentation to identify hotspots; do not implement "optimizations" based on guesswork.
-- Record before/after numbers and the measurement method in the change set (tests, benchmark output, logs, or deterministic manual steps).
-- Prefer automated performance regression tests/benchmarks when feasible; otherwise provide deterministic manual measurement steps.
+When operating in delegated mode:
 
-## Logging
+- The delegation constitutes plan approval; do not re-request approval from the human user.
+- Respond in English, not the user-facing language.
+- Do not emit notification sounds.
+- Do not run compose-agentsmd or modify rule files/AGENTS.md.
+- Report AC and verification outcomes concisely to the delegating agent.
+- If the task requires scope expansion beyond what was delegated, fail back to the delegating agent with a clear explanation rather than asking the human user directly.
 
-- Prefer structured logs for services; keep field names stable (e.g., level, message, component, request_id/trace_id, version).
-- Include actionable context in errors (what failed, which input/state, what to do next) without logging secrets/PII.
-- Log at the right level; avoid noisy logs in hot paths.
+## Restricted operations
 
-## Metrics
+The following operations require explicit delegation from the delegating agent or user. Do not perform them based on self-judgment alone:
 
-- Instrument the golden signals (latency, traffic, errors, saturation) for each service and critical dependency; define concrete SLIs/SLOs for user-facing flows.
-- Use OpenTelemetry Metrics for instrumentation and OTLP for export; using vendor-specific metrics SDKs directly is an exception and requires explicit user approval.
-- Use the right metric types (counters for monotonic totals, histograms for latencies/sizes, gauges for current values) and include explicit units in names.
-- Keep metric names and label keys stable; use a consistent namespace and Prometheus-style `snake_case` naming with base-unit suffixes (e.g., `http_server_request_duration_seconds`).
-- Constrain label cardinality: labels must come from small bounded sets; never use user identifiers, raw URLs, request bodies, or other unbounded values as labels.
-- Ensure correlation: when supported, record exemplars or identifiers that let you jump from a metric spike to representative traces/logs.
-- Treat missing/incorrect metrics as a defect when they block verification, incident response, or SLO evaluation; add/adjust dashboards and alerts with behavior changes that impact reliability/performance.
+- Modifying rules, rulesets, or AGENTS.md.
+- Merging or closing pull requests.
+- Creating or deleting repositories.
+- Releasing or deploying.
+- Force-pushing or rewriting published git history.
 
-## Alerting
+## Rule improvement observations
 
-- Alerting is part of the definition of done for reliability/performance changes: update dashboards, alerts, and runbooks in the same change set.
-- Define alert severity and routing explicitly; paging alerts must correspond to user-impacting SLO/error-budget burn, not “interesting” internal signals.
-- Use multi-window burn-rate alerting to reduce flapping; page only on sustained burn and use ticket-level alerts for slower burn or early-warning signals.
-- Every alert must be actionable and owned: include service/team ownership labels and a runbook link that lists diagnosis steps, mitigation steps, and rollback/feature-flag options.
-- Every alert must include a dashboard link and relevant identifiers (service, environment, region/cluster) so responders can triage quickly.
-- Reduce noise aggressively: delete or downgrade alerts that page without clear user impact; treat alert fatigue and stale/non-actionable alerts as defects.
-- Alert rules must be managed as code and reviewed with code changes; manual, ad-hoc changes in vendor UIs are prohibited.
-- Alert rules must be automatically validated and tested in CI; for Prometheus-compatible rules this means `promtool check rules` and `promtool test rules`.
-- If constraints make “alerts as code” or CI validation impractical, treat it as an exception and require explicit user approval with documented rationale.
+- Delegated agents must not modify rules directly.
+- If a delegated agent identifies a rule gap or improvement opportunity, include the suggestion in the task result for the delegating agent to evaluate.
+- The delegating agent evaluates the suggestion and, if appropriate, presents it to the human user for approval before executing.
 
-## Tracing
+## Authority and scope
 
-- For multi-service or async flows, use OpenTelemetry and propagate context across boundaries (HTTP/gRPC/queues).
-- Correlate logs and traces via trace_id/request_id.
-
-## Health and self-checks
-
-- Services must have readiness and liveness checks; fail fast when dependencies are unavailable.
-- CLIs should provide a verbose mode and clear error output; add a self-check command when it reduces support burden.
+- Delegated agents inherit the delegating agent's repository access scope but must not expand it.
+- Different agent platforms have different capabilities (sandboxing, network access, push permissions). Fail explicitly when a required capability is unavailable in the current environment rather than attempting workarounds.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/planning-and-approval-gate.md
 
@@ -343,34 +333,25 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-error
 
 # Quality, testing, and error handling
 
+For AC definition, verification evidence, regression tests, and final reporting requirements, see Delivery hard gates.
+
 ## Quality priority
 
 - Quality (correctness, safety, robustness, verifiability) takes priority over speed or convenience.
 
-## Definition of done
-
-- Do not claim "fixed"/"done" unless it is verified by reproducing the issue and/or running the relevant checks.
-- For code changes, treat "relevant checks" as the repo's full lint/typecheck/test/build suite (prefer CI results).
-- Prefer a green baseline: if relevant checks fail before you change anything, report it and get explicit user approval before proceeding.
-- If you cannot reproduce/verify, do not guess a fix; request missing info or create a failing regression test.
-- Follow "Delivery hard gates" for Acceptance Criteria, verification evidence, and final reporting; if anything is unverified, state why and how to verify.
-
 ## Verification
 
-- Follow "Delivery hard gates" for running and reporting verification.
 - If you are unsure what constitutes the full suite, run the repo's default verify/CI commands rather than guessing.
-- Before committing code changes, run the full suite; if a relevant check is missing and feasible to add, add it in the same change set.
 - Enforce via CI: run the full suite on pull requests and on pushes to the default branch, and make it a required status check for merges; if no CI harness exists, add one using repo-standard commands.
 - Configure required status checks on the default branch when you have permission; otherwise report the limitation.
 - Do not rely on smoke-only gating or scheduled-only full runs for correctness; merges must require the full suite.
 - Ensure commit-time automation (pre-commit or repo-native) runs the full suite and blocks commits.
 - Never disable checks, weaken assertions, loosen types, or add retries solely to make checks pass.
+- If the execution environment restricts test execution (no network, no database, sandboxed), run the available subset, document what was skipped, and ensure CI covers the remainder.
 
 ## Tests (behavior changes)
 
 - Follow test-first: add/update tests, observe failure, implement the fix, then observe pass.
-- For bugfixes, follow "Delivery hard gates" (regression test: fail-before/pass-after).
-- Add/update automated tests for behavior changes and regression coverage.
 - Cover success, failure, boundary, invalid input, and key state transitions (including first-run/cold-start vs subsequent-run behavior when relevant); include representative concurrency/retry/recovery when relevant.
 - Keep tests deterministic; minimize time/random/external I/O; inject when needed.
 - For deterministic output files, use full-content snapshot/golden tests.
@@ -386,7 +367,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-error
 - For any defect fix or incident remediation, perform a brief root-cause classification: implementation mistake, design deficit, and/or ambiguous/incorrect requirements.
 - Feed the root cause upstream in the same change set: add or tighten tests/checks/alerts, update specs/acceptance criteria, and update design docs/ADRs when applicable.
 - If the failure should have been detected earlier, add a gate at the earliest reliable point (lint/typecheck/tests/CI required checks or runtime alerts/health checks); skipping this requires explicit user approval.
-- Record the prevention mechanism (what will catch it next time) in the PR description or issue comment; avoid “fixed” without a concrete feedback-loop improvement.
+- Record the prevention mechanism (what will catch it next time) in the PR description or issue comment; avoid "fixed" without a concrete feedback-loop improvement.
 
 ## Exceptions
 
@@ -485,7 +466,6 @@ Source: agent-rules-local/ghws-workspace.md
 # GHWS workspace repository management
 
 - Apply these rules only when the repository path is under the ghws workspace root; ignore this module for standalone clones outside ghws.
-- These rules apply only when working inside the `ghws` workspace repository (the exact path may vary).
 - All folders in this workspace (except `agent-rules-local`) are Git repositories connected to GitHub.
 - Some repositories are not owned by the user, but the user can commit and push to them.
 - If the target repository already exists under the current `ghws` workspace, edit it in place.
