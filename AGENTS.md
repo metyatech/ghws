@@ -323,11 +323,12 @@ The following operations require explicit delegation from the delegating agent o
 
 ## Cost optimization (model selection)
 
-- When spawning agents, minimize the **total cost to achieve the goal**, not just the per-invocation model cost.
-- On flat-rate platforms (e.g., Codex where all models cost the same): use the most capable available model — there is no cost difference, so capability is the only variable.
-- On tiered platforms (e.g., Claude Code with haiku/sonnet/opus): prefer cheaper models only when they can reliably succeed on the first attempt.
-- A more expensive model that succeeds immediately is cheaper overall than a cheaper model that requires retries.
-- Selection principle: "Same outcome achieved → prefer cheaper; cheaper model likely to fail → use the model that will succeed."
+- When spawning agents, minimize the **total cost to achieve the goal**. Total cost includes model pricing, reasoning/thinking token consumption, context usage, and retry overhead.
+- Use the minimum reasoning effort level (e.g., low/medium/high/xhigh) that reliably produces correct output for the task; extended reasoning increases cost significantly.
+- Prefer newer-generation models at lower reasoning effort over older models at maximum reasoning effort when both can succeed; newer models often achieve equal quality with less thinking overhead.
+- Factor in context efficiency: a model that handles a task in one pass is cheaper than one that requires splitting.
+- A model that succeeds on the first attempt at slightly higher unit cost is cheaper overall than one that requires retries.
+- On flat-rate platforms where all models cost the same: always use the most capable available model.
 
 ## Parallel execution safety
 
