@@ -522,7 +522,9 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/writing-and-documentation
 
 - Respond in Japanese unless the user requests otherwise.
 - Always report whether you committed and whether you pushed; include repo(s), branch(es), and commit hash(es) when applicable.
-- After completing a response, emit the Windows SystemSounds.Asterisk sound via PowerShell when possible.
+- After completing a response, emit the Windows SystemSounds.Asterisk sound via PowerShell only when operating in direct mode (top-level agent).
+- If operating in delegated mode (spawned by another agent / sub-agent), do not emit notification sounds.
+- If operating as a manager/orchestrator, do not ask delegated sub-agents to emit sounds; emit at most once when the overall task is complete (direct mode only).
 
 ## Developer-facing writing
 
