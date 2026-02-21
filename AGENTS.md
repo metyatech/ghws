@@ -383,6 +383,13 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/planning-and-approval-gat
   - Confirm the plan with the requester, ask for approval explicitly, and wait for a clear "yes" before executing.
   - Once the requester has approved a plan, proceed within that plan without re-requesting approval; re-request approval only when you change or expand the plan.
   - Do not treat the original task request as plan approval; approval must be an explicit response to the presented plan.
+  - Include a compact approval-request block at the end of the plan proposal message so the requester can approve with a single short reply.
+    - Template:
+      ```text
+      Approval request
+      - Reply "yes" to approve this plan and proceed.
+      - Reply with changes to revise before executing.
+      ```
 - If state-changing execution starts without the required post-plan "yes", stop immediately, report the gate miss, add/update a prevention rule, regenerate AGENTS.md, and then restart from the approval gate.
 - No other exceptions: even if the user requests immediate execution (e.g., "skip planning", "just do it"), treat that as a request to move quickly through this gate, not to bypass it.
 
