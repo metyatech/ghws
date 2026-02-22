@@ -207,6 +207,7 @@ When operating in delegated mode:
 
 - Delegated agents MUST treat the delegator as the requester and MUST NOT ask the human user for plan approval. If blocked by repo rules, escalate to the delegator (not the human).
 - Delegating prompts MUST explicitly state delegated mode and whether plan approval is already granted; include AC and verification requirements.
+- Agents spawned in a repository read that repository's AGENTS.md and follow all rules automatically. Do not duplicate rule content in delegation prompts; focus prompts on the task description, context, and acceptance criteria.
 
 ## Read-only / no-write claims
 
@@ -448,6 +449,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/task-lifecycle-tracking.m
 - At the start of any session that may involve state-changing work, run `task-tracker check` and report findings before starting new work.
 - When reporting a task as complete, state the lifecycle stage explicitly (committed/pushed/released/etc.); never claim "done" when downstream stages remain incomplete.
 - If `task-tracker` is not installed, install it via `npm install -g @metyatech/task-tracker` before proceeding.
+- The task-tracker state file (`.tasks.jsonl`) must be committed to version control; do not add it to `.gitignore`.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/user-identity-and-accounts.md
 
