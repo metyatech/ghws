@@ -76,15 +76,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/cli-standards.md
 
 # CLI standards
 
-- Provide --help/-h with clear usage, options, and examples; include required parameters in examples.
-- Provide --version (use -V); reserve -v for --verbose.
-- Support stdin/stdout piping; allow output redirection (e.g., --output for file creation).
-- Offer machine-readable output (e.g., --json) when emitting structured data.
-- For modifying/deleting actions, provide --dry-run and an explicit bypass (--yes/--force).
-- Provide controllable logging (--quiet, --verbose, or --trace).
-- Use deterministic exit codes (0 success, non-zero failure) and avoid silent fallbacks.
-- For JSON configuration, define/update a JSON Schema and validate config on load.
-- For interactive CLI prompts, provide required context before asking; for yes/no prompts, Enter means "Yes" and "n" means "No".
+- When building a CLI, follow standard conventions: --help/-h, --version/-V, stdin/stdout piping, --json output, --dry-run for mutations, deterministic exit codes, and JSON Schema config validation.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 
@@ -97,19 +89,8 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 - If elevated privileges are required, use sudo where available; otherwise run as Administrator.
 - Keep changes scoped to affected repositories; when shared modules change, update consumers and verify at least one.
 - If no branch is specified, work on the current branch; direct commits to main/master are allowed.
-- After addressing PR review feedback, resolve the corresponding review thread(s) before concluding; if you lack permission, state it explicitly.
-- Before re-requesting review after addressing feedback, run the relevant verification suite and summarize results (commands + outcomes) in the PR comment/description.
-- After pushing fixes for PR review feedback, re-request review only from reviewer(s) who posted the addressed feedback in the current round.
-- Do not re-request review from reviewers (including AI reviewers) who did not post addressed feedback, or who already indicated no actionable issues.
-- If no applicable reviewer remains, ask who should review next.
-- When Codex and/or Copilot review bots are configured for the repo, trigger re-review only for the bot(s) that posted addressed feedback.
-- For Codex re-review (only when applicable): comment `@codex review` on the PR.
-- For Copilot re-review (only when applicable): use `gh api` to remove+re-request the bot reviewer `copilot-pull-request-reviewer[bot]` (do not rely on `gh pr edit --add-reviewer Copilot`).
-  - Remove: `gh api --method DELETE /repos/{owner}/{repo}/pulls/{pr}/requested_reviewers -f "reviewers[]=copilot-pull-request-reviewer[bot]"`
-  - Add: `gh api --method POST /repos/{owner}/{repo}/pulls/{pr}/requested_reviewers -f "reviewers[]=copilot-pull-request-reviewer[bot]"`
 - After completing a PR, merge it, sync the target branch, and delete the PR branch locally and remotely.
-- Agent platforms have different execution capabilities (sandboxing, network access, push permissions). Do not assume capabilities beyond what the current platform provides; fail explicitly when a required capability is unavailable.
-- When handling GitHub notifications, use `DELETE /notifications/threads/{id}` (HTTP 204) to mark them as **done** (removes from inbox/moves to Done tab). Do NOT use `PATCH /notifications/threads/{id}` (marks as read but leaves in inbox). After processing notifications, bulk-delete any remaining read-but-not-done notifications with the same DELETE API.
+- Do not assume agent platform capabilities beyond what is available; fail explicitly when unavailable.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/delivery-hard-gates.md
 
@@ -181,116 +162,14 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/linting-formatting-and-st
 
 # Linters, formatters, and static analysis
 
-## General policy
-
 - Every code repo must have a formatter and a linter/static analyzer for its primary languages.
-- Prefer one formatter and one linter per language; avoid overlapping tools that fight each other.
-- Follow the standard toolchains below. If a repo conflicts, migrate it to comply unless the user explicitly restricts scope.
-- If you believe an exception is needed, encode it as a rule update and regenerate AGENTS.md before proceeding.
+- Prefer one formatter and one linter per language; avoid overlapping tools.
 - Enforce in CI: run formatting checks (verify-no-changes) and linting on pull requests and require them for merges.
-- Treat warnings as errors in CI; when a tool cannot, use its strictest available setting so warnings fail CI.
+- Treat warnings as errors in CI.
 - Do not disable rules globally; keep suppressions narrow, justified, and time-bounded.
 - Pin tool versions (lockfiles/manifests) for reproducible CI.
-
-## Design and visual accessibility automation
-
-- Apply this section to projects with web UI components only.
-- For any design/UI styling change in any project, enforce automated visual accessibility checks as part of the repo-standard `verify` command and CI.
-- Do not rely on per-page/manual test maintenance; use route discovery (for example sitemap, generated route lists, or framework route manifests) so newly added pages are automatically included.
-- Validate both light and dark themes when theme switching is supported.
-- Validate at least default, hover, and focus states for interactive elements.
-- Enforce non-text boundary contrast checks across all visible UI elements that present boundaries (including interactive controls and container-like elements), not only predefined component classes.
-- Do not hardcode a narrow selector allowlist for boundary checks; use broad DOM discovery with only minimal technical exclusions (for example hidden/zero-size/non-rendered nodes).
-- Fail CI on violations; do not silently ignore design regressions.
-- If temporary exclusions are unavoidable, keep them narrowly scoped, documented with rationale, and remove them promptly.
-
-## Security baseline
-
-- Require dependency vulnerability scanning appropriate to the ecosystem (SCA) for merges. If you cannot enable it, report the limitation and get explicit user approval before proceeding without it.
-- Enable GitHub secret scanning and remediate findings; never commit secrets. If it is unavailable, add a repo-local secret scanner and require it for merges.
-- Enable CodeQL code scanning for supported languages. If it cannot be enabled, report the limitation and use the best available alternative for that ecosystem.
-
-## Default toolchain by language
-
-### JavaScript / TypeScript (incl. React/Next)
-
-- Format+lint: ESLint + Prettier.
-- When configuring Prettier, always add and maintain `.prettierignore` so generated/build outputs and composed files are not formatted/linted as source (e.g., `dist/`, build artifacts, and `AGENTS.md` when generated by compose-agentsmd).
-- Typecheck: `tsc` with strict settings for TS projects.
-- Dependency scan: `osv-scanner`. If unsupported, use the package manager's audit tooling.
-
-### Python
-
-- Format+lint: Ruff.
-- Typecheck: Pyright.
-- Dependency scan: pip-audit.
-
-### Go
-
-- Format: gofmt.
-- Lint/static analysis: golangci-lint (includes staticcheck).
-- Dependency scan: govulncheck.
-
-### Rust
-
-- Format: cargo fmt.
-- Lint/static analysis: cargo clippy with warnings as errors.
-- Dependency scan: cargo audit.
-
-### Java
-
-- Format: Spotless + google-java-format.
-- Lint/static analysis: Checkstyle + SpotBugs.
-- Dependency scan: OWASP Dependency-Check.
-
-### Kotlin
-
-- Format: Spotless + ktlint.
-- Lint/static analysis: detekt.
-- Compiler: enable warnings-as-errors in CI; if impractical, get explicit user approval before relaxing.
-
-### C#
-
-- Format: dotnet format (verify-no-changes in CI).
-- Lint/static analysis: enable .NET analyzers; treat warnings as errors; enable nullable reference types.
-- Dependency scan: `dotnet list package --vulnerable`.
-
-### C++
-
-- Format: clang-format.
-- Lint/static analysis: clang-tidy.
-- Build: enable strong warnings and treat as errors; run sanitizers (ASan/UBSan) in CI where supported.
-
-### PowerShell
-
-- Format+lint: PSScriptAnalyzer (Invoke-Formatter + Invoke-ScriptAnalyzer).
-- Runtime: Set-StrictMode -Version Latest; fail fast on errors.
-- Tests: Pester when tests exist.
-- Enforce PSScriptAnalyzer via the repo's standard `verify` command/script when PowerShell is used; treat findings as errors.
-
-### Shell (sh/bash)
-
-- Format: shfmt.
-- Lint: shellcheck.
-
-### Dockerfile
-
-- Lint: hadolint.
-
-### Terraform
-
-- Format: terraform fmt -check.
-- Validate: terraform validate.
-- Lint: tflint.
-- Security scan: trivy config.
-
-### YAML
-
-- Lint: yamllint.
-
-### Markdown
-
-- Lint: markdownlint.
+- For web UI projects, enforce automated visual accessibility checks in CI.
+- Require dependency vulnerability scanning, secret scanning, and CodeQL for supported languages.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/multi-agent-delegation.md
 
@@ -458,44 +337,12 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/release-and-publication.m
 
 # Release and publication
 
-## Packaging and distribution
-
 - Include LICENSE in published artifacts (copyright holder: metyatech).
 - Do not ship build/test artifacts or local configs; ensure a clean environment can use the product via README steps.
 - Define a SemVer policy and document what counts as a breaking change.
-
-## Public repository metadata
-
-- For public repos, set GitHub Description, Topics, and Homepage.
-- Ensure required repo files exist: .github/workflows/ci.yml, issue templates, PR template, SECURITY.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md, CHANGELOG.md.
-- Configure CI to run the repo's standard lint/test/build commands.
-
-## Versioning and release flow
-
-- Update version metadata when release content changes; keep package version and Git tag consistent.
-- Create and push a release tag; create a GitHub Release based on CHANGELOG.
-- If asked to choose a version, decide it yourself.
-- When bumping a version, create the GitHub Release and publish the package in the same update.
-- For npm publishing, ask the user to run npm publish (do not execute it directly).
-- Before publishing, run required prep commands (e.g., npm install, npm test, npm pack --dry-run) and only proceed when ready.
-- If authentication fails during publish, ask the user to complete the publish step.
-- Run dependency security checks before release, address critical issues, and report results.
-- After publishing, update any locally installed copy to the newly published release and verify the resolved version.
-  - Completion gate: do not report “done” until this verification is completed (or the user explicitly declines).
-  - Must be expressed as explicit Acceptance Criteria and reported with outcomes (PASS/FAIL/N/A) + evidence in the final report:
-    - AC1 (registry): verify the published version exists in the registry (e.g., `npm view <pkg> version`).
-    - AC2 (fresh install): verify the latest package resolves and runs (e.g., `npx <pkg>@latest --version`).
-    - AC3 (global update, if applicable): if the package is installed globally, update it to the published version and verify (e.g., `npm ls -g <pkg> --depth=0`, `npm i -g <pkg>@latest`, then `<cmd> --version`).
-    - If AC3 is not applicable (not installed globally) or cannot be performed, mark it N/A and state the reason explicitly.
-  - For npm CLIs:
-    - If installed globally: check `npm ls -g <pkg> --depth=0`, update via `npm i -g <pkg>@latest` (or the published dist-tag), then verify with `<pkg> --version`.
-    - If not installed globally: skip the global update, and verify availability via `npx <pkg>@latest --version` (or the ecosystem-equivalent).
-
-## Published artifact requirements
-
-- Populate package metadata (name, description, repository, issues, homepage, engines).
-- Validate executable entrypoints and required shebangs so installed commands work.
-- If a repo represents a single tool/product, publish a single package (bundle related scripts).
+- Keep package version and Git tag consistent.
+- Run dependency security checks before release.
+- Verify published packages resolve and run correctly before reporting done.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/skill-authoring.md
 
