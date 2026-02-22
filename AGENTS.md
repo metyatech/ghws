@@ -400,8 +400,9 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/skill-authoring.md
 - Each skill lives in its own repository.
 - Use clear, descriptive repository names (e.g., `skill-manager`).
 - Keep SKILL.md at the repository root for `npx skills add` compatibility.
-- Install and manage skills via `npx skills add <owner>/<repo>` (vercel-labs/skills);
-  do not build custom installers.
+- Install and manage skills via `npx skills add <owner>/<repo> --yes --global`
+  (vercel-labs/skills); always use `--yes --global` to install globally without
+  interactive prompts. Do not build custom installers.
 
 ## Publishing
 
