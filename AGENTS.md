@@ -47,6 +47,17 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/agent-rules-composition.m
 - Only use domain rules when the rule is strictly relevant inside repositories that opt in to that domain.
 - Before choosing domain, verify: "Will this rule ever be needed when working from a workspace that does not include this domain?" If yes, make it global.
 
+## Rules vs skills
+
+Rules and skills serve different purposes. Choose the right mechanism based on what happens when the guidance is absent.
+
+- **Global rules**: Invariants and constraints that must always hold. Violation causes breakage, incorrect behavior, or safety issues. Always loaded into context, so keep them concise. Examples: approval gates, quality standards, coding constraints, identity policies.
+- **Domain rules**: Ecosystem-specific standards needed only in repositories that opt in. Violation causes quality degradation within that ecosystem. Examples: Node ESM conventions, npm package publishing standards.
+- **Skills**: Procedures, checklists, and workflows loaded on demand. Missing a skill causes inefficiency or inconsistency, but nothing breaks. Skills may be detailed and lengthy because they are only loaded when triggered. Examples: release workflow, CLI design checklist, per-language toolchain setup, PR review procedure.
+- **Local rules**: Repository-specific overrides or exceptions to global/domain rules.
+
+When a rule file grows with procedural/checklist content, extract the procedures into a skill and keep only the invariant constraints in the rule.
+
 Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 
 # Autonomous operations
