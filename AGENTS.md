@@ -1,5 +1,6 @@
 <!-- markdownlint-disable MD025 -->
 # Tool Rules (compose-agentsmd)
+
 - Before starting any work, run `compose-agentsmd` from the project root.
 - `compose-agentsmd` intentionally regenerates `AGENTS.md`; any resulting `AGENTS.md` diff is expected and must not be treated as an unexpected external change.
 - If `compose-agentsmd` is not available, install it via npm: `npm install -g compose-agentsmd`.
@@ -280,6 +281,12 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/planning-and-approval-gat
       ```
 - If state-changing execution starts without the required post-plan "yes", stop immediately, report the gate miss, add/update a prevention rule, regenerate AGENTS.md, and then restart from the approval gate.
 - No other exceptions: even if the user requests immediate execution (e.g., "skip planning", "just do it"), treat that as a request to move quickly through this gate, not to bypass it.
+
+## Scope-based blanket approval
+
+- When the user gives a broad directive that clearly encompasses multiple steps (e.g., "fix everything", "do all of these"), treat it as approval for all work within that scope; do not re-request approval for individual sub-steps, batches, or obviously implied follow-up actions.
+- Obviously implied follow-up includes: rebuild linked packages, restart local services, update global installs, and other post-change deployment steps covered by existing rules.
+- Re-request approval only when expanding beyond the original scope or when an action carries risk not covered by the original directive.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/post-change-deployment.md
 
