@@ -281,6 +281,30 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/planning-and-approval-gat
 - If state-changing execution starts without the required post-plan "yes", stop immediately, report the gate miss, add/update a prevention rule, regenerate AGENTS.md, and then restart from the approval gate.
 - No other exceptions: even if the user requests immediate execution (e.g., "skip planning", "just do it"), treat that as a request to move quickly through this gate, not to bypass it.
 
+Source: github:metyatech/agent-rules@HEAD/rules/global/post-change-deployment.md
+
+# Post-change deployment
+
+After modifying code in a repository, check whether the changes require
+deployment steps beyond commit/push before concluding.
+
+## Globally linked packages
+
+- If the repository is globally installed via `npm link` (identifiable by
+  `npm ls -g --depth=0` showing `->` pointing to a local path), run the
+  repo's build command after code changes so the global binary reflects
+  the update.
+- Verify the rebuilt output is functional (e.g., run the CLI's `--version`
+  or a smoke command).
+
+## Locally running services and scheduled tasks
+
+- If the repository powers a locally running service, daemon, or scheduled
+  task, rebuild and restart the affected component after code changes.
+- Verify the restart with deterministic evidence (new PID, port check,
+  service status query, or log entry showing updated behavior).
+- Do not claim completion until the running instance reflects the changes.
+
 Source: github:metyatech/agent-rules@HEAD/rules/global/quality-testing-and-errors.md
 
 # Quality, testing, and error handling
