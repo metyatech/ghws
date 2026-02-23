@@ -7,3 +7,4 @@
 {"id":"l6GmDfJ-","description":"thread-inbox: define operational rules in global rules, explain usage to user","stage":"done","createdAt":"2026-02-23T03:27:04.911Z","updatedAt":"2026-02-23T03:31:00.406Z"}
 {"id":"tZu11lpx","description":"thread-inbox: add web GUI (same pattern as task-tracker gui)","stage":"done","createdAt":"2026-02-23T03:43:50.037Z","updatedAt":"2026-02-23T03:48:43.973Z"}
 {"id":"BLb9dJ9r","description":"thread-inbox: v0.1.1 released (committed, pushed, tagged, GitHub Release, npm published, global link updated)","stage":"done","createdAt":"2026-02-23T04:12:21.865Z","updatedAt":"2026-02-23T04:12:25.113Z"}
+{"id":"80m46D9O","description":"thread-inbox v0.2.0: redesign status mechanism to explicit statuses (waiting/needs-reply/review/active/resolved), update CLI/GUI/tests/docs","stage":"done","createdAt":"2026-02-23T04:50:29.780Z","updatedAt":"2026-02-23T04:57:56.663Z"}

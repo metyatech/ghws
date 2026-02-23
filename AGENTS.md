@@ -586,10 +586,20 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/thread-inbox.md
 - If `thread-inbox` is not installed, install it via `npm install -g @metyatech/thread-inbox` before proceeding.
 - Store `.threads.jsonl` in the workspace root directory (use `--dir <workspace-root>`). Do not commit it to version control; it is local conversation context, not project state.
 
+## Status model
+
+Thread status is explicit (set by commands, not auto-computed):
+
+- `active` — open, no specific action pending.
+- `waiting` — user sent a message; AI should respond. Auto-set when adding `--from user` messages.
+- `needs-reply` — AI needs user input or decision. Set via `--status needs-reply`.
+- `review` — AI reporting completion; user should review. Set via `--status review`.
+- `resolved` — closed.
+
 ## Session start
 
-- At the start of any session, run `thread-inbox list --status waiting --dir <workspace-root>` to find threads needing agent attention (user sent the last message).
-- Also run `thread-inbox list --dir <workspace-root>` for a full overview of active threads.
+- Run `thread-inbox inbox --dir <workspace-root>` to find threads needing user action (`needs-reply` and `review`).
+- Run `thread-inbox list --status waiting --dir <workspace-root>` to find threads needing agent attention.
 - Report findings before starting new work.
 
 ## When to create threads
@@ -600,8 +610,10 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/thread-inbox.md
 
 ## When to add messages
 
-- Add a `--from user` message when the user provides a key decision, preference, or direction.
-- Add a `--from ai` message when you provide a proposal, recommendation, or status update that the user should review next session.
+- Add a `--from user` message when the user provides a key decision, preference, or direction. Status auto-sets to `waiting`.
+- Add a `--from ai` message for informational updates (progress, notes). Status does not change by default.
+- Add a `--from ai --status needs-reply` message when asking the user a question or requesting a decision.
+- Add a `--from ai --status review` message when reporting task completion or results that need user review.
 - Keep messages concise — capture the decision or context, not the full conversation.
 
 ## Thread lifecycle
