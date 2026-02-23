@@ -91,6 +91,10 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 ## GitHub notifications
 
 - After addressing a GitHub notification (CI failure fixed, PR reviewed, issue resolved), mark it as done so the user's inbox stays clean.
+- To mark notifications as done, use the GraphQL `markNotificationsAsDone` mutation. The REST API `PATCH /notifications/threads/{id}` only marks as read, not done.
+  - Get notification IDs: `gh api graphql -f query='{ viewer { notificationThreads(first: 50, query: "is:read") { nodes { id } } } }' --jq '[.data.viewer.notificationThreads.nodes[].id]'`
+  - Mark as done: `gh api graphql -f query="mutation { markNotificationsAsDone(input: {ids: $ids}) { success } }"`
+  - Paginate with `first`/`after` if more than 50 notifications exist.
 - If the gh token lacks the required scope, request the user to add it before proceeding.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/cli-standards.md
