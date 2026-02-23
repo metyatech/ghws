@@ -1,6 +1,3 @@
-{"id":"LAAaZy6h","description":"Investigate and clean up dirty repos (agents-mcp build artifacts, .tasks.jsonl commits, vscode-monitor deleted file)","stage":"done","createdAt":"2026-02-23T05:11:43.941Z","updatedAt":"2026-02-23T05:22:24.238Z"}
-{"id":"xX1W1kpK","description":"Release decision: qti-html-renderer (20 commits), qti-xml-core (16), compose-agentsmd (2), task-tracker (1)","stage":"done","createdAt":"2026-02-23T05:11:44.673Z","updatedAt":"2026-02-23T05:20:11.069Z"}
-{"id":"wjU7-nH8","description":"Add CI workflows to automation-scenario-spec, dot-github, sync-vscode","stage":"done","createdAt":"2026-02-23T05:11:45.375Z","updatedAt":"2026-02-23T05:45:03.600Z"}
 {"id":"MIy7w-SS","description":"Fix GitHub repo metadata: add descriptions and topics to repos missing them","stage":"done","createdAt":"2026-02-23T05:13:42.320Z","updatedAt":"2026-02-23T05:46:20.240Z"}
 {"id":"hefIp0UI","description":"Add community health files (SECURITY.md, CONTRIBUTING.md, CHANGELOG.md) to repos missing them","stage":"done","createdAt":"2026-02-23T05:13:43.023Z","updatedAt":"2026-02-23T05:45:04.265Z"}
 {"id":"a44BVSLA","description":"Clean up stale unmerged branches in 6 repos (agent-runner, code-preview, course-docs-platform, course-docs-site, course-exam-shared, markdown-to-qti)","stage":"done","createdAt":"2026-02-23T05:15:51.913Z","updatedAt":"2026-02-23T05:47:04.142Z"}
@@ -18,3 +15,14 @@
 {"id":"4KmKhYN0","description":"Release qti-html-renderer v0.1.2 (pre-commit hooks + rules regen)","stage":"done","createdAt":"2026-02-23T08:26:41.375Z","updatedAt":"2026-02-23T08:28:15.772Z"}
 {"id":"_SwgEMoI","description":"Release skill-manager v0.3.0 (model inventory refactor + infra)","stage":"done","createdAt":"2026-02-23T08:26:41.579Z","updatedAt":"2026-02-23T08:29:05.146Z"}
 {"id":"Rb8yd0oU","description":"Enable Dependabot for all metyatech repos","stage":"done","createdAt":"2026-02-23T08:26:41.786Z","updatedAt":"2026-02-23T08:26:45.771Z"}
+{"id":"7E_nr8jn","description":"Fix CRITICAL/HIGH vulns in qti-scoring-system (fast-xml-parser, tar)","stage":"pending","createdAt":"2026-02-23T08:31:46.941Z","updatedAt":"2026-02-23T08:31:46.941Z"}
+{"id":"pFhxDtHl","description":"Fix HIGH/MEDIUM vulns in agents-mcp (MCP SDK, hono, ajv, qs, esbuild)","stage":"done","createdAt":"2026-02-23T08:31:47.143Z","updatedAt":"2026-02-23T08:35:22.770Z"}
+{"id":"vsFej6zW","description":"Fix MEDIUM vulns in thread-inbox, ai-quota, agent-runner (esbuild, ajv)","stage":"done","createdAt":"2026-02-23T08:31:47.357Z","updatedAt":"2026-02-23T08:34:23.584Z"}
+{"id":"4NW4kzLx","description":"Fix HIGH vulns in vscode-monitor (minimatch, next.js, glob)","stage":"pending","createdAt":"2026-02-23T08:33:07.857Z","updatedAt":"2026-02-23T08:33:07.857Z"}
+{"id":"F1rv-GMF","description":"Fix vulns in course-docs-platform and course-docs-site (minimatch, ajv, lodash-es)","stage":"pending","createdAt":"2026-02-23T08:33:08.085Z","updatedAt":"2026-02-23T08:33:08.085Z"}
+{"id":"RnLRPgQs","description":"Fix HIGH vuln in skill-code-quality-setup (glob command injection)","stage":"done","createdAt":"2026-02-23T08:33:08.286Z","updatedAt":"2026-02-23T08:35:54.802Z"}
+{"id":"CBD7qpkj","description":"Fix MEDIUM vulns in exercise-module and robot-automation-studio","stage":"pending","createdAt":"2026-02-23T08:33:08.499Z","updatedAt":"2026-02-23T08:33:08.499Z"}
+{"id":"xSqlqTbS","description":"Fix vulns in docusaurus-microsoft-auth (11 alerts, not in workspace)","stage":"pending","createdAt":"2026-02-23T08:37:13.556Z","updatedAt":"2026-02-23T08:37:13.556Z"}
+{"id":"dYiVEzqD","description":"Fix vulns in workspace-launch-by-link (7 alerts, not in workspace)","stage":"pending","createdAt":"2026-02-23T08:37:13.788Z","updatedAt":"2026-02-23T08:37:13.788Z"}
+{"id":"3NKO2B-3","description":"Fix vulns in workspace-launch-server (3 alerts, not in workspace)","stage":"pending","createdAt":"2026-02-23T08:37:14.025Z","updatedAt":"2026-02-23T08:37:14.025Z"}
+{"id":"TeV-uIW4","description":"Fix vulns in syllabus-docs, teacher-profile-docs, workspace-template-generator","stage":"pending","createdAt":"2026-02-23T08:37:14.256Z","updatedAt":"2026-02-23T08:37:14.256Z"}
