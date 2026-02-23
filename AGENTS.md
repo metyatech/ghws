@@ -588,8 +588,9 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/thread-inbox.md
 
 ## Session start
 
-- At the start of any session, run `thread-inbox inbox --dir <workspace-root>` and report threads needing reply.
-- Review active threads with unresolved topics to restore context from previous sessions.
+- At the start of any session, run `thread-inbox list --status waiting --dir <workspace-root>` to find threads needing agent attention (user sent the last message).
+- Also run `thread-inbox list --dir <workspace-root>` for a full overview of active threads.
+- Report findings before starting new work.
 
 ## When to create threads
 
