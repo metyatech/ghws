@@ -1,11 +1,6 @@
-{"id":"lT_HVwSE","description":"Release agents-mcp v0.2.14 (rules regen + build artifacts)","stage":"done","createdAt":"2026-02-23T08:26:41.162Z","updatedAt":"2026-02-23T08:30:23.223Z"}
-{"id":"_SwgEMoI","description":"Release skill-manager v0.3.0 (model inventory refactor + infra)","stage":"done","createdAt":"2026-02-23T08:26:41.579Z","updatedAt":"2026-02-23T08:29:05.146Z"}
 {"id":"7E_nr8jn","description":"Fix CRITICAL/HIGH vulns in qti-scoring-system (fast-xml-parser, tar)","stage":"done","createdAt":"2026-02-23T08:31:46.941Z","updatedAt":"2026-02-23T08:39:29.206Z"}
-{"id":"pFhxDtHl","description":"Fix HIGH/MEDIUM vulns in agents-mcp (MCP SDK, hono, ajv, qs, esbuild)","stage":"done","createdAt":"2026-02-23T08:31:47.143Z","updatedAt":"2026-02-23T08:35:22.770Z"}
-{"id":"vsFej6zW","description":"Fix MEDIUM vulns in thread-inbox, ai-quota, agent-runner (esbuild, ajv)","stage":"done","createdAt":"2026-02-23T08:31:47.357Z","updatedAt":"2026-02-23T08:34:23.584Z"}
 {"id":"4NW4kzLx","description":"Fix HIGH vulns in vscode-monitor (minimatch, next.js, glob)","stage":"done","createdAt":"2026-02-23T08:33:07.857Z","updatedAt":"2026-02-23T08:40:11.360Z"}
 {"id":"F1rv-GMF","description":"Fix vulns in course-docs-platform and course-docs-site (minimatch, ajv, lodash-es)","stage":"done","createdAt":"2026-02-23T08:33:08.085Z","updatedAt":"2026-02-23T08:42:14.412Z"}
-{"id":"RnLRPgQs","description":"Fix HIGH vuln in skill-code-quality-setup (glob command injection)","stage":"done","createdAt":"2026-02-23T08:33:08.286Z","updatedAt":"2026-02-23T08:35:54.802Z"}
 {"id":"CBD7qpkj","description":"Fix MEDIUM vulns in exercise-module and robot-automation-studio","stage":"done","createdAt":"2026-02-23T08:33:08.499Z","updatedAt":"2026-02-23T08:40:07.508Z"}
 {"id":"xSqlqTbS","description":"Fix vulns in docusaurus-microsoft-auth (11 alerts, not in workspace)","stage":"done","createdAt":"2026-02-23T08:37:13.556Z","updatedAt":"2026-02-23T08:44:28.529Z"}
 {"id":"dYiVEzqD","description":"Fix vulns in workspace-launch-by-link (7 alerts, not in workspace)","stage":"done","createdAt":"2026-02-23T08:37:13.788Z","updatedAt":"2026-02-23T08:43:17.957Z"}
@@ -18,3 +13,8 @@
 {"id":"PXsel8eN","description":"Release agents-mcp v0.2.15 (security fix: MCP SDK + dep overrides)","stage":"done","createdAt":"2026-02-23T09:04:14.060Z","updatedAt":"2026-02-23T09:09:29.167Z"}
 {"id":"m-wdxIka","description":"Release thread-inbox v0.2.4 (security fix: esbuild override)","stage":"done","createdAt":"2026-02-23T09:04:16.929Z","updatedAt":"2026-02-23T09:09:31.772Z"}
 {"id":"y5Wvh-A2","description":"Release ai-quota v1.1.2 (security fix: esbuild override)","stage":"done","createdAt":"2026-02-23T09:04:20.414Z","updatedAt":"2026-02-23T09:09:34.566Z"}
+{"id":"Zz9Wi8F1","description":"Add pre-commit hooks to agent-runner","stage":"done","createdAt":"2026-02-23T09:17:19.394Z","updatedAt":"2026-02-23T09:21:02.605Z"}
+{"id":"-tViNgUx","description":"Add pre-commit hooks + CI workflow to sync-vscode-siw","stage":"done","createdAt":"2026-02-23T09:17:22.110Z","updatedAt":"2026-02-23T09:21:13.579Z"}
+{"id":"xnYvCYwu","description":"Add pre-commit hooks to skill-code-quality-setup","stage":"done","createdAt":"2026-02-23T09:17:25.283Z","updatedAt":"2026-02-23T09:20:14.627Z"}
+{"id":"4jXxDytT","description":"Add CI workflow to workspace-launch-by-link","stage":"done","createdAt":"2026-02-23T09:17:28.114Z","updatedAt":"2026-02-23T09:20:18.228Z"}
+{"id":"6SHObGNh","description":"Add CI workflow to workspace-launch-server","stage":"done","createdAt":"2026-02-23T09:17:30.759Z","updatedAt":"2026-02-23T09:20:21.118Z"}
