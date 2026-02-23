@@ -23,6 +23,11 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/agent-rules-composition.m
 - Place AGENTS.md at the project root; only add another AGENTS.md for nested independent projects.
 - Before doing any work in a repository that contains `agent-ruleset.json`, run `compose-agentsmd` in that repository to refresh its AGENTS.md and ensure rules are current.
 
+## AGENTS.md freshness
+
+- Pre-commit hooks should run `compose-agentsmd --compose` and stage any AGENTS.md changes automatically. Do not fail the commit on AGENTS.md drift; let the updated file be included in the commit.
+- Do not add AGENTS.md freshness checks to CI. AGENTS.md is generated from external rule sources; checking it in CI creates cross-repo coupling. Pre-commit hooks are sufficient.
+
 ## Update policy
 
 - Never edit AGENTS.md directly; update source rules and regenerate AGENTS.md.
@@ -137,6 +142,7 @@ These are non-negotiable completion gates for any state-changing work and for an
 
 ## Evidence and verification
 
+- Do not run `git commit` until the repo's full verification command has passed in the current working tree. This applies to every commit, not only the final delivery.
 - For each AC, define verification evidence (automated test preferred; otherwise a deterministic manual procedure).
 - Maintain an explicit mapping: `AC -> evidence (tests/commands/manual steps)`.
 - The mapping may be presented in a compact per-item form (one line per AC including evidence + outcome) to reduce verbosity.
