@@ -239,6 +239,7 @@ The following operations require explicit delegation from the delegating agent o
 
 ## Cost optimization (model selection)
 
+- When spawning agents, always explicitly specify `model` and `effort` (where supported). Never rely on defaults; defaulting wastes budget by over-provisioning.
 - When spawning agents, minimize the **total cost to achieve the goal**. Total cost includes model pricing, reasoning/thinking token consumption, context usage, and retry overhead.
 - Use the minimum reasoning effort level (e.g., low/medium/high/xhigh) that reliably produces correct output for the task; extended reasoning increases cost significantly.
 - Prefer newer-generation models at lower reasoning effort over older models at maximum reasoning effort when both can succeed; newer models often achieve equal quality with less thinking overhead.
