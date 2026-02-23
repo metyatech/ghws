@@ -46,6 +46,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/agent-rules-composition.m
 - Prefer the most general applicable rule to avoid duplication.
 - Write rules as clear directives that prescribe specific behavior ("do X", "always Y", "never Z"). Do not use hedging language ("may", "might", "could", "consider") — if a behavior is required, state it as a requirement; if it is not required, omit it.
 - Do not use numeric filename prefixes (e.g., `00-...`) to impose ordering; treat rule modules as a flat set. If ordering matters, encode it explicitly in composition/tooling rather than filenames.
+- Before presenting a rule change proposal, verify it against all editing standards and rule placement criteria. Confirm: (1) placed at the correct level (global vs domain), (2) written at the broadest applicable scope without unnecessary ecosystem qualifiers, (3) action-oriented without hedging, (4) non-redundant with existing rules. Fix violations before presenting; do not rely on the requester for quality review.
 
 ## Rule placement (global vs domain)
 
