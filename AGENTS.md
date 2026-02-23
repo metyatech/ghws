@@ -392,11 +392,16 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/release-and-publication.m
 ## Public repository metadata
 
 - For public repos, set GitHub Description, Topics, and Homepage.
-- Assign Topics from the standard set below. Every repo must have at least one topic.
+- Assign Topics from the standard set below. Every repo must have at least one standard topic when applicable; repos that do not match any standard topic use descriptive topics relevant to their domain.
   - `agent-skill`: repo contains a SKILL.md (an installable agent skill).
   - `agent-tool`: CLI tool or MCP server used by agents (e.g., task-tracker, agents-mcp, compose-agentsmd).
   - `agent-rule`: rule source or ruleset repository (e.g., agent-rules).
-  - No special topic for regular projects; use descriptive topics relevant to the project's domain.
+  - `unreal-engine`: Unreal Engine plugin or sample project.
+  - `qti`: QTI assessment ecosystem tool or library.
+  - `education`: course content, teaching materials, or student-facing platform.
+  - `docusaurus`: Docusaurus plugin or extension.
+- Additional descriptive topics (language, framework, domain keywords) may be added freely alongside standard topics.
+- Review and update the standard topic set when the repository landscape changes materially (new domain clusters emerge or existing ones become obsolete).
 - Verify topics are set as part of the new-repository compliance gate.
 
 ## Delivery chain gate
