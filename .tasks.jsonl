@@ -1,16 +1,4 @@
-{"id":"4NW4kzLx","description":"Fix HIGH vulns in vscode-monitor (minimatch, next.js, glob)","stage":"done","createdAt":"2026-02-23T08:33:07.857Z","updatedAt":"2026-02-23T08:40:11.360Z"}
-{"id":"F1rv-GMF","description":"Fix vulns in course-docs-platform and course-docs-site (minimatch, ajv, lodash-es)","stage":"done","createdAt":"2026-02-23T08:33:08.085Z","updatedAt":"2026-02-23T08:42:14.412Z"}
-{"id":"xSqlqTbS","description":"Fix vulns in docusaurus-microsoft-auth (11 alerts, not in workspace)","stage":"done","createdAt":"2026-02-23T08:37:13.556Z","updatedAt":"2026-02-23T08:44:28.529Z"}
-{"id":"dYiVEzqD","description":"Fix vulns in workspace-launch-by-link (7 alerts, not in workspace)","stage":"done","createdAt":"2026-02-23T08:37:13.788Z","updatedAt":"2026-02-23T08:43:17.957Z"}
-{"id":"3NKO2B-3","description":"Fix vulns in workspace-launch-server (3 alerts, not in workspace)","stage":"done","createdAt":"2026-02-23T08:37:14.025Z","updatedAt":"2026-02-23T08:43:18.162Z"}
-{"id":"TeV-uIW4","description":"Fix vulns in syllabus-docs, teacher-profile-docs, workspace-template-generator","stage":"done","createdAt":"2026-02-23T08:37:14.256Z","updatedAt":"2026-02-23T08:44:41.629Z"}
-{"id":"c-dVmUBh","description":"Fix CRITICAL+HIGH vulns in next-google-top-page and next-tutorial (Next.js auth bypass)","stage":"done","createdAt":"2026-02-23T08:53:06.960Z","updatedAt":"2026-02-23T09:06:50.472Z"}
-{"id":"6oBvSfrl","description":"Fix HIGH vulns in omniscience (5 alerts)","stage":"done","createdAt":"2026-02-23T08:53:08.264Z","updatedAt":"2026-02-23T08:57:50.437Z"}
-{"id":"U2gBjd_t","description":"Fix HIGH vulns in sync-vscode-siw (4 alerts)","stage":"done","createdAt":"2026-02-23T08:53:10.054Z","updatedAt":"2026-02-23T09:06:58.695Z"}
 {"id":"Yp8lmy9n","description":"Fix vulns in codex fork (13 alerts)","stage":"done","createdAt":"2026-02-23T08:53:11.448Z","updatedAt":"2026-02-23T09:10:35.330Z"}
-{"id":"PXsel8eN","description":"Release agents-mcp v0.2.15 (security fix: MCP SDK + dep overrides)","stage":"done","createdAt":"2026-02-23T09:04:14.060Z","updatedAt":"2026-02-23T09:09:29.167Z"}
-{"id":"m-wdxIka","description":"Release thread-inbox v0.2.4 (security fix: esbuild override)","stage":"done","createdAt":"2026-02-23T09:04:16.929Z","updatedAt":"2026-02-23T09:09:31.772Z"}
-{"id":"y5Wvh-A2","description":"Release ai-quota v1.1.2 (security fix: esbuild override)","stage":"done","createdAt":"2026-02-23T09:04:20.414Z","updatedAt":"2026-02-23T09:09:34.566Z"}
 {"id":"Zz9Wi8F1","description":"Add pre-commit hooks to agent-runner","stage":"done","createdAt":"2026-02-23T09:17:19.394Z","updatedAt":"2026-02-23T09:21:02.605Z"}
 {"id":"-tViNgUx","description":"Add pre-commit hooks + CI workflow to sync-vscode-siw","stage":"done","createdAt":"2026-02-23T09:17:22.110Z","updatedAt":"2026-02-23T09:21:13.579Z"}
 {"id":"xnYvCYwu","description":"Add pre-commit hooks to skill-code-quality-setup","stage":"done","createdAt":"2026-02-23T09:17:25.283Z","updatedAt":"2026-02-23T09:20:14.627Z"}
@@ -28,3 +16,5 @@
 {"id":"ar4ikvTP","description":"Fix npm audit vulnerabilities in automation-scenario-studio (1 moderate)","stage":"done","createdAt":"2026-02-23T10:41:08.554Z","updatedAt":"2026-02-23T10:46:11.788Z"}
 {"id":"xmfxWEwG","description":"Fix ajv+minimatch vulnerabilities in qti-scoring-system, apply-to-qti-results, roster-to-qti-results, qti-reporter","stage":"done","createdAt":"2026-02-23T10:41:43.743Z","updatedAt":"2026-02-23T10:49:09.246Z"}
 {"id":"6kvF6KJA","description":"Fix incorrect minimatch+ajv overrides in course-docs-site (pinned to vulnerable version)","stage":"done","createdAt":"2026-02-23T10:44:15.204Z","updatedAt":"2026-02-23T11:01:36.963Z"}
+{"id":"dM9gJKmU","description":"Remove AGENTS.md freshness check from skill-autonomous-orchestrator CI","stage":"done","createdAt":"2026-02-23T12:57:53.191Z","updatedAt":"2026-02-23T13:49:11.998Z"}
+{"id":"a_vo0GR1","description":"Standardize pre-commit hooks across all repos (verify + compose-agentsmd)","stage":"done","createdAt":"2026-02-23T12:57:54.146Z","updatedAt":"2026-02-23T13:48:48.990Z"}
