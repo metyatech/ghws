@@ -358,6 +358,7 @@ For AC definition, verification evidence, regression tests, and final reporting 
 - Never disable checks, weaken assertions, loosen types, or add retries solely to make checks pass.
 - If the execution environment restricts test execution (no network, no database, sandboxed), run the available subset, document what was skipped, and ensure CI covers the remainder.
 - When delivering a user-facing tool or GUI, perform end-to-end manual verification (start the service, exercise each feature, confirm correct behavior) in addition to automated tests. Do not rely solely on unit tests for user-facing deliverables.
+- When manual testing reveals issues or unexpected behavior, convert those findings into automated tests before fixing; the test must fail before the fix and pass after.
 
 ## Tests
 
