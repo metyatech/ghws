@@ -1,11 +1,3 @@
-{"id":"MIy7w-SS","description":"Fix GitHub repo metadata: add descriptions and topics to repos missing them","stage":"done","createdAt":"2026-02-23T05:13:42.320Z","updatedAt":"2026-02-23T05:46:20.240Z"}
-{"id":"hefIp0UI","description":"Add community health files (SECURITY.md, CONTRIBUTING.md, CHANGELOG.md) to repos missing them","stage":"done","createdAt":"2026-02-23T05:13:43.023Z","updatedAt":"2026-02-23T05:45:04.265Z"}
-{"id":"a44BVSLA","description":"Clean up stale unmerged branches in 6 repos (agent-runner, code-preview, course-docs-platform, course-docs-site, course-exam-shared, markdown-to-qti)","stage":"done","createdAt":"2026-02-23T05:15:51.913Z","updatedAt":"2026-02-23T05:47:04.142Z"}
-{"id":"b2y7FXZG","description":"Set up agent-ruleset.json and AGENTS.md for sync-vscode","stage":"done","createdAt":"2026-02-23T05:15:52.117Z","updatedAt":"2026-02-23T05:45:03.819Z"}
-{"id":"SonzK5_d","description":"Fix pre-existing test failure in thread-inbox: show command exits with code 1 instead of 0 (cli.test.ts:134)","stage":"done","createdAt":"2026-02-23T05:21:58.900Z","updatedAt":"2026-02-23T05:57:32.404Z"}
-{"id":"6JHrp_09","description":"Fix pre-existing ESLint config error in vscode-monitor: eslint-config-next/core-web-vitals module not found","stage":"done","createdAt":"2026-02-23T05:22:45.803Z","updatedAt":"2026-02-23T05:45:04.039Z"}
-{"id":"sGvkqFtj","description":"Update devDependencies to fix vulnerabilities: task-tracker (esbuild/vitest, minimatch/@typescript-eslint), compose-agentsmd (minimatch/@typescript-eslint), qti-xml-core (11 vulns). All in dev deps, not runtime.","stage":"done","createdAt":"2026-02-23T05:39:57.962Z","updatedAt":"2026-02-23T06:07:30.176Z"}
-{"id":"rlG_GLoM","description":"Set up pre-commit hooks in 24 repos that are currently missing them. This is a batch operation to add husky + lint-staged or equivalent commit-time verification.","stage":"done","createdAt":"2026-02-23T05:40:39.162Z","updatedAt":"2026-02-23T06:26:25.885Z"}
 {"id":"_4vF2eFr","description":"Release compose-agentsmd v3.4.3 (security fix: minimatch ReDoS)","stage":"done","createdAt":"2026-02-23T08:26:40.115Z","updatedAt":"2026-02-23T08:27:47.971Z"}
 {"id":"ZPWUbRM2","description":"Release qti-xml-core v0.1.4 (security fix: ajv + minimatch)","stage":"done","createdAt":"2026-02-23T08:26:40.320Z","updatedAt":"2026-02-23T08:27:45.672Z"}
 {"id":"bQfVUvoi","description":"Release task-tracker v0.2.3 (package.json normalization)","stage":"done","createdAt":"2026-02-23T08:26:40.520Z","updatedAt":"2026-02-23T08:27:54.432Z"}
@@ -15,14 +7,14 @@
 {"id":"4KmKhYN0","description":"Release qti-html-renderer v0.1.2 (pre-commit hooks + rules regen)","stage":"done","createdAt":"2026-02-23T08:26:41.375Z","updatedAt":"2026-02-23T08:28:15.772Z"}
 {"id":"_SwgEMoI","description":"Release skill-manager v0.3.0 (model inventory refactor + infra)","stage":"done","createdAt":"2026-02-23T08:26:41.579Z","updatedAt":"2026-02-23T08:29:05.146Z"}
 {"id":"Rb8yd0oU","description":"Enable Dependabot for all metyatech repos","stage":"done","createdAt":"2026-02-23T08:26:41.786Z","updatedAt":"2026-02-23T08:26:45.771Z"}
-{"id":"7E_nr8jn","description":"Fix CRITICAL/HIGH vulns in qti-scoring-system (fast-xml-parser, tar)","stage":"pending","createdAt":"2026-02-23T08:31:46.941Z","updatedAt":"2026-02-23T08:31:46.941Z"}
+{"id":"7E_nr8jn","description":"Fix CRITICAL/HIGH vulns in qti-scoring-system (fast-xml-parser, tar)","stage":"done","createdAt":"2026-02-23T08:31:46.941Z","updatedAt":"2026-02-23T08:39:29.206Z"}
 {"id":"pFhxDtHl","description":"Fix HIGH/MEDIUM vulns in agents-mcp (MCP SDK, hono, ajv, qs, esbuild)","stage":"done","createdAt":"2026-02-23T08:31:47.143Z","updatedAt":"2026-02-23T08:35:22.770Z"}
 {"id":"vsFej6zW","description":"Fix MEDIUM vulns in thread-inbox, ai-quota, agent-runner (esbuild, ajv)","stage":"done","createdAt":"2026-02-23T08:31:47.357Z","updatedAt":"2026-02-23T08:34:23.584Z"}
-{"id":"4NW4kzLx","description":"Fix HIGH vulns in vscode-monitor (minimatch, next.js, glob)","stage":"pending","createdAt":"2026-02-23T08:33:07.857Z","updatedAt":"2026-02-23T08:33:07.857Z"}
-{"id":"F1rv-GMF","description":"Fix vulns in course-docs-platform and course-docs-site (minimatch, ajv, lodash-es)","stage":"pending","createdAt":"2026-02-23T08:33:08.085Z","updatedAt":"2026-02-23T08:33:08.085Z"}
+{"id":"4NW4kzLx","description":"Fix HIGH vulns in vscode-monitor (minimatch, next.js, glob)","stage":"done","createdAt":"2026-02-23T08:33:07.857Z","updatedAt":"2026-02-23T08:40:11.360Z"}
+{"id":"F1rv-GMF","description":"Fix vulns in course-docs-platform and course-docs-site (minimatch, ajv, lodash-es)","stage":"done","createdAt":"2026-02-23T08:33:08.085Z","updatedAt":"2026-02-23T08:42:14.412Z"}
 {"id":"RnLRPgQs","description":"Fix HIGH vuln in skill-code-quality-setup (glob command injection)","stage":"done","createdAt":"2026-02-23T08:33:08.286Z","updatedAt":"2026-02-23T08:35:54.802Z"}
-{"id":"CBD7qpkj","description":"Fix MEDIUM vulns in exercise-module and robot-automation-studio","stage":"pending","createdAt":"2026-02-23T08:33:08.499Z","updatedAt":"2026-02-23T08:33:08.499Z"}
-{"id":"xSqlqTbS","description":"Fix vulns in docusaurus-microsoft-auth (11 alerts, not in workspace)","stage":"pending","createdAt":"2026-02-23T08:37:13.556Z","updatedAt":"2026-02-23T08:37:13.556Z"}
-{"id":"dYiVEzqD","description":"Fix vulns in workspace-launch-by-link (7 alerts, not in workspace)","stage":"pending","createdAt":"2026-02-23T08:37:13.788Z","updatedAt":"2026-02-23T08:37:13.788Z"}
-{"id":"3NKO2B-3","description":"Fix vulns in workspace-launch-server (3 alerts, not in workspace)","stage":"pending","createdAt":"2026-02-23T08:37:14.025Z","updatedAt":"2026-02-23T08:37:14.025Z"}
-{"id":"TeV-uIW4","description":"Fix vulns in syllabus-docs, teacher-profile-docs, workspace-template-generator","stage":"pending","createdAt":"2026-02-23T08:37:14.256Z","updatedAt":"2026-02-23T08:37:14.256Z"}
+{"id":"CBD7qpkj","description":"Fix MEDIUM vulns in exercise-module and robot-automation-studio","stage":"done","createdAt":"2026-02-23T08:33:08.499Z","updatedAt":"2026-02-23T08:40:07.508Z"}
+{"id":"xSqlqTbS","description":"Fix vulns in docusaurus-microsoft-auth (11 alerts, not in workspace)","stage":"done","createdAt":"2026-02-23T08:37:13.556Z","updatedAt":"2026-02-23T08:44:28.529Z"}
+{"id":"dYiVEzqD","description":"Fix vulns in workspace-launch-by-link (7 alerts, not in workspace)","stage":"done","createdAt":"2026-02-23T08:37:13.788Z","updatedAt":"2026-02-23T08:43:17.957Z"}
+{"id":"3NKO2B-3","description":"Fix vulns in workspace-launch-server (3 alerts, not in workspace)","stage":"done","createdAt":"2026-02-23T08:37:14.025Z","updatedAt":"2026-02-23T08:43:18.162Z"}
+{"id":"TeV-uIW4","description":"Fix vulns in syllabus-docs, teacher-profile-docs, workspace-template-generator","stage":"done","createdAt":"2026-02-23T08:37:14.256Z","updatedAt":"2026-02-23T08:44:41.629Z"}
