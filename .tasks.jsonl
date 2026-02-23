@@ -1,7 +1,5 @@
-{"id":"7E_nr8jn","description":"Fix CRITICAL/HIGH vulns in qti-scoring-system (fast-xml-parser, tar)","stage":"done","createdAt":"2026-02-23T08:31:46.941Z","updatedAt":"2026-02-23T08:39:29.206Z"}
 {"id":"4NW4kzLx","description":"Fix HIGH vulns in vscode-monitor (minimatch, next.js, glob)","stage":"done","createdAt":"2026-02-23T08:33:07.857Z","updatedAt":"2026-02-23T08:40:11.360Z"}
 {"id":"F1rv-GMF","description":"Fix vulns in course-docs-platform and course-docs-site (minimatch, ajv, lodash-es)","stage":"done","createdAt":"2026-02-23T08:33:08.085Z","updatedAt":"2026-02-23T08:42:14.412Z"}
-{"id":"CBD7qpkj","description":"Fix MEDIUM vulns in exercise-module and robot-automation-studio","stage":"done","createdAt":"2026-02-23T08:33:08.499Z","updatedAt":"2026-02-23T08:40:07.508Z"}
 {"id":"xSqlqTbS","description":"Fix vulns in docusaurus-microsoft-auth (11 alerts, not in workspace)","stage":"done","createdAt":"2026-02-23T08:37:13.556Z","updatedAt":"2026-02-23T08:44:28.529Z"}
 {"id":"dYiVEzqD","description":"Fix vulns in workspace-launch-by-link (7 alerts, not in workspace)","stage":"done","createdAt":"2026-02-23T08:37:13.788Z","updatedAt":"2026-02-23T08:43:17.957Z"}
 {"id":"3NKO2B-3","description":"Fix vulns in workspace-launch-server (3 alerts, not in workspace)","stage":"done","createdAt":"2026-02-23T08:37:14.025Z","updatedAt":"2026-02-23T08:43:18.162Z"}
@@ -18,3 +16,5 @@
 {"id":"xnYvCYwu","description":"Add pre-commit hooks to skill-code-quality-setup","stage":"done","createdAt":"2026-02-23T09:17:25.283Z","updatedAt":"2026-02-23T09:20:14.627Z"}
 {"id":"4jXxDytT","description":"Add CI workflow to workspace-launch-by-link","stage":"done","createdAt":"2026-02-23T09:17:28.114Z","updatedAt":"2026-02-23T09:20:18.228Z"}
 {"id":"6SHObGNh","description":"Add CI workflow to workspace-launch-server","stage":"done","createdAt":"2026-02-23T09:17:30.759Z","updatedAt":"2026-02-23T09:20:21.118Z"}
+{"id":"4lEgN5au","description":"Add CI workflow + pre-commit hooks to omniscience","stage":"done","createdAt":"2026-02-23T09:29:25.867Z","updatedAt":"2026-02-23T09:39:19.659Z"}
+{"id":"k7wpXP_S","description":"Add CI workflow + pre-commit hooks to workspace-launch-ui","stage":"done","createdAt":"2026-02-23T09:29:30.186Z","updatedAt":"2026-02-23T09:39:21.923Z"}
