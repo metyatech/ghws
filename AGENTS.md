@@ -171,6 +171,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Align file/folder names with their contents and keep naming conventions consistent.
 - Do not assume machine-specific environments (fixed workspace directories, drive letters, per-PC paths). Prefer repo-relative paths and explicit configuration so workflows work in arbitrary clone locations.
 - Temporary files/directories created by the agent MUST be placed only under the OS temp directory (e.g., `%TEMP%` / `$env:TEMP`). Do not create ad-hoc temp folders in repos/workspaces unless the requester explicitly approves.
+- When building tools, CLIs, or services intended for agent use, design for cross-agent compatibility. Do not rely on features specific to a single agent platform (Claude Code, Codex, Gemini CLI, Copilot). Use standard interfaces (CLI, HTTP, stdin/stdout, MCP) that any agent can invoke.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/linting-formatting-and-static-analysis.md
 
