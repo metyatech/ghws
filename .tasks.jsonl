@@ -1,12 +1,3 @@
-{"id":"Y7jBiVaO","description":"Bulk-assign standard topics to all metyatech repos","stage":"done","createdAt":"2026-02-23T02:07:09.300Z","updatedAt":"2026-02-23T02:10:42.747Z"}
-{"id":"n7kjNX7P","description":"task-tracker: implement auto-purge with keep-N on done command","stage":"done","createdAt":"2026-02-23T02:07:10.328Z","updatedAt":"2026-02-23T02:32:05.967Z"}
-{"id":"6x3lTja2","description":"task-tracker: delivery chain - version bump 0.2.0, release, npm publish","stage":"done","createdAt":"2026-02-23T02:07:11.108Z","updatedAt":"2026-02-23T02:32:06.172Z"}
-{"id":"9vfmH0x9","description":"Design and build threaded conversation management tool (local CLI + JSONL)","stage":"done","createdAt":"2026-02-23T02:07:12.154Z","updatedAt":"2026-02-23T02:38:23.418Z"}
-{"id":"5PkHIztS","description":"Fix agents-mcp session_id detection bug (tool_count always 0 for claude agents)","stage":"done","createdAt":"2026-02-23T02:13:44.419Z","updatedAt":"2026-02-23T02:18:25.094Z"}
-{"id":"l6GmDfJ-","description":"thread-inbox: define operational rules in global rules, explain usage to user","stage":"done","createdAt":"2026-02-23T03:27:04.911Z","updatedAt":"2026-02-23T03:31:00.406Z"}
-{"id":"tZu11lpx","description":"thread-inbox: add web GUI (same pattern as task-tracker gui)","stage":"done","createdAt":"2026-02-23T03:43:50.037Z","updatedAt":"2026-02-23T03:48:43.973Z"}
-{"id":"BLb9dJ9r","description":"thread-inbox: v0.1.1 released (committed, pushed, tagged, GitHub Release, npm published, global link updated)","stage":"done","createdAt":"2026-02-23T04:12:21.865Z","updatedAt":"2026-02-23T04:12:25.113Z"}
-{"id":"80m46D9O","description":"thread-inbox v0.2.0: redesign status mechanism to explicit statuses (waiting/needs-reply/review/active/resolved), update CLI/GUI/tests/docs","stage":"done","createdAt":"2026-02-23T04:50:29.780Z","updatedAt":"2026-02-23T04:57:56.663Z"}
 {"id":"LAAaZy6h","description":"Investigate and clean up dirty repos (agents-mcp build artifacts, .tasks.jsonl commits, vscode-monitor deleted file)","stage":"done","createdAt":"2026-02-23T05:11:43.941Z","updatedAt":"2026-02-23T05:22:24.238Z"}
 {"id":"xX1W1kpK","description":"Release decision: qti-html-renderer (20 commits), qti-xml-core (16), compose-agentsmd (2), task-tracker (1)","stage":"done","createdAt":"2026-02-23T05:11:44.673Z","updatedAt":"2026-02-23T05:20:11.069Z"}
 {"id":"wjU7-nH8","description":"Add CI workflows to automation-scenario-spec, dot-github, sync-vscode","stage":"done","createdAt":"2026-02-23T05:11:45.375Z","updatedAt":"2026-02-23T05:45:03.600Z"}
@@ -18,3 +9,12 @@
 {"id":"6JHrp_09","description":"Fix pre-existing ESLint config error in vscode-monitor: eslint-config-next/core-web-vitals module not found","stage":"done","createdAt":"2026-02-23T05:22:45.803Z","updatedAt":"2026-02-23T05:45:04.039Z"}
 {"id":"sGvkqFtj","description":"Update devDependencies to fix vulnerabilities: task-tracker (esbuild/vitest, minimatch/@typescript-eslint), compose-agentsmd (minimatch/@typescript-eslint), qti-xml-core (11 vulns). All in dev deps, not runtime.","stage":"done","createdAt":"2026-02-23T05:39:57.962Z","updatedAt":"2026-02-23T06:07:30.176Z"}
 {"id":"rlG_GLoM","description":"Set up pre-commit hooks in 24 repos that are currently missing them. This is a batch operation to add husky + lint-staged or equivalent commit-time verification.","stage":"done","createdAt":"2026-02-23T05:40:39.162Z","updatedAt":"2026-02-23T06:26:25.885Z"}
+{"id":"_4vF2eFr","description":"Release compose-agentsmd v3.4.3 (security fix: minimatch ReDoS)","stage":"done","createdAt":"2026-02-23T08:26:40.115Z","updatedAt":"2026-02-23T08:27:47.971Z"}
+{"id":"ZPWUbRM2","description":"Release qti-xml-core v0.1.4 (security fix: ajv + minimatch)","stage":"done","createdAt":"2026-02-23T08:26:40.320Z","updatedAt":"2026-02-23T08:27:45.672Z"}
+{"id":"bQfVUvoi","description":"Release task-tracker v0.2.3 (package.json normalization)","stage":"done","createdAt":"2026-02-23T08:26:40.520Z","updatedAt":"2026-02-23T08:27:54.432Z"}
+{"id":"MsCw6nAI","description":"Release thread-inbox v0.2.3 (package.json normalization)","stage":"done","createdAt":"2026-02-23T08:26:40.744Z","updatedAt":"2026-02-23T08:27:54.912Z"}
+{"id":"M8r1gLPs","description":"Release ai-quota v1.1.1 (pre-commit hooks + rules regen)","stage":"done","createdAt":"2026-02-23T08:26:40.950Z","updatedAt":"2026-02-23T08:28:09.568Z"}
+{"id":"lT_HVwSE","description":"Release agents-mcp v0.2.14 (rules regen + build artifacts)","stage":"done","createdAt":"2026-02-23T08:26:41.162Z","updatedAt":"2026-02-23T08:30:23.223Z"}
+{"id":"4KmKhYN0","description":"Release qti-html-renderer v0.1.2 (pre-commit hooks + rules regen)","stage":"done","createdAt":"2026-02-23T08:26:41.375Z","updatedAt":"2026-02-23T08:28:15.772Z"}
+{"id":"_SwgEMoI","description":"Release skill-manager v0.3.0 (model inventory refactor + infra)","stage":"done","createdAt":"2026-02-23T08:26:41.579Z","updatedAt":"2026-02-23T08:29:05.146Z"}
+{"id":"Rb8yd0oU","description":"Enable Dependabot for all metyatech repos","stage":"done","createdAt":"2026-02-23T08:26:41.786Z","updatedAt":"2026-02-23T08:26:45.771Z"}
