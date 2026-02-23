@@ -1,0 +1,9 @@
+{"id":"RS5qAsQ3","description":"Update release-and-publication rule with expanded standard topics (7 categories)","stage":"done","createdAt":"2026-02-23T02:07:08.449Z","updatedAt":"2026-02-23T02:07:38.665Z"}
+{"id":"Y7jBiVaO","description":"Bulk-assign standard topics to all metyatech repos","stage":"done","createdAt":"2026-02-23T02:07:09.300Z","updatedAt":"2026-02-23T02:10:42.747Z"}
+{"id":"n7kjNX7P","description":"task-tracker: implement auto-purge with keep-N on done command","stage":"done","createdAt":"2026-02-23T02:07:10.328Z","updatedAt":"2026-02-23T02:32:05.967Z"}
+{"id":"6x3lTja2","description":"task-tracker: delivery chain - version bump 0.2.0, release, npm publish","stage":"done","createdAt":"2026-02-23T02:07:11.108Z","updatedAt":"2026-02-23T02:32:06.172Z"}
+{"id":"9vfmH0x9","description":"Design and build threaded conversation management tool (local CLI + JSONL)","stage":"done","createdAt":"2026-02-23T02:07:12.154Z","updatedAt":"2026-02-23T02:38:23.418Z"}
+{"id":"5PkHIztS","description":"Fix agents-mcp session_id detection bug (tool_count always 0 for claude agents)","stage":"done","createdAt":"2026-02-23T02:13:44.419Z","updatedAt":"2026-02-23T02:18:25.094Z"}
+{"id":"l6GmDfJ-","description":"thread-inbox: define operational rules in global rules, explain usage to user","stage":"done","createdAt":"2026-02-23T03:27:04.911Z","updatedAt":"2026-02-23T03:31:00.406Z"}
+{"id":"tZu11lpx","description":"thread-inbox: add web GUI (same pattern as task-tracker gui)","stage":"done","createdAt":"2026-02-23T03:43:50.037Z","updatedAt":"2026-02-23T03:48:43.973Z"}
+{"id":"BLb9dJ9r","description":"thread-inbox: v0.1.1 released (committed, pushed, tagged, GitHub Release, npm published, global link updated)","stage":"done","createdAt":"2026-02-23T04:12:21.865Z","updatedAt":"2026-02-23T04:12:25.113Z"}
