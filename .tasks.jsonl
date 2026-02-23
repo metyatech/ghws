@@ -18,3 +18,13 @@
 {"id":"6SHObGNh","description":"Add CI workflow to workspace-launch-server","stage":"done","createdAt":"2026-02-23T09:17:30.759Z","updatedAt":"2026-02-23T09:20:21.118Z"}
 {"id":"4lEgN5au","description":"Add CI workflow + pre-commit hooks to omniscience","stage":"done","createdAt":"2026-02-23T09:29:25.867Z","updatedAt":"2026-02-23T09:39:19.659Z"}
 {"id":"k7wpXP_S","description":"Add CI workflow + pre-commit hooks to workspace-launch-ui","stage":"done","createdAt":"2026-02-23T09:29:30.186Z","updatedAt":"2026-02-23T09:39:21.923Z"}
+{"id":"cacfZNup","description":"Update @metyatech/ai-quota 1.0.1->1.1.2 in agent-runner","stage":"done","createdAt":"2026-02-23T10:37:14.335Z","updatedAt":"2026-02-23T10:43:24.531Z"}
+{"id":"NHaev6QY","description":"Add LICENSE and README.md to omniscience repo","stage":"done","createdAt":"2026-02-23T10:37:14.881Z","updatedAt":"2026-02-23T10:44:43.740Z"}
+{"id":"o714XDNf","description":"Add CI workflow to docusaurus-microsoft-auth","stage":"done","createdAt":"2026-02-23T10:37:15.604Z","updatedAt":"2026-02-23T10:45:52.891Z"}
+{"id":"DpwQVJks","description":"Add CI + LICENSE to next-google-top-page","stage":"done","createdAt":"2026-02-23T10:37:16.142Z","updatedAt":"2026-02-23T10:45:44.224Z"}
+{"id":"qf6Otf5d","description":"Add CI + LICENSE to next-tutorial","stage":"done","createdAt":"2026-02-23T10:37:16.682Z","updatedAt":"2026-02-23T10:45:07.718Z"}
+{"id":"TH9777P7","description":"Add CI + LICENSE + topics to workspace-template-generator","stage":"done","createdAt":"2026-02-23T10:40:20.184Z","updatedAt":"2026-02-23T10:48:08.129Z"}
+{"id":"iRN5_i2O","description":"Fix npm audit vulnerabilities in course-docs-platform (8 moderate)","stage":"done","createdAt":"2026-02-23T10:41:08.352Z","updatedAt":"2026-02-23T10:46:02.859Z"}
+{"id":"ar4ikvTP","description":"Fix npm audit vulnerabilities in automation-scenario-studio (1 moderate)","stage":"done","createdAt":"2026-02-23T10:41:08.554Z","updatedAt":"2026-02-23T10:46:11.788Z"}
+{"id":"xmfxWEwG","description":"Fix ajv+minimatch vulnerabilities in qti-scoring-system, apply-to-qti-results, roster-to-qti-results, qti-reporter","stage":"done","createdAt":"2026-02-23T10:41:43.743Z","updatedAt":"2026-02-23T10:49:09.246Z"}
+{"id":"6kvF6KJA","description":"Fix incorrect minimatch+ajv overrides in course-docs-site (pinned to vulnerable version)","stage":"done","createdAt":"2026-02-23T10:44:15.204Z","updatedAt":"2026-02-23T11:01:36.963Z"}

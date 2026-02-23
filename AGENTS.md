@@ -107,6 +107,12 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 
 # Workflow and command execution
 
+## MCP server setup verification
+
+- After adding or modifying an MCP server configuration, immediately verify connectivity using the platform's MCP health check and confirm the server is connected.
+- If a configured MCP server fails to connect, diagnose and fix before proceeding. Do not silently fall back to alternative tools without reporting the degradation.
+- At session start, if expected MCP tools are absent from the available tool set, verify MCP server health and report/fix connection failures before continuing.
+
 - Do not add wrappers or pipes to commands unless the user explicitly asks.
 - Prefer repository-standard scripts/commands (package.json scripts, README instructions).
 - Reproduce reported command issues by running the same command (or closest equivalent) before proposing fixes.
