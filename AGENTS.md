@@ -21,6 +21,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/agent-rules-composition.m
 - AGENTS.md is self-contained; do not rely on parent/child AGENTS for inheritance or precedence.
 - Maintain shared rules centrally and compose per project; use project-local rules only for truly local policies.
 - Place AGENTS.md at the project root; only add another AGENTS.md for nested independent projects.
+- Before doing any work in a repository that contains `agent-ruleset.json`, run `compose-agentsmd` in that repository to refresh its AGENTS.md and ensure rules are current.
 
 ## Update policy
 
@@ -610,11 +611,11 @@ Thread status is explicit (set by commands, not auto-computed):
 
 ## When to add messages
 
-- Add a `--from user` message when the user provides a key decision, preference, or direction. Status auto-sets to `waiting`.
+- Add a `--from user` message for any substantive user interaction: decisions, preferences, directions, questions, status checks, feedback, and approvals. Thread-inbox is the only cross-session persistence mechanism for conversation context; err on the side of recording rather than omitting. Status auto-sets to `waiting`.
 - Add a `--from ai` message for informational updates (progress, notes). Status does not change by default.
 - Add a `--from ai --status needs-reply` message when asking the user a question or requesting a decision.
 - Add a `--from ai --status review` message when reporting task completion or results that need user review.
-- Keep messages concise — capture the decision or context, not the full conversation.
+- Record the user's actual words as `--from user`, not a third-person summary or paraphrase. Record the AI's actual response as `--from ai`. The thread should read as a conversation transcript, not meeting minutes.
 
 ## Thread lifecycle
 
