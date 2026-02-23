@@ -269,7 +269,7 @@ Copilot charges different quota per model. Prefer lower-multiplier models when t
 - For large-context tasks (>200k tokens), prefer Gemini (1M token context).
 - For trivial tasks, prefer Copilot free-tier models (0x quota) before consuming other agents' quota.
 - When multiple agents can handle a task equally well, prefer the one with the most remaining quota.
-- Before selecting or spawning any sub-agent, run `ai-quota` to check availability — mandatory.
+- Before selecting or spawning any sub-agent, run `ai-quota` to check availability — mandatory. If `ai-quota` is unavailable or fails, report the inability and stop; do not spawn any sub-agent without quota verification.
 
 ## Quota fallback logic
 
