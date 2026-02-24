@@ -1,4 +1,3 @@
-{"id":"Yp8lmy9n","description":"Fix vulns in codex fork (13 alerts)","stage":"done","createdAt":"2026-02-23T08:53:11.448Z","updatedAt":"2026-02-23T09:10:35.330Z"}
 {"id":"Zz9Wi8F1","description":"Add pre-commit hooks to agent-runner","stage":"done","createdAt":"2026-02-23T09:17:19.394Z","updatedAt":"2026-02-23T09:21:02.605Z"}
 {"id":"-tViNgUx","description":"Add pre-commit hooks + CI workflow to sync-vscode-siw","stage":"done","createdAt":"2026-02-23T09:17:22.110Z","updatedAt":"2026-02-23T09:21:13.579Z"}
 {"id":"xnYvCYwu","description":"Add pre-commit hooks to skill-code-quality-setup","stage":"done","createdAt":"2026-02-23T09:17:25.283Z","updatedAt":"2026-02-23T09:20:14.627Z"}
@@ -18,3 +17,4 @@
 {"id":"6kvF6KJA","description":"Fix incorrect minimatch+ajv overrides in course-docs-site (pinned to vulnerable version)","stage":"done","createdAt":"2026-02-23T10:44:15.204Z","updatedAt":"2026-02-23T11:01:36.963Z"}
 {"id":"dM9gJKmU","description":"Remove AGENTS.md freshness check from skill-autonomous-orchestrator CI","stage":"done","createdAt":"2026-02-23T12:57:53.191Z","updatedAt":"2026-02-23T13:49:11.998Z"}
 {"id":"a_vo0GR1","description":"Standardize pre-commit hooks across all repos (verify + compose-agentsmd)","stage":"done","createdAt":"2026-02-23T12:57:54.146Z","updatedAt":"2026-02-23T13:48:48.990Z"}
+{"id":"qwVV4TYM","description":"Reinstall agents-mcp on codex/claude/gemini CLIs to resolve MCP client startup failures","stage":"done","createdAt":"2026-02-24T02:06:18.573Z","updatedAt":"2026-02-24T02:19:02.060Z"}
