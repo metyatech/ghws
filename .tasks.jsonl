@@ -1,7 +1,5 @@
 {"id":"Zz9Wi8F1","description":"Add pre-commit hooks to agent-runner","stage":"done","createdAt":"2026-02-23T09:17:19.394Z","updatedAt":"2026-02-23T09:21:02.605Z"}
 {"id":"-tViNgUx","description":"Add pre-commit hooks + CI workflow to sync-vscode-siw","stage":"done","createdAt":"2026-02-23T09:17:22.110Z","updatedAt":"2026-02-23T09:21:13.579Z"}
-{"id":"xnYvCYwu","description":"Add pre-commit hooks to skill-code-quality-setup","stage":"done","createdAt":"2026-02-23T09:17:25.283Z","updatedAt":"2026-02-23T09:20:14.627Z"}
-{"id":"4jXxDytT","description":"Add CI workflow to workspace-launch-by-link","stage":"done","createdAt":"2026-02-23T09:17:28.114Z","updatedAt":"2026-02-23T09:20:18.228Z"}
 {"id":"6SHObGNh","description":"Add CI workflow to workspace-launch-server","stage":"done","createdAt":"2026-02-23T09:17:30.759Z","updatedAt":"2026-02-23T09:20:21.118Z"}
 {"id":"4lEgN5au","description":"Add CI workflow + pre-commit hooks to omniscience","stage":"done","createdAt":"2026-02-23T09:29:25.867Z","updatedAt":"2026-02-23T09:39:19.659Z"}
 {"id":"k7wpXP_S","description":"Add CI workflow + pre-commit hooks to workspace-launch-ui","stage":"done","createdAt":"2026-02-23T09:29:30.186Z","updatedAt":"2026-02-23T09:39:21.923Z"}
@@ -18,3 +16,5 @@
 {"id":"dM9gJKmU","description":"Remove AGENTS.md freshness check from skill-autonomous-orchestrator CI","stage":"done","createdAt":"2026-02-23T12:57:53.191Z","updatedAt":"2026-02-23T13:49:11.998Z"}
 {"id":"a_vo0GR1","description":"Standardize pre-commit hooks across all repos (verify + compose-agentsmd)","stage":"done","createdAt":"2026-02-23T12:57:54.146Z","updatedAt":"2026-02-23T13:48:48.990Z"}
 {"id":"qwVV4TYM","description":"Reinstall agents-mcp on codex/claude/gemini CLIs to resolve MCP client startup failures","stage":"done","createdAt":"2026-02-24T02:06:18.573Z","updatedAt":"2026-02-24T02:19:02.060Z"}
+{"id":"ODY5zCWh","description":"Fix codex edit mode flag conflict in agents-mcp (--full-auto vs --dangerously-bypass)","stage":"done","createdAt":"2026-02-24T09:55:45.153Z","updatedAt":"2026-02-24T09:58:58.907Z"}
+{"id":"A2cz2qnJ","description":"Update global rules: Codex-only mappings for PowerShell commands blocked by policy -> System.IO delete alternatives","stage":"done","createdAt":"2026-02-24T10:47:26.418Z","updatedAt":"2026-02-24T10:52:26.703Z"}
