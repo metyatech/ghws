@@ -1,6 +1,3 @@
-{"id":"-tViNgUx","description":"Add pre-commit hooks + CI workflow to sync-vscode-siw","stage":"done","createdAt":"2026-02-23T09:17:22.110Z","updatedAt":"2026-02-23T09:21:13.579Z"}
-{"id":"4lEgN5au","description":"Add CI workflow + pre-commit hooks to omniscience","stage":"done","createdAt":"2026-02-23T09:29:25.867Z","updatedAt":"2026-02-23T09:39:19.659Z"}
-{"id":"k7wpXP_S","description":"Add CI workflow + pre-commit hooks to workspace-launch-ui","stage":"done","createdAt":"2026-02-23T09:29:30.186Z","updatedAt":"2026-02-23T09:39:21.923Z"}
 {"id":"cacfZNup","description":"Update @metyatech/ai-quota 1.0.1->1.1.2 in agent-runner","stage":"done","createdAt":"2026-02-23T10:37:14.335Z","updatedAt":"2026-02-23T10:43:24.531Z"}
 {"id":"NHaev6QY","description":"Add LICENSE and README.md to omniscience repo","stage":"done","createdAt":"2026-02-23T10:37:14.881Z","updatedAt":"2026-02-23T10:44:43.740Z"}
 {"id":"o714XDNf","description":"Add CI workflow to docusaurus-microsoft-auth","stage":"done","createdAt":"2026-02-23T10:37:15.604Z","updatedAt":"2026-02-23T10:45:52.891Z"}
@@ -18,3 +15,7 @@
 {"id":"A2cz2qnJ","description":"Update global rules: Codex-only mappings for PowerShell commands blocked by policy -> System.IO delete alternatives","stage":"done","createdAt":"2026-02-24T10:47:26.418Z","updatedAt":"2026-02-24T10:52:26.703Z"}
 {"id":"z9XYgGs3","description":"Verify agents-mcp Codex sub-agent: blocked Remove-Item -> System.IO delete workaround","stage":"done","createdAt":"2026-02-24T11:00:30.003Z","updatedAt":"2026-02-24T11:05:33.894Z"}
 {"id":"rIGtYMdQ","description":"Check agents-mcp repo status and commit/push pending changes if any","stage":"done","createdAt":"2026-02-24T11:24:16.349Z","updatedAt":"2026-02-24T11:26:34.948Z"}
+{"id":"0h4C55zH","description":"Fix global install failure: npm install -g metyatech/agents-mcp","stage":"done","createdAt":"2026-02-26T00:21:58.911Z","updatedAt":"2026-02-26T00:27:29.750Z"}
+{"id":"N6_MN43H","description":"Patch metyatech/agents-mcp install script to make prepare robust on clean env","stage":"done","createdAt":"2026-02-26T00:50:14.775Z","updatedAt":"2026-02-26T01:03:10.235Z"}
+{"id":"0LQhgz3s","description":"Update global rules: require robust prepare scripts for clean environments","stage":"done","createdAt":"2026-02-26T00:50:20.861Z","updatedAt":"2026-02-26T01:03:11.517Z"}
+{"id":"TB4h6vvJ","description":"Commit and push pending changes in ghws and agents-mcp","stage":"pending","createdAt":"2026-02-26T01:06:33.209Z","updatedAt":"2026-02-26T01:06:33.209Z"}
