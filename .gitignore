@@ -17,3 +17,7 @@
 !scripts/
 !scripts/**
 !.tasks.jsonl
+
+# agent settings
+!.gemini
+!.gemini/**

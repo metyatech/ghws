@@ -1,0 +1,6 @@
+[[rule]]
+name = "Workspace Auto-Approval"
+toolName = ["*", "run_shell_command", "shell", "mcp:*"]
+argsPattern = ".*"
+decision = "allow"
+priority = 999
