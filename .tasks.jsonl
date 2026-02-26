@@ -1,8 +1,3 @@
-{"id":"o714XDNf","description":"Add CI workflow to docusaurus-microsoft-auth","stage":"done","createdAt":"2026-02-23T10:37:15.604Z","updatedAt":"2026-02-23T10:45:52.891Z"}
-{"id":"DpwQVJks","description":"Add CI + LICENSE to next-google-top-page","stage":"done","createdAt":"2026-02-23T10:37:16.142Z","updatedAt":"2026-02-23T10:45:44.224Z"}
-{"id":"TH9777P7","description":"Add CI + LICENSE + topics to workspace-template-generator","stage":"done","createdAt":"2026-02-23T10:40:20.184Z","updatedAt":"2026-02-23T10:48:08.129Z"}
-{"id":"iRN5_i2O","description":"Fix npm audit vulnerabilities in course-docs-platform (8 moderate)","stage":"done","createdAt":"2026-02-23T10:41:08.352Z","updatedAt":"2026-02-23T10:46:02.859Z"}
-{"id":"ar4ikvTP","description":"Fix npm audit vulnerabilities in automation-scenario-studio (1 moderate)","stage":"done","createdAt":"2026-02-23T10:41:08.554Z","updatedAt":"2026-02-23T10:46:11.788Z"}
 {"id":"xmfxWEwG","description":"Fix ajv+minimatch vulnerabilities in qti-scoring-system, apply-to-qti-results, roster-to-qti-results, qti-reporter","stage":"done","createdAt":"2026-02-23T10:41:43.743Z","updatedAt":"2026-02-23T10:49:09.246Z"}
 {"id":"6kvF6KJA","description":"Fix incorrect minimatch+ajv overrides in course-docs-site (pinned to vulnerable version)","stage":"done","createdAt":"2026-02-23T10:44:15.204Z","updatedAt":"2026-02-23T11:01:36.963Z"}
 {"id":"dM9gJKmU","description":"Remove AGENTS.md freshness check from skill-autonomous-orchestrator CI","stage":"done","createdAt":"2026-02-23T12:57:53.191Z","updatedAt":"2026-02-23T13:49:11.998Z"}
@@ -18,3 +13,8 @@
 {"id":"TB4h6vvJ","description":"Commit and push pending changes in ghws and agents-mcp","stage":"done","createdAt":"2026-02-26T01:06:33.209Z","updatedAt":"2026-02-26T01:11:35.598Z"}
 {"id":"nFmFUAzF","description":"Install agents-mcp integration for Claude, Gemini, and Codex CLIs","stage":"done","createdAt":"2026-02-26T01:14:41.428Z","updatedAt":"2026-02-26T01:25:09.562Z"}
 {"id":"_EDb33G2","description":"Fix Context7 MCP connectivity and document root cause for Swarm npx git URL disconnect","stage":"done","createdAt":"2026-02-26T01:41:14.345Z","updatedAt":"2026-02-26T01:43:49.837Z"}
+{"id":"35kgqO1h","description":"Investigate and commit pending changes in syllabus-core","stage":"done","createdAt":"2026-02-26T02:54:46.843Z","updatedAt":"2026-02-26T08:20:45.674Z"}
+{"id":"ijQ5vAIN","description":"Investigate failed CI workflows for codex and course-docs-site","stage":"done","createdAt":"2026-02-26T02:54:47.225Z","updatedAt":"2026-02-26T04:58:57.629Z"}
+{"id":"dc5ZrY9c","description":"Bring course-exam-shared, javascript-course-docs/exam, programming-course-docs/exam into compliance (LICENSE + CI)","stage":"done","createdAt":"2026-02-26T02:54:47.592Z","updatedAt":"2026-02-26T04:58:59.623Z"}
+{"id":"O7Y7W1bJ","description":"Address mention in metyatech/docusaurus-download-assets PR #5","stage":"done","createdAt":"2026-02-26T02:54:47.985Z","updatedAt":"2026-02-26T04:59:00.712Z"}
+{"id":"p4w3UI8n","description":"Update dependencies in agents-mcp to latest versions","stage":"done","createdAt":"2026-02-26T07:13:17.534Z","updatedAt":"2026-02-26T07:46:06.034Z"}
