@@ -18,3 +18,5 @@
 {"id":"dc5ZrY9c","description":"Bring course-exam-shared, javascript-course-docs/exam, programming-course-docs/exam into compliance (LICENSE + CI)","stage":"done","createdAt":"2026-02-26T02:54:47.592Z","updatedAt":"2026-02-26T04:58:59.623Z"}
 {"id":"O7Y7W1bJ","description":"Address mention in metyatech/docusaurus-download-assets PR #5","stage":"done","createdAt":"2026-02-26T02:54:47.985Z","updatedAt":"2026-02-26T04:59:00.712Z"}
 {"id":"p4w3UI8n","description":"Update dependencies in agents-mcp to latest versions","stage":"done","createdAt":"2026-02-26T07:13:17.534Z","updatedAt":"2026-02-26T07:46:06.034Z"}
+{"id":"GMyR0Bic","description":"Add Aider agent type to agent-runner (src/runner.ts, service-concurrency.ts, config.ts, schema, cli.ts)","stage":"pending","createdAt":"2026-02-27T03:27:13.916Z","updatedAt":"2026-02-27T03:27:13.916Z"}
+{"id":"t1OBzYzF","description":"Set up DeepSeek API key and configure Aider with DeepSeek V3.2 for bulk tasks","stage":"pending","createdAt":"2026-02-27T03:27:14.936Z","updatedAt":"2026-02-27T03:27:14.936Z"}
