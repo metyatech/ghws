@@ -78,6 +78,11 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 - `Remove-Item` (aliases: `rm`, `ri`, `del`, `erase`) → Use: `if ([IO.File]::Exists($p)) { [IO.File]::SetAttributes($p,[IO.FileAttributes]::Normal); [IO.File]::Delete($p) }`
 - `Remove-Item -Recurse` (aliases: `rmdir`, `rd`) → Use: `if ([IO.Directory]::Exists($d)) { [IO.File]::SetAttributes($d,[IO.FileAttributes]::Normal); foreach ($e in [IO.Directory]::EnumerateFileSystemEntries($d,'*',[IO.SearchOption]::AllDirectories)) { [IO.File]::SetAttributes($e,[IO.FileAttributes]::Normal) }; [IO.Directory]::Delete($d,$true) }`
 
+## PowerShell command chaining
+
+- `&&` is not supported in PowerShell (it is a bash/Unix operator); use `;` to chain commands in PowerShell scripts and prompts.
+- When writing PowerShell, always use `;` for sequential command chaining; never use `&&` or `||` as control-flow operators.
+
 ## Post-change deployment
 
 After modifying code, check whether deployment steps beyond commit/push are needed before concluding.
