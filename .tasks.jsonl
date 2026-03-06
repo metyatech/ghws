@@ -1,4 +1,3 @@
-{"id":"z9XYgGs3","description":"Verify agents-mcp Codex sub-agent: blocked Remove-Item -> System.IO delete workaround","stage":"done","createdAt":"2026-02-24T11:00:30.003Z","updatedAt":"2026-02-24T11:05:33.894Z"}
 {"id":"rIGtYMdQ","description":"Check agents-mcp repo status and commit/push pending changes if any","stage":"done","createdAt":"2026-02-24T11:24:16.349Z","updatedAt":"2026-02-24T11:26:34.948Z"}
 {"id":"0h4C55zH","description":"Fix global install failure: npm install -g metyatech/agents-mcp","stage":"done","createdAt":"2026-02-26T00:21:58.911Z","updatedAt":"2026-02-26T00:27:29.750Z"}
 {"id":"N6_MN43H","description":"Patch metyatech/agents-mcp install script to make prepare robust on clean env","stage":"done","createdAt":"2026-02-26T00:50:14.775Z","updatedAt":"2026-02-26T01:03:10.235Z"}
@@ -18,3 +17,4 @@
 {"id":"1753Fhin","description":"Fix agent-browser daemon auto-start on Windows and SKILL.md compatibility","stage":"done","createdAt":"2026-03-04T01:55:26.613Z","updatedAt":"2026-03-04T02:11:35.487Z"}
 {"id":"LHNGuOzC","description":"Fix ai-quota Claude FETCH_FAILED by making quota retrieval robust and verifiable","stage":"done","createdAt":"2026-03-06T10:30:48.042Z","updatedAt":"2026-03-06T11:48:34.674Z"}
 {"id":"qAd0Buxg","description":"ai-quota: commit and push Claude OAuth refresh fix","stage":"done","createdAt":"2026-03-06T12:15:18.080Z","updatedAt":"2026-03-06T12:16:21.751Z"}
+{"id":"faiErGxI","description":"ai-quota: release and publish Claude OAuth refresh fix","stage":"done","createdAt":"2026-03-06T12:31:20.373Z","updatedAt":"2026-03-06T12:34:45.376Z"}
