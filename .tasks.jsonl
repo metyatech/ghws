@@ -1,12 +1,4 @@
-{"id":"0LQhgz3s","description":"Update global rules: require robust prepare scripts for clean environments","stage":"done","createdAt":"2026-02-26T00:50:20.861Z","updatedAt":"2026-02-26T01:03:11.517Z"}
-{"id":"TB4h6vvJ","description":"Commit and push pending changes in ghws and agents-mcp","stage":"done","createdAt":"2026-02-26T01:06:33.209Z","updatedAt":"2026-02-26T01:11:35.598Z"}
-{"id":"nFmFUAzF","description":"Install agents-mcp integration for Claude, Gemini, and Codex CLIs","stage":"done","createdAt":"2026-02-26T01:14:41.428Z","updatedAt":"2026-02-26T01:25:09.562Z"}
-{"id":"_EDb33G2","description":"Fix Context7 MCP connectivity and document root cause for Swarm npx git URL disconnect","stage":"done","createdAt":"2026-02-26T01:41:14.345Z","updatedAt":"2026-02-26T01:43:49.837Z"}
 {"id":"35kgqO1h","description":"Investigate and commit pending changes in syllabus-core","stage":"done","createdAt":"2026-02-26T02:54:46.843Z","updatedAt":"2026-02-26T08:20:45.674Z"}
-{"id":"ijQ5vAIN","description":"Investigate failed CI workflows for codex and course-docs-site","stage":"done","createdAt":"2026-02-26T02:54:47.225Z","updatedAt":"2026-02-26T04:58:57.629Z"}
-{"id":"dc5ZrY9c","description":"Bring course-exam-shared, javascript-course-docs/exam, programming-course-docs/exam into compliance (LICENSE + CI)","stage":"done","createdAt":"2026-02-26T02:54:47.592Z","updatedAt":"2026-02-26T04:58:59.623Z"}
-{"id":"O7Y7W1bJ","description":"Address mention in metyatech/docusaurus-download-assets PR #5","stage":"done","createdAt":"2026-02-26T02:54:47.985Z","updatedAt":"2026-02-26T04:59:00.712Z"}
-{"id":"p4w3UI8n","description":"Update dependencies in agents-mcp to latest versions","stage":"done","createdAt":"2026-02-26T07:13:17.534Z","updatedAt":"2026-02-26T07:46:06.034Z"}
 {"id":"mL-QnMq5","description":"Update global rules: PowerShell && -> ;","stage":"done","createdAt":"2026-03-03T13:18:18.341Z","updatedAt":"2026-03-03T13:32:16.724Z"}
 {"id":"YvLgU0UY","description":"Investigate agent-runner failure","stage":"done","createdAt":"2026-03-03T13:18:18.444Z","updatedAt":"2026-03-03T13:32:17.091Z"}
 {"id":"PaoHDFeG","description":"Fix Prettier config in agent-runner","stage":"done","createdAt":"2026-03-03T17:04:24.476Z","updatedAt":"2026-03-03T17:10:53.355Z"}
@@ -26,3 +18,4 @@
 {"id":"2Zpu4k3W","description":"Design MVP for AI-driven lunch/dinner nutrition management with automated nutrition capture","stage":"pending","createdAt":"2026-03-08T09:29:44.426Z","updatedAt":"2026-03-08T09:29:44.426Z"}
 {"id":"ZlZHe8pY","description":"Create next GitHub release for vrchat-fish-guide after React 19 and runtime target updates","stage":"done","createdAt":"2026-03-08T09:31:49.951Z","updatedAt":"2026-03-08T09:36:23.822Z"}
 {"id":"mlKi0iD-","description":"Make vrchat-fish-guide self-explanatory in-app and encode a persistent rule for self-describing user-facing tools","stage":"done","createdAt":"2026-03-08T11:42:35.163Z","updatedAt":"2026-03-08T11:56:36.710Z"}
+{"id":"YDFhw0Hd","description":"Add equipment-aware stat modeling to vrchat-fish-guide calculator with explicit supported/unsupported mechanics","stage":"done","createdAt":"2026-03-08T13:02:35.575Z","updatedAt":"2026-03-08T13:35:22.823Z"}
