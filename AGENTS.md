@@ -38,7 +38,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/agent-rules-composition.m
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 
-﻿# Autonomous operations
+# Autonomous operations
 
 - Optimize for minimal human effort; default to automation over manual steps.
 - Drive work from the desired outcome: choose the highest-quality safe path and execute end-to-end.
@@ -92,6 +92,9 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 
 - Prefer official/standard framework/tooling approaches.
 - Prefer well-maintained dependencies; build in-house only when no suitable option exists.
+- Prefer the latest feasible stable versions of frameworks, dependencies, CI actions, and workflow tooling.
+- When touching a repository, proactively update stale packages/actions to the latest feasible stable versions unless blocked by compatibility, explicit pinning, or disproportionate migration cost.
+- If a dependency, framework, or workflow action is intentionally kept behind the latest stable version, state the blocker explicitly in the change report.
 - Prefer third-party tools/services over custom implementations; prefer OSS/free-tier when feasible and call out tradeoffs.
 - PowerShell: `\` is literal (not escape); avoid shadowing auto variables (`$args`, `$PID`); avoid double-quoted `-Command` strings (prefer `-File`, single quotes, or here-strings).
 - If functionality is reusable, assess reuse first and propose shared module/repo; prefer remote dependencies (never local paths).
@@ -176,25 +179,29 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/quality-and-delivery.md
 
 Non-negotiable gates for any state-changing work or any claim of "done", "fixed", "working", or "passing".
 
-1. **BEFORE** state-changing work: list AC as binary, testable statements (aim 1-3 items). Ask blocking questions if ambiguous.
-2. **BEFORE** each `git commit`: repo's full verification suite must pass in the current working tree.
-3. **WITH** each AC: define verification evidence (automated test preferred; deterministic manual procedure otherwise).
-4. **FOR** code/runtime changes: automated tests required (requester may explicitly approve skipping). Bugfixes MUST include a regression test.
-5. **ALWAYS**: run repo-standard `verify` command; if missing, add it. Enforce via commit-time hooks and CI.
-6. **IN** final response: AC→evidence mapping with outcomes (PASS/FAIL/NOT RUN/N/A) and exact verification commands executed.
+1. **BEFORE** state-changing work: list AC as binary, testable statements (aim 1-3 items).
+2. **BEFORE** each git commit: repo's full verification suite must pass.
+3. **WITH** each AC: define verification evidence (automated test preferred).
+4. **FOR** code/runtime changes: automated tests required. Bugfixes MUST include a regression test.
+5. **ALWAYS**: run repo-standard verify command; if missing, add it.
+6. **IN** final response: AC -> evidence mapping with outcomes and verification commands.
 
 ## Quality principles
 
 - Quality (correctness, safety, robustness, verifiability) > speed/convenience.
-- If full-suite scope is unclear, run repo-default verify/CI commands rather than guessing.
-- CI must run the full suite on PRs and default-branch pushes; require passing checks for merges; add CI if missing.
-- Commit-time hooks must run full verify and block commits; confirm hooks installed before first commit in a session.
-- Never disable checks, weaken assertions/types, or add retries solely to make checks pass.
+- CI must run full suite on PRs/pushes; require passing checks for merges; add CI if missing.
+- Commit-time hooks must run full verify and block commits; confirm hooks installed.
 - Test-first: add/update tests, observe failure, implement fix, observe pass.
-- Never swallow errors; fail fast with explicit errors reflecting actual state and input context.
-- Validate config/external inputs at boundaries with actionable failure guidance.
+- Never swallow errors; fail fast with explicit context.
+- Validate config/external inputs at boundaries.
+- For user-facing apps, perform deterministic runtime verification before completion.
+- Never claim bug-free behavior. Report scope, evidence, and residual risk explicitly.
 
-Detailed evidence format, CI setup, test practices, and error handling procedures are in the `quality-workflow` skill.
+## Re-requesting AI reviews
+
+- For AI review bots, always follow the specific re-triggering procedures defined in the pr-review-workflow skill (e.g., API sequences for Copilot, comments for Codex).
+
+Detailed evidence format and procedures are in the quality-workflow skill.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/release-and-publication.md
 
