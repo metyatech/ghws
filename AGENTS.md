@@ -102,7 +102,8 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Single responsibility; composition over inheritance; clean dependency direction; no global mutable state.
 - Avoid deep nesting; guard clauses and small functions; clear intention-revealing names; no "Utils" dumping grounds.
 - Prefer config/constants over hardcoding; consolidate change points.
-- For GUI: prioritize ergonomics/discoverability, include in-app guidance for all components, prefer established design systems (Material, shadcn/ui, Fluent).
+- For GUI: prioritize ergonomics/discoverability, include in-app guidance for all components, prefer established design systems (Material, shadcn/ui, Fluent); user-facing tools and web apps must be understandable from the product UI itself without requiring a separate chat explanation to use the primary flows.
+- For user-facing tools and web apps, include in-product guidance for core tasks (what the tool does, what inputs mean, what outputs mean, and how to start with a sensible first use); do not rely on README or final chat responses as the primary usage explanation when the UI can reasonably convey it directly.
 - Keep DRY across code/specs/docs/tests/config/scripts; refactor repeated procedures into shared config with local overrides.
 - Fix root causes; remove obsolete/unused code/branches/comments; repair user-controlled tools at source, not via workarounds.
 - Ensure failure/cancellation paths tear down allocated resources; no partial state.
