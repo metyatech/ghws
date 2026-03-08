@@ -23,3 +23,5 @@
 {"id":"358i3hys","description":"Update global rules to prefer latest feasible stable tooling versions","stage":"done","createdAt":"2026-03-08T08:44:29.284Z","updatedAt":"2026-03-08T08:46:13.211Z"}
 {"id":"3fR5uAqC","description":"Migrate vrchat-fish-guide to React 19 and clean ghws workspace changes","stage":"done","createdAt":"2026-03-08T09:08:26.280Z","updatedAt":"2026-03-08T09:15:32.919Z"}
 {"id":"SmH7BcNv","description":"Evaluate and update @types/node and jsdom for vrchat-fish-guide by Node runtime target","stage":"done","createdAt":"2026-03-08T09:17:47.779Z","updatedAt":"2026-03-08T09:25:08.466Z"}
+{"id":"2Zpu4k3W","description":"Design MVP for AI-driven lunch/dinner nutrition management with automated nutrition capture","stage":"pending","createdAt":"2026-03-08T09:29:44.426Z","updatedAt":"2026-03-08T09:29:44.426Z"}
+{"id":"ZlZHe8pY","description":"Create next GitHub release for vrchat-fish-guide after React 19 and runtime target updates","stage":"done","createdAt":"2026-03-08T09:31:49.951Z","updatedAt":"2026-03-08T09:36:23.822Z"}
