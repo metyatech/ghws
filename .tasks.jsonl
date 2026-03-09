@@ -1,5 +1,4 @@
 {"id":"0EPbFdLD","description":"Refresh vrchat-fish-guide outdated dependencies and workflows to latest feasible versions","stage":"done","createdAt":"2026-03-08T08:40:01.529Z","updatedAt":"2026-03-08T09:04:43.321Z"}
-{"id":"358i3hys","description":"Update global rules to prefer latest feasible stable tooling versions","stage":"done","createdAt":"2026-03-08T08:44:29.284Z","updatedAt":"2026-03-08T08:46:13.211Z"}
 {"id":"3fR5uAqC","description":"Migrate vrchat-fish-guide to React 19 and clean ghws workspace changes","stage":"done","createdAt":"2026-03-08T09:08:26.280Z","updatedAt":"2026-03-08T09:15:32.919Z"}
 {"id":"SmH7BcNv","description":"Evaluate and update @types/node and jsdom for vrchat-fish-guide by Node runtime target","stage":"done","createdAt":"2026-03-08T09:17:47.779Z","updatedAt":"2026-03-08T09:25:08.466Z"}
 {"id":"2Zpu4k3W","description":"Design MVP for AI-driven lunch/dinner nutrition management with automated nutrition capture","stage":"pending","createdAt":"2026-03-08T09:29:44.426Z","updatedAt":"2026-03-08T09:29:44.426Z"}
@@ -19,3 +18,4 @@
 {"id":"xU9_ieCk","description":"Reduce remaining vrchat-fish-guide UX ambiguity in steps 4/5, align game-semantic colors, and harden GUI clarity rules","stage":"done","createdAt":"2026-03-09T10:29:42.486Z","updatedAt":"2026-03-09T10:46:50.077Z"}
 {"id":"QzgLwSlx","description":"Align vrchat-fish-guide stat colors with public in-game Fish UI colors and apply consistently across calculator UI","stage":"done","createdAt":"2026-03-09T10:53:51.008Z","updatedAt":"2026-03-09T11:16:44.625Z"}
 {"id":"ehclLM5e","description":"Replace tag-like gear pickers in vrchat-fish-guide with card-based comparison selection UI","stage":"done","createdAt":"2026-03-09T11:19:05.238Z","updatedAt":"2026-03-09T11:27:16.759Z"}
+{"id":"AOqlGKYk","description":"Replace Step 1 gear cards in vrchat-fish-guide with table-based pickers and collapsible sections","stage":"done","createdAt":"2026-03-09T11:38:19.107Z","updatedAt":"2026-03-09T11:51:45.188Z"}
