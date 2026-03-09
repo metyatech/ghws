@@ -104,6 +104,9 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Reduce first-use cognitive load; avoid surfacing recommendations, comparisons, or advanced output before prerequisite inputs unless that clearly reduces confusion.
 - State the primary user goal in plain language so each step answers "what do I do now?" and "what happens next?" from the UI alone.
 - Use ordinary user-task language, explain unavoidable terms inline, and keep refining labels/order until no primary step needs outside explanation.
+- For GUI, prefer a modern, visually rich interface with strong hierarchy, clear grouping, and deliberate contrast rather than a flat or purely utilitarian presentation, unless product constraints require otherwise.
+- Use motion generously but purposefully in GUI: transitions should help users perceive what opened, changed, moved, or became selected.
+- Rich visuals and animation must not replace clarity; they must reinforce task flow, state changes, and orientation for first-time users.
 - Keep DRY across code/docs/tests/config; refactor repeated procedures.
 - Fix root causes; remove obsolete code; repair tools at source.
 - Ensure failure paths tear down resources; no partial state.
