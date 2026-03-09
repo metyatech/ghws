@@ -100,10 +100,10 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Single responsibility; composition over inheritance; clean dependency direction.
 - Avoid deep nesting; guard clauses; small functions; intention-revealing names.
 - Prefer config/constants over hardcoding; consolidate change points.
-- GUI: prioritize ergonomics; include in-app guidance for core tasks.
-- For GUI, use a single natural top-to-bottom/left-to-right flow so first-time users can proceed from setup to action to result to optional detail.
+- GUI: prioritize ergonomics; include in-app guidance; use a natural top-to-bottom/left-to-right flow from setup to action to result to optional detail.
 - Reduce first-use cognitive load; avoid surfacing recommendations, comparisons, or advanced output before prerequisite inputs unless that clearly reduces confusion.
-- Use ordinary user-task language; avoid internal jargon and explain unavoidable terms inline.
+- State the primary user goal in plain language so each step answers "what do I do now?" and "what happens next?" from the UI alone.
+- Use ordinary user-task language, explain unavoidable terms inline, and keep refining labels/order until no primary step needs outside explanation.
 - Keep DRY across code/docs/tests/config; refactor repeated procedures.
 - Fix root causes; remove obsolete code; repair tools at source.
 - Ensure failure paths tear down resources; no partial state.
@@ -198,6 +198,8 @@ Non-negotiable gates for any state-changing work or any claim of "done", "fixed"
 - Never swallow errors; fail fast with explicit context.
 - Validate config/external inputs at boundaries.
 - For user-facing apps, perform deterministic runtime verification before completion.
+- For GUI/UX changes, include a first-use walkthrough against the stated primary user goal; functional E2E alone is not sufficient when the task includes clarity or usability.
+- If the user still reports a GUI flow as confusing, treat that as a failed acceptance gate: refine labels/order/flow and add a regression check for that confusion class before concluding.
 - Never claim bug-free behavior. Report scope, evidence, and residual risk explicitly.
 
 ## Re-requesting AI reviews
