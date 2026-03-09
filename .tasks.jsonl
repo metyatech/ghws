@@ -1,6 +1,4 @@
-{"id":"SmH7BcNv","description":"Evaluate and update @types/node and jsdom for vrchat-fish-guide by Node runtime target","stage":"done","createdAt":"2026-03-08T09:17:47.779Z","updatedAt":"2026-03-08T09:25:08.466Z"}
 {"id":"2Zpu4k3W","description":"Design MVP for AI-driven lunch/dinner nutrition management with automated nutrition capture","stage":"pending","createdAt":"2026-03-08T09:29:44.426Z","updatedAt":"2026-03-08T09:29:44.426Z"}
-{"id":"ZlZHe8pY","description":"Create next GitHub release for vrchat-fish-guide after React 19 and runtime target updates","stage":"done","createdAt":"2026-03-08T09:31:49.951Z","updatedAt":"2026-03-08T09:36:23.822Z"}
 {"id":"mlKi0iD-","description":"Make vrchat-fish-guide self-explanatory in-app and encode a persistent rule for self-describing user-facing tools","stage":"done","createdAt":"2026-03-08T11:42:35.163Z","updatedAt":"2026-03-08T11:56:36.710Z"}
 {"id":"YDFhw0Hd","description":"Add equipment-aware stat modeling to vrchat-fish-guide calculator with explicit supported/unsupported mechanics","stage":"done","createdAt":"2026-03-08T13:02:35.575Z","updatedAt":"2026-03-08T13:35:22.823Z"}
 {"id":"iqyQEXzH","description":"Extend vrchat-fish-guide calculator to include fish modifiers and modifier-related expected value modeling","stage":"done","createdAt":"2026-03-08T16:03:25.186Z","updatedAt":"2026-03-09T03:47:45.091Z"}
@@ -19,4 +17,5 @@
 {"id":"AOqlGKYk","description":"Replace Step 1 gear cards in vrchat-fish-guide with table-based pickers and collapsible sections","stage":"done","createdAt":"2026-03-09T11:38:19.107Z","updatedAt":"2026-03-09T11:51:45.188Z"}
 {"id":"fc09ltl6","description":"Improve vrchat-fish-guide Step 1 row selection, contrast, and toggle motion","stage":"done","createdAt":"2026-03-09T11:56:52.024Z","updatedAt":"2026-03-09T12:19:02.129Z"}
 {"id":"mR-yW8Yo","description":"Modernize vrchat-fish-guide UI with richer visuals and purposeful motion","stage":"done","createdAt":"2026-03-09T12:26:24.587Z","updatedAt":"2026-03-09T12:54:16.361Z"}
-{"id":"rEyQbcXM","description":"Fix vrchat-fish-guide stat display precision and further modernize the calculator UI","stage":"in-progress","createdAt":"2026-03-09T13:37:35.815Z","updatedAt":"2026-03-09T13:39:01.347Z"}
+{"id":"rEyQbcXM","description":"Fix vrchat-fish-guide stat display precision and further modernize the calculator UI","stage":"done","createdAt":"2026-03-09T13:37:35.815Z","updatedAt":"2026-03-09T13:54:05.677Z"}
+{"id":"CXXeUqD9","description":"Refactor vrchat-fish-guide Step 1 into current-loadout table with inline animated slot picker flow","stage":"done","createdAt":"2026-03-09T14:03:49.288Z","updatedAt":"2026-03-09T14:23:42.948Z"}
