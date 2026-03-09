@@ -1,5 +1,4 @@
 {"id":"2Zpu4k3W","description":"Design MVP for AI-driven lunch/dinner nutrition management with automated nutrition capture","stage":"pending","createdAt":"2026-03-08T09:29:44.426Z","updatedAt":"2026-03-08T09:29:44.426Z"}
-{"id":"iqyQEXzH","description":"Extend vrchat-fish-guide calculator to include fish modifiers and modifier-related expected value modeling","stage":"done","createdAt":"2026-03-08T16:03:25.186Z","updatedAt":"2026-03-09T03:47:45.091Z"}
 {"id":"6QD-oMmb","description":"Improve vrchat-fish-guide calculator UX for gear/enchant comparison workflow and incorporate confirmed modifier split wording/model updates","stage":"done","createdAt":"2026-03-08T23:09:10.596Z","updatedAt":"2026-03-09T03:47:45.207Z"}
 {"id":"cjK5xOKo","description":"Expand vrchat-fish-guide with multi-build comparison, presets/share URLs, ranking view, stronger modifier provenance, and improved weight/sale modeling","stage":"done","createdAt":"2026-03-08T23:14:41.208Z","updatedAt":"2026-03-09T03:47:45.333Z"}
 {"id":"unVSiYNA","description":"Reduce residual risks in vrchat-fish-guide: full-build optimization, stronger model transparency, and evidence upgrades where feasible","stage":"done","createdAt":"2026-03-09T03:51:13.900Z","updatedAt":"2026-03-09T04:49:35.961Z"}
@@ -19,3 +18,4 @@
 {"id":"CXXeUqD9","description":"Refactor vrchat-fish-guide Step 1 into current-loadout table with inline animated slot picker flow","stage":"done","createdAt":"2026-03-09T14:03:49.288Z","updatedAt":"2026-03-09T14:23:42.948Z"}
 {"id":"aCw2yvi8","description":"Strengthen vrchat-fish-guide with richer game-like UX and permanent UI quality gates","stage":"done","createdAt":"2026-03-09T14:44:14.012Z","updatedAt":"2026-03-09T15:56:02.036Z"}
 {"id":"HRljGM6T","description":"Redesign vrchat-fish-guide toward a more game-like UI with gemini-aided design review and stricter sub-agent continuation rules","stage":"done","createdAt":"2026-03-09T16:09:28.391Z","updatedAt":"2026-03-09T17:08:00.888Z"}
+{"id":"I70Vjoh0","description":"Fix regressed Step 1 UI in vrchat-fish-guide after game-style redesign","stage":"done","createdAt":"2026-03-09T17:12:02.706Z","updatedAt":"2026-03-09T17:46:37.999Z"}
