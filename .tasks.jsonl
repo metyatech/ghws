@@ -1,5 +1,4 @@
 {"id":"2Zpu4k3W","description":"Design MVP for AI-driven lunch/dinner nutrition management with automated nutrition capture","stage":"pending","createdAt":"2026-03-08T09:29:44.426Z","updatedAt":"2026-03-08T09:29:44.426Z"}
-{"id":"mlKi0iD-","description":"Make vrchat-fish-guide self-explanatory in-app and encode a persistent rule for self-describing user-facing tools","stage":"done","createdAt":"2026-03-08T11:42:35.163Z","updatedAt":"2026-03-08T11:56:36.710Z"}
 {"id":"YDFhw0Hd","description":"Add equipment-aware stat modeling to vrchat-fish-guide calculator with explicit supported/unsupported mechanics","stage":"done","createdAt":"2026-03-08T13:02:35.575Z","updatedAt":"2026-03-08T13:35:22.823Z"}
 {"id":"iqyQEXzH","description":"Extend vrchat-fish-guide calculator to include fish modifiers and modifier-related expected value modeling","stage":"done","createdAt":"2026-03-08T16:03:25.186Z","updatedAt":"2026-03-09T03:47:45.091Z"}
 {"id":"6QD-oMmb","description":"Improve vrchat-fish-guide calculator UX for gear/enchant comparison workflow and incorporate confirmed modifier split wording/model updates","stage":"done","createdAt":"2026-03-08T23:09:10.596Z","updatedAt":"2026-03-09T03:47:45.207Z"}
@@ -19,3 +18,4 @@
 {"id":"mR-yW8Yo","description":"Modernize vrchat-fish-guide UI with richer visuals and purposeful motion","stage":"done","createdAt":"2026-03-09T12:26:24.587Z","updatedAt":"2026-03-09T12:54:16.361Z"}
 {"id":"rEyQbcXM","description":"Fix vrchat-fish-guide stat display precision and further modernize the calculator UI","stage":"done","createdAt":"2026-03-09T13:37:35.815Z","updatedAt":"2026-03-09T13:54:05.677Z"}
 {"id":"CXXeUqD9","description":"Refactor vrchat-fish-guide Step 1 into current-loadout table with inline animated slot picker flow","stage":"done","createdAt":"2026-03-09T14:03:49.288Z","updatedAt":"2026-03-09T14:23:42.948Z"}
+{"id":"aCw2yvi8","description":"Strengthen vrchat-fish-guide with richer game-like UX and permanent UI quality gates","stage":"done","createdAt":"2026-03-09T14:44:14.012Z","updatedAt":"2026-03-09T15:56:02.036Z"}

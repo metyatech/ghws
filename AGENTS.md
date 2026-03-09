@@ -90,7 +90,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding-standards.md
 
-﻿# Engineering and implementation standards
+# Engineering and implementation standards
 
 - Prefer official framework approaches and well-maintained dependencies.
 - Use latest stable versions of packages/tools; document blockers if not.
@@ -100,13 +100,9 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Single responsibility; composition over inheritance; clean dependency direction.
 - Avoid deep nesting; guard clauses; small functions; intention-revealing names.
 - Prefer config/constants over hardcoding; consolidate change points.
-- GUI: prioritize ergonomics; include in-app guidance; use a natural top-to-bottom/left-to-right flow from setup to action to result to optional detail.
-- Reduce first-use cognitive load; avoid surfacing recommendations, comparisons, or advanced output before prerequisite inputs unless that clearly reduces confusion.
-- State the primary user goal in plain language so each step answers "what do I do now?" and "what happens next?" from the UI alone.
-- Use ordinary user-task language, explain unavoidable terms inline, and keep refining labels/order until no primary step needs outside explanation.
-- For GUI, prefer a modern, visually rich interface with strong hierarchy, clear grouping, and deliberate contrast rather than a flat or purely utilitarian presentation, unless product constraints require otherwise.
-- Use motion generously but purposefully in GUI: transitions should help users perceive what opened, changed, moved, or became selected.
-- Rich visuals and animation must not replace clarity; they must reinforce task flow, state changes, and orientation for first-time users.
+- GUI: prioritize ergonomics, in-app guidance, and a natural top-to-bottom/left-to-right flow from current context to next action to result to optional detail.
+- Optimize for first-use clarity: use ordinary task language, avoid internal jargon, and make current selection, source choices, and result targets visually obvious in the UI.
+- Prefer modern, visually rich UI and purposeful motion when they improve comprehension; avoid horizontal scrolling in primary application UI unless explicitly justified by the task.
 - Keep DRY across code/docs/tests/config; refactor repeated procedures.
 - Fix root causes; remove obsolete code; repair tools at source.
 - Ensure failure paths tear down resources; no partial state.
@@ -203,6 +199,7 @@ Non-negotiable gates for any state-changing work or any claim of "done", "fixed"
 - For user-facing apps, perform deterministic runtime verification before completion.
 - For GUI/UX changes, include a first-use walkthrough against the stated primary user goal; functional E2E alone is not sufficient when the task includes clarity or usability.
 - If the user still reports a GUI flow as confusing, treat that as a failed acceptance gate: refine labels/order/flow and add a regression check for that confusion class before concluding.
+- For GUI/UX changes, add automated checks for horizontal overflow, clipping, unintended compact-control wrapping, and primary-state visibility where feasible; major visual changes must also be reviewed from screenshots, not code alone.
 - Never claim bug-free behavior. Report scope, evidence, and residual risk explicitly.
 
 ## Re-requesting AI reviews
