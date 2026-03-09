@@ -104,6 +104,10 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - For GUI, reduce cognitive load through a single natural task flow rather than splitting users into beginner/expert modes unless the user explicitly requests a mode split.
 - Keep advanced capability in the same UI path; progressively reveal detail based on the current step instead of forcing users to choose a mode boundary up front.
 - Prefer showing the next recommended action and the most decision-relevant result first; defer secondary explanation and low-priority controls until they are needed.
+- Design GUI copy for first-time users with no prior site knowledge; assume the UI must teach itself.
+- Do not expose internal implementation terms or site-only jargon to end users unless unavoidable. Prefer ordinary task language that matches the user's goal.
+- If domain or technical terminology is genuinely necessary, explain it inline in the UI and make the meaning available on focus/hover without forcing users to leave the current task flow.
+- For user-facing flows, optimize for the lowest practical first-use cognitive load before adding density, controls, or explanatory detail.
 - Keep DRY across code/specs/docs/tests/config; refactor repeated procedures.
 - Fix root causes; remove obsolete code; repair tools at source, not workarounds.
 - Ensure failure/cancellation paths tear down resources; no partial state.
