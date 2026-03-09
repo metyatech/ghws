@@ -1,4 +1,3 @@
-{"id":"faiErGxI","description":"ai-quota: release and publish Claude OAuth refresh fix","stage":"done","createdAt":"2026-03-06T12:31:20.373Z","updatedAt":"2026-03-06T12:34:45.376Z"}
 {"id":"L7pAANoc","description":"Update global rule: auto release/publish when appropriate after push","stage":"done","createdAt":"2026-03-06T12:48:42.148Z","updatedAt":"2026-03-06T12:52:14.067Z"}
 {"id":"DsFRQy8l","description":"Create a source-backed probability-distribution website for VRChat Fish!","stage":"done","createdAt":"2026-03-07T11:04:36.416Z","updatedAt":"2026-03-08T07:32:38.141Z"}
 {"id":"_hxb7YiO","description":"Update global quality rules to require proactive runtime verification and default E2E smoke coverage","stage":"done","createdAt":"2026-03-08T06:38:32.368Z","updatedAt":"2026-03-08T06:45:26.541Z"}
@@ -19,3 +18,4 @@
 {"id":"HUmwLJm_","description":"Reduce cognitive load of vrchat-fish-guide calculator UX","stage":"done","createdAt":"2026-03-09T06:09:39.000Z","updatedAt":"2026-03-09T06:42:37.111Z"}
 {"id":"p59uss8L","description":"Reduce first-use cognitive load and remove internal jargon from vrchat-fish-guide UI","stage":"done","createdAt":"2026-03-09T06:52:48.389Z","updatedAt":"2026-03-09T07:20:39.248Z"}
 {"id":"mMbWDoEE","description":"Rework vrchat-fish-guide calculator into a top-to-bottom guided flow and encode the flow rule globally","stage":"done","createdAt":"2026-03-09T07:43:39.232Z","updatedAt":"2026-03-09T07:56:16.256Z"}
+{"id":"kgvv424n","description":"Refactor GUI guidance into a reusable skill and slim global GUI rules","stage":"done","createdAt":"2026-03-09T08:02:07.565Z","updatedAt":"2026-03-09T08:15:08.767Z"}

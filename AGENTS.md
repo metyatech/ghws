@@ -101,12 +101,9 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Avoid deep nesting; guard clauses; small functions; intention-revealing names.
 - Prefer config/constants over hardcoding; consolidate change points.
 - GUI: prioritize ergonomics; include in-app guidance for core tasks.
-- For GUI, reduce cognitive load through a single natural top-to-bottom/left-to-right flow rather than beginner/expert mode splits unless explicitly requested.
-- Keep advanced capability in the same path; progressively reveal detail and avoid showing recommendations or results before prerequisite inputs unless that clearly reduces confusion.
-- In user-facing tools, present setup first, then the choice/action step, then the result, then optional detail.
-- Design GUI copy for first-time users with no prior site knowledge; assume the UI must teach itself.
-- Do not expose internal implementation terms or site-only jargon to end users unless unavoidable; prefer ordinary task language.
-- If domain or technical terminology is necessary, explain it inline and make the meaning available on focus/hover without breaking the task flow.
+- For GUI, use a single natural top-to-bottom/left-to-right flow; present setup first, then action, then result, then optional detail.
+- Reduce first-use cognitive load and avoid showing recommendations or results before prerequisite inputs unless that clearly reduces confusion.
+- Use ordinary user-task language; avoid internal jargon and explain unavoidable terms inline.
 - Keep DRY across code/docs/tests/config; refactor repeated procedures.
 - Fix root causes; remove obsolete code; repair tools at source.
 - Ensure failure paths tear down resources; no partial state.
