@@ -90,7 +90,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding-standards.md
 
-# Engineering and implementation standards
+﻿# Engineering and implementation standards
 
 - Prefer official/standard framework approaches and well-maintained dependencies.
 - Use latest stable versions of packages/tools proactively; document blockers if not.
@@ -101,6 +101,9 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Avoid deep nesting; guard clauses; small functions; intention-revealing names.
 - Prefer config/constants over hardcoding; consolidate change points.
 - GUI: prioritization ergonomics/discoverability; include in-app guidance for core tasks.
+- For GUI, reduce cognitive load through a single natural task flow rather than splitting users into beginner/expert modes unless the user explicitly requests a mode split.
+- Keep advanced capability in the same UI path; progressively reveal detail based on the current step instead of forcing users to choose a mode boundary up front.
+- Prefer showing the next recommended action and the most decision-relevant result first; defer secondary explanation and low-priority controls until they are needed.
 - Keep DRY across code/specs/docs/tests/config; refactor repeated procedures.
 - Fix root causes; remove obsolete code; repair tools at source, not workarounds.
 - Ensure failure/cancellation paths tear down resources; no partial state.
@@ -114,8 +117,8 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Design tools/services for agent-compatibility via standard interfaces (CLI, MCP).
 - Lifecycle hooks must succeed on clean machines; invoke required CLIs via npm exec.
 - After manifest changes, regenerate and commit lock files in the same commit.
-- **Robust editing**: Ensure eplace matches exactly; prefer write_file for complex changes.
-- **Rule maintenance**: Use un_shell_command with PowerShell to edit the rule source repo.
+- **Robust editing protocol**: To ensure `replace` matches exactly, always run the formatter (e.g., `clang-format -i`) on the file IMMEDIATELY BEFORE applying a replacement. This normalizes the disk state to your known formatted string. Do NOT re-read the file after this normalization unless you suspect external changes; trust the formatted string to save tokens.
+- **Rule maintenance**: Use `run_shell_command` with PowerShell to edit the rule source repo.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/linting-formatting-and-static-analysis.md
 
