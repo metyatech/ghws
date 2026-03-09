@@ -92,37 +92,36 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 
 ﻿# Engineering and implementation standards
 
-- Prefer official/standard framework approaches and well-maintained dependencies.
-- Use latest stable versions of packages/tools proactively; document blockers if not.
-- Prefer OSS/free-tier third-party services; call out tradeoffs.
-- PowerShell: \ is literal; avoid shadowing auto-vars; prefer single quotes for -Command.
+- Prefer official framework approaches and well-maintained dependencies.
+- Use latest stable versions of packages/tools; document blockers if not.
+- Prefer OSS/free-tier services; call out tradeoffs.
+- PowerShell: \ is literal; avoid shadowing auto-vars; prefer single quotes.
 - Assess reuse first; prefer remote dependencies over local paths.
 - Single responsibility; composition over inheritance; clean dependency direction.
 - Avoid deep nesting; guard clauses; small functions; intention-revealing names.
 - Prefer config/constants over hardcoding; consolidate change points.
-- GUI: prioritization ergonomics/discoverability; include in-app guidance for core tasks.
-- For GUI, reduce cognitive load through a single natural task flow rather than splitting users into beginner/expert modes unless the user explicitly requests a mode split.
-- Keep advanced capability in the same UI path; progressively reveal detail based on the current step instead of forcing users to choose a mode boundary up front.
-- Prefer showing the next recommended action and the most decision-relevant result first; defer secondary explanation and low-priority controls until they are needed.
+- GUI: prioritize ergonomics; include in-app guidance for core tasks.
+- For GUI, reduce cognitive load through a single natural top-to-bottom/left-to-right flow rather than beginner/expert mode splits unless explicitly requested.
+- Keep advanced capability in the same path; progressively reveal detail and avoid showing recommendations or results before prerequisite inputs unless that clearly reduces confusion.
+- In user-facing tools, present setup first, then the choice/action step, then the result, then optional detail.
 - Design GUI copy for first-time users with no prior site knowledge; assume the UI must teach itself.
-- Do not expose internal implementation terms or site-only jargon to end users unless unavoidable. Prefer ordinary task language that matches the user's goal.
-- If domain or technical terminology is genuinely necessary, explain it inline in the UI and make the meaning available on focus/hover without forcing users to leave the current task flow.
-- For user-facing flows, optimize for the lowest practical first-use cognitive load before adding density, controls, or explanatory detail.
-- Keep DRY across code/specs/docs/tests/config; refactor repeated procedures.
-- Fix root causes; remove obsolete code; repair tools at source, not workarounds.
-- Ensure failure/cancellation paths tear down resources; no partial state.
+- Do not expose internal implementation terms or site-only jargon to end users unless unavoidable; prefer ordinary task language.
+- If domain or technical terminology is necessary, explain it inline and make the meaning available on focus/hover without breaking the task flow.
+- Keep DRY across code/docs/tests/config; refactor repeated procedures.
+- Fix root causes; remove obsolete code; repair tools at source.
+- Ensure failure paths tear down resources; no partial state.
 - Do not block async APIs; avoid sync I/O where responsiveness is expected.
-- Avoid external command execution; prefer native SDKs. If needed: safe, validated args.
+- Avoid external command execution; prefer native SDKs.
 - Prefer stable public APIs; isolate/document unavoidable internal API usage.
 - Externalize large embedded strings/templates/rules.
 - Do not commit build artifacts; keep naming aligned and consistent.
-- No machine-specific environments; use repo-relative paths and explicit configuration.
+- No machine-specific environments; use relative paths and explicit config.
 - Agent temp files MUST stay under OS temp unless approved.
-- Design tools/services for agent-compatibility via standard interfaces (CLI, MCP).
-- Lifecycle hooks must succeed on clean machines; invoke required CLIs via npm exec.
-- After manifest changes, regenerate and commit lock files in the same commit.
-- **Robust editing protocol**: To ensure `replace` matches exactly, always run the formatter (e.g., `clang-format -i`) on the file IMMEDIATELY BEFORE applying a replacement. This normalizes the disk state to your known formatted string. Do NOT re-read the file after this normalization unless you suspect external changes; trust the formatted string to save tokens.
-- **Rule maintenance**: Use `run_shell_command` with PowerShell to edit the rule source repo.
+- Design tools/services for agent-compatibility via standard interfaces (CLI).
+- Lifecycle hooks must succeed on clean machines; use npm exec.
+- Regenerate and commit lock files after manifest changes.
+- **Robust editing**: Run formatter (e.g. clang-format) IMMEDIATELY BEFORE replace to normalize disk state; do not re-read file unless changed externally.
+- **Rule maintenance**: Use run_shell_command with PowerShell to edit rule source.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/linting-formatting-and-static-analysis.md
 
