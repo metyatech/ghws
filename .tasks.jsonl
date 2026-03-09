@@ -19,3 +19,4 @@
 {"id":"AOqlGKYk","description":"Replace Step 1 gear cards in vrchat-fish-guide with table-based pickers and collapsible sections","stage":"done","createdAt":"2026-03-09T11:38:19.107Z","updatedAt":"2026-03-09T11:51:45.188Z"}
 {"id":"fc09ltl6","description":"Improve vrchat-fish-guide Step 1 row selection, contrast, and toggle motion","stage":"done","createdAt":"2026-03-09T11:56:52.024Z","updatedAt":"2026-03-09T12:19:02.129Z"}
 {"id":"mR-yW8Yo","description":"Modernize vrchat-fish-guide UI with richer visuals and purposeful motion","stage":"done","createdAt":"2026-03-09T12:26:24.587Z","updatedAt":"2026-03-09T12:54:16.361Z"}
+{"id":"rEyQbcXM","description":"Fix vrchat-fish-guide stat display precision and further modernize the calculator UI","stage":"in-progress","createdAt":"2026-03-09T13:37:35.815Z","updatedAt":"2026-03-09T13:39:01.347Z"}
