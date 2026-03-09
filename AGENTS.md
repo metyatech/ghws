@@ -76,8 +76,8 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 - Do not assume agent platform capabilities beyond what is available; fail explicitly when unavailable.
 - When building a CLI, follow standard conventions: --help/-h, --version/-V, stdin/stdout piping, --json output, --dry-run for mutations, deterministic exit codes, and JSON Schema config validation.
 ## Codex-only PowerShell safety
-- `Remove-Item` (aliases: `rm`, `ri`, `del`, `erase`) → Use: `if ([IO.File]::Exists($p)) { [IO.File]::SetAttributes($p,[IO.FileAttributes]::Normal); [IO.File]::Delete($p) }`
-- `Remove-Item -Recurse` (aliases: `rmdir`, `rd`) → Use: `if ([IO.Directory]::Exists($d)) { [IO.File]::SetAttributes($d,[IO.FileAttributes]::Normal); foreach ($e in [IO.Directory]::EnumerateFileSystemEntries($d,'*',[IO.SearchOption]::AllDirectories)) { [IO.File]::SetAttributes($e,[IO.FileAttributes]::Normal) }; [IO.Directory]::Delete($d,$true) }`
+- `Remove-Item` (aliases: `rm`, `ri`, `del`, `erase`) ↁEUse: `if ([IO.File]::Exists($p)) { [IO.File]::SetAttributes($p,[IO.FileAttributes]::Normal); [IO.File]::Delete($p) }`
+- `Remove-Item -Recurse` (aliases: `rmdir`, `rd`) ↁEUse: `if ([IO.Directory]::Exists($d)) { [IO.File]::SetAttributes($d,[IO.FileAttributes]::Normal); foreach ($e in [IO.Directory]::EnumerateFileSystemEntries($d,'*',[IO.SearchOption]::AllDirectories)) { [IO.File]::SetAttributes($e,[IO.FileAttributes]::Normal) }; [IO.Directory]::Delete($d,$true) }`
 - In PowerShell, use `;` for sequential command chaining; never use `&&` or `||` as control-flow operators.
 ## Post-change deployment
 - After modifying code, check whether deployment steps beyond commit/push are needed before concluding.
@@ -86,37 +86,36 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 - Do not claim completion until the running instance reflects the changes.
 - Detection and verification procedures are in the `post-deploy` skill.
 
+- **PowerShell native environment**: Always remember that this is a Windows/PowerShell environment. Do not use Unix commands like grep or ls directly; use native PowerShell cmdlets (Select-String, Get-ChildItem) or provided optimized tools like grep_search.
+
 Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding-standards.md
 
 # Engineering and implementation standards
 
-- Prefer official/standard framework/tooling approaches.
-- Prefer well-maintained dependencies; build in-house only when no suitable option exists.
-- Prefer the latest feasible stable versions of frameworks, dependencies, CI actions, and workflow tooling.
-- When touching a repository, proactively update stale packages/actions to the latest feasible stable versions unless blocked by compatibility, explicit pinning, or disproportionate migration cost.
-- If a dependency, framework, or workflow action is intentionally kept behind the latest stable version, state the blocker explicitly in the change report.
-- Prefer third-party tools/services over custom implementations; prefer OSS/free-tier when feasible and call out tradeoffs.
-- PowerShell: `\` is literal (not escape); avoid shadowing auto variables (`$args`, `$PID`); avoid double-quoted `-Command` strings (prefer `-File`, single quotes, or here-strings).
-- If functionality is reusable, assess reuse first and propose shared module/repo; prefer remote dependencies (never local paths).
-- Maintainability > testability > extensibility > readability.
-- Single responsibility; composition over inheritance; clean dependency direction; no global mutable state.
-- Avoid deep nesting; guard clauses and small functions; clear intention-revealing names; no "Utils" dumping grounds.
+- Prefer official/standard framework approaches and well-maintained dependencies.
+- Use latest stable versions of packages/tools proactively; document blockers if not.
+- Prefer OSS/free-tier third-party services; call out tradeoffs.
+- PowerShell: \ is literal; avoid shadowing auto-vars; prefer single quotes for -Command.
+- Assess reuse first; prefer remote dependencies over local paths.
+- Single responsibility; composition over inheritance; clean dependency direction.
+- Avoid deep nesting; guard clauses; small functions; intention-revealing names.
 - Prefer config/constants over hardcoding; consolidate change points.
-- For GUI: prioritize ergonomics/discoverability, include in-app guidance for all components, prefer established design systems (Material, shadcn/ui, Fluent); user-facing tools and web apps must be understandable from the product UI itself without requiring a separate chat explanation to use the primary flows.
-- For user-facing tools and web apps, include in-product guidance for core tasks (what the tool does, what inputs mean, what outputs mean, and how to start with a sensible first use); do not rely on README or final chat responses as the primary usage explanation when the UI can reasonably convey it directly.
-- Keep DRY across code/specs/docs/tests/config/scripts; refactor repeated procedures into shared config with local overrides.
-- Fix root causes; remove obsolete/unused code/branches/comments; repair user-controlled tools at source, not via workarounds.
-- Ensure failure/cancellation paths tear down allocated resources; no partial state.
-- Do not block inside async APIs; avoid synchronous I/O where responsiveness is expected.
-- Avoid external command execution; prefer native SDKs. If unavoidable: absolute paths, safe argument handling, strict validation.
+- GUI: prioritization ergonomics/discoverability; include in-app guidance for core tasks.
+- Keep DRY across code/specs/docs/tests/config; refactor repeated procedures.
+- Fix root causes; remove obsolete code; repair tools at source, not workarounds.
+- Ensure failure/cancellation paths tear down resources; no partial state.
+- Do not block async APIs; avoid sync I/O where responsiveness is expected.
+- Avoid external command execution; prefer native SDKs. If needed: safe, validated args.
 - Prefer stable public APIs; isolate/document unavoidable internal API usage.
 - Externalize large embedded strings/templates/rules.
-- Do not commit build artifacts (respect `.gitignore`); keep file/folder naming aligned and consistent.
-- Do not assume machine-specific environments; use repo-relative paths and explicit configuration.
-- Agent temp files MUST stay under OS temp unless requester approves.
-- For agent-facing tools/services, design for cross-agent compatibility via standard interfaces (CLI, HTTP, stdin/stdout, MCP).
-- Lifecycle install hooks (`prepare`/`preinstall`/`postinstall`) must succeed on a clean machine with no global tool assumptions; invoke required CLIs through project-local dependencies or package-manager executors (for npm, prefer `npm exec`).
-- After manifest changes, regenerate and commit corresponding lock files in the same commit.
+- Do not commit build artifacts; keep naming aligned and consistent.
+- No machine-specific environments; use repo-relative paths and explicit configuration.
+- Agent temp files MUST stay under OS temp unless approved.
+- Design tools/services for agent-compatibility via standard interfaces (CLI, MCP).
+- Lifecycle hooks must succeed on clean machines; invoke required CLIs via npm exec.
+- After manifest changes, regenerate and commit lock files in the same commit.
+- **Robust editing**: Ensure eplace matches exactly; prefer write_file for complex changes.
+- **Rule maintenance**: Use un_shell_command with PowerShell to edit the rule source repo.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/linting-formatting-and-static-analysis.md
 
@@ -271,31 +270,23 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/user-identity-and-account
 Source: github:metyatech/agent-rules@HEAD/rules/global/writing-and-documentation.md
 
 # Writing and documentation
-
 ## User responses
-
 - Respond in Japanese unless the user requests otherwise.
-- Always report whether you committed and whether you pushed; include repo(s), branch(es), and commit hash(es) when applicable.
-- After completing a response, emit the Windows SystemSounds.Asterisk sound via PowerShell only when operating in direct mode (top-level agent).
-- If operating in delegated mode (spawned by another agent / sub-agent), do not emit notification sounds.
-- If operating as a manager/orchestrator, do not ask delegated sub-agents to emit sounds; emit at most once when the overall task is complete (direct mode only).
-- When delivering a new tool, feature, or artifact to the user, explain what it is, how to use it (with example commands), and what its key capabilities are. Do not report only completion status; always include a usage guide in the same response.
-
+- Report commit/push status only when the turn changed files; keep it simple unless the user asks for details.
+- In direct mode, emit the Windows SystemSounds.Asterisk sound after completing a response; delegated agents never emit sounds, and managers emit at most once for the overall task.
+- When delivering a new tool, feature, or artifact, explain what it is, how to use it, and its key capabilities.
+- Prefer short, user-centric progress reports. Explain what the user can now do, not implementation details, unless internals are requested.
+- Do not include AC/evidence sections or command transcripts in normal user reports unless explicitly requested.
+- At the end of a session or task, report any lingering unresolved technical friction or environment issues.
 ## Developer-facing writing
-
-- Write developer documentation, code comments, and commit messages in English.
-- Rule modules are written in English.
-
+- Write developer documentation, code comments, commit messages, and rule modules in English.
 ## README and docs
-
-- Every repository must include README.md covering overview/purpose, supported environments/compatibility, install/setup, usage examples, dev commands (build/test/lint/format), required env/config, release/deploy steps if applicable, and links to SECURITY.md / CONTRIBUTING.md / LICENSE / CHANGELOG.md when they exist.
-- For any change, assess documentation impact and update all affected docs in the same change set so docs match behavior (README, docs/, examples, comments, templates, ADRs/specs, diagrams).
+- Every repository must include README.md covering overview/purpose, supported environments/compatibility, install/setup, usage examples, dev commands, required env/config, release/deploy steps if applicable, and links to SECURITY.md / CONTRIBUTING.md / LICENSE / CHANGELOG.md when they exist.
+- For any change, assess documentation impact and update affected docs in the same change set so docs match behavior (README, docs/, examples, comments, templates, ADRs/specs, diagrams).
 - If no documentation updates are needed, explain why in the final response.
-- For CLIs, document every parameter (required and optional) with a description and at least one example; also include at least one end-to-end example command.
-- Do not include user-specific local paths, fixed workspace directories, drive letters, or personal data in doc examples. Prefer repo-relative paths and placeholders so instructions work in arbitrary environments.
-
+- For CLIs, document every parameter with a description and at least one example, plus one end-to-end example command.
+- Do not include user-specific local paths, fixed workspace directories, drive letters, or personal data in doc examples; prefer repo-relative paths and placeholders.
 ## Markdown linking
-
 - When a Markdown document links to a local file, use a path relative to the Markdown file.
 
 Source: agent-rules-local/ghws-workspace.md
