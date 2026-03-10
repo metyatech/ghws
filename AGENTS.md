@@ -175,6 +175,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/planning-and-approval-gat
 - If state-changing work starts without required "yes", stop immediately, report the gate miss, and restart from the approval gate.
 - No bypass exceptions: "skip planning/just do it" means move quickly through the gate, not around it.
 - **Blanket approval**: broad directives (e.g., "fix everything") cover all in-scope follow-up; re-request only for out-of-scope expansion.
+- PR review feedback handling is always pre-approved; do not ask for approval before addressing PR comments.
 - For user-owned publishable packages, explicit requests such as "commit & push" or "complete this fix" include approval for the release/publish chain when release is the normal completion path, unless the user explicitly limits scope.
 
 Reviewer proxy approval procedures are in the `autonomous-orchestrator` skill.
