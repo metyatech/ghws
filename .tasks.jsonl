@@ -1,5 +1,4 @@
 {"id":"2Zpu4k3W","description":"Design MVP for AI-driven lunch/dinner nutrition management with automated nutrition capture","stage":"pending","createdAt":"2026-03-08T09:29:44.426Z","updatedAt":"2026-03-08T09:29:44.426Z"}
-{"id":"gthxa21I","description":"Make user-facing progress reports shorter and more user-centric","stage":"done","createdAt":"2026-03-09T05:25:10.227Z","updatedAt":"2026-03-09T05:27:52.508Z"}
 {"id":"HUmwLJm_","description":"Reduce cognitive load of vrchat-fish-guide calculator UX","stage":"done","createdAt":"2026-03-09T06:09:39.000Z","updatedAt":"2026-03-09T06:42:37.111Z"}
 {"id":"p59uss8L","description":"Reduce first-use cognitive load and remove internal jargon from vrchat-fish-guide UI","stage":"done","createdAt":"2026-03-09T06:52:48.389Z","updatedAt":"2026-03-09T07:20:39.248Z"}
 {"id":"mMbWDoEE","description":"Rework vrchat-fish-guide calculator into a top-to-bottom guided flow and encode the flow rule globally","stage":"done","createdAt":"2026-03-09T07:43:39.232Z","updatedAt":"2026-03-09T07:56:16.256Z"}
@@ -19,3 +18,4 @@
 {"id":"pYhIoo5l","description":"Make Step 1 loadout selection feel visually anchored in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T01:34:29.413Z","updatedAt":"2026-03-10T01:52:00.299Z"}
 {"id":"tzBRJRPz","description":"Rebuild Step 1 as an anchored overlay selector in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T02:09:36.415Z","updatedAt":"2026-03-10T02:47:45.164Z","committedEventId":"55azY1NjypsxI28V"}
 {"id":"bYdELcdB","description":"Reshape Step 1 current loadout into a single stat table in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T05:21:24.233Z","updatedAt":"2026-03-10T05:38:04.477Z","committedEventId":"k2Ik0-Yz-QxeeP36"}
+{"id":"AM1ZHtJf","description":"Make Step 1 current loadout a real table in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T06:33:31.158Z","updatedAt":"2026-03-10T06:56:30.699Z","committedEventId":"bczYZOGZbJFvnM_9"}
