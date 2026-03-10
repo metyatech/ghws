@@ -21,4 +21,7 @@
 {"id":"ZG3ACdFR","description":"Define product strategy for AI meal autopilot aimed at healthy longevity users","stage":"pending","createdAt":"2026-03-10T08:16:52.026Z","updatedAt":"2026-03-10T08:16:52.026Z"}
 {"id":"J_Y1Q5GY","description":"Refine Step 1 overlay alignment and table styling in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T09:22:23.578Z","updatedAt":"2026-03-10T09:56:16.177Z","committedEventId":"PZBHGvAAOuxgTaDu"}
 {"id":"qDeIh0c7","description":"Draft Play Store-first architecture and MVP spec for AI meal autopilot","stage":"in-progress","createdAt":"2026-03-10T09:26:48.251Z","updatedAt":"2026-03-10T09:29:07.566Z"}
-{"id":"-w9S4tSe","description":"Polish Step 1 speech-bubble connector design in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:08:07.188Z","updatedAt":"2026-03-10T10:16:55.000Z"}
+{"id":"-w9S4tSe","description":"Polish Step 1 speech-bubble connector design in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:08:07.188Z","updatedAt":"2026-03-10T10:34:03.000Z"}
+{"id":"u1riEYx7","description":"Remove top gap behind Step 1 speech-bubble chooser in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:24:56.590Z","updatedAt":"2026-03-10T10:34:03.000Z"}
+{"id":"u1riEYx7","description":"Remove top gap behind Step 1 speech-bubble chooser in vrchat-fish-guide","stage":"in-progress","createdAt":"2026-03-10T10:24:32.264Z","updatedAt":"2026-03-10T10:25:02.590Z"}
+{"id":"IVreqRfJ","description":"Implement meal-autopilot repo skeleton and MVP foundations","stage":"pending","createdAt":"2026-03-10T10:34:31.094Z","updatedAt":"2026-03-10T10:34:31.094Z"}
