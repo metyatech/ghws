@@ -119,7 +119,6 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Lifecycle hooks must succeed on clean machines; use npm exec.
 - Regenerate and commit lock files after manifest changes.
 - **Robust editing**: Run formatter (e.g. clang-format) IMMEDIATELY BEFORE replace to normalize disk state; do not re-read file unless changed externally.
-- **Rule maintenance**: Use run_shell_command with PowerShell to edit rule source.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/linting-formatting-and-static-analysis.md
 
