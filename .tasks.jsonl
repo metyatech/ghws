@@ -1,5 +1,4 @@
 {"id":"2Zpu4k3W","description":"Design MVP for AI-driven lunch/dinner nutrition management with automated nutrition capture","stage":"pending","createdAt":"2026-03-08T09:29:44.426Z","updatedAt":"2026-03-08T09:29:44.426Z"}
-{"id":"xU9_ieCk","description":"Reduce remaining vrchat-fish-guide UX ambiguity in steps 4/5, align game-semantic colors, and harden GUI clarity rules","stage":"done","createdAt":"2026-03-09T10:29:42.486Z","updatedAt":"2026-03-09T10:46:50.077Z"}
 {"id":"QzgLwSlx","description":"Align vrchat-fish-guide stat colors with public in-game Fish UI colors and apply consistently across calculator UI","stage":"done","createdAt":"2026-03-09T10:53:51.008Z","updatedAt":"2026-03-09T11:16:44.625Z"}
 {"id":"ehclLM5e","description":"Replace tag-like gear pickers in vrchat-fish-guide with card-based comparison selection UI","stage":"done","createdAt":"2026-03-09T11:19:05.238Z","updatedAt":"2026-03-09T11:27:16.759Z"}
 {"id":"AOqlGKYk","description":"Replace Step 1 gear cards in vrchat-fish-guide with table-based pickers and collapsible sections","stage":"done","createdAt":"2026-03-09T11:38:19.107Z","updatedAt":"2026-03-09T11:51:45.188Z"}
@@ -21,5 +20,6 @@
 {"id":"-w9S4tSe","description":"Polish Step 1 speech-bubble connector design in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:08:07.188Z","updatedAt":"2026-03-10T10:34:03.000Z"}
 {"id":"u1riEYx7","description":"Remove top gap behind Step 1 speech-bubble chooser in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:24:56.590Z","updatedAt":"2026-03-10T10:34:03.000Z"}
 {"id":"u1riEYx7","description":"Remove top gap behind Step 1 speech-bubble chooser in vrchat-fish-guide","stage":"in-progress","createdAt":"2026-03-10T10:24:32.264Z","updatedAt":"2026-03-10T10:25:02.590Z"}
-{"id":"IVreqRfJ","description":"Implement meal-autopilot repo skeleton and MVP foundations","stage":"in-progress","createdAt":"2026-03-10T10:34:31.094Z","updatedAt":"2026-03-10T10:35:33.974Z"}
+{"id":"IVreqRfJ","description":"Implement meal-autopilot repo skeleton and MVP foundations","stage":"done","createdAt":"2026-03-10T10:34:31.094Z","updatedAt":"2026-03-10T10:51:26.215Z"}
 {"id":"zwZIwuLh","description":"Make Step 1 picker table header fully opaque in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:37:53.685Z","updatedAt":"2026-03-10T10:46:47.680Z"}
+{"id":"ZAfqYD1g","description":"Remove remaining top gap above Step 1 picker table header in vrchat-fish-guide","stage":"in-progress","createdAt":"2026-03-10T10:50:29.930Z","updatedAt":"2026-03-10T10:51:00.646Z"}
