@@ -1,5 +1,3 @@
-{"id":"t0T50xod","description":"Improve loadout detail affordance so details are easy to peek without a persistent button","stage":"done","createdAt":"2026-03-11T02:44:07.419Z","updatedAt":"2026-03-11T03:04:57.927Z"}
-{"id":"ux7f2wtb","description":"Smoke test meal-autopilot production flow in the live web app before user validation","stage":"done","createdAt":"2026-03-11T02:46:16.898Z","updatedAt":"2026-03-11T03:23:04.977Z"}
 {"id":"uQRsEnjW","description":"Remove persistent 詳細を見る buttons from current loadout rows in vrchat-fish-guide","stage":"done","createdAt":"2026-03-11T03:23:45.767Z","updatedAt":"2026-03-11T04:06:46.811Z"}
 {"id":"dVu-6uLW","description":"Show vrchat-fish-guide site version in UI so stale frontend caches are obvious","stage":"done","createdAt":"2026-03-11T03:29:16.369Z","updatedAt":"2026-03-11T04:06:46.616Z"}
 {"id":"gjjjh0h1","description":"Fix loadout detail affordance so details open only from the info icon and the icon sits next to the item name","stage":"done","createdAt":"2026-03-11T04:35:49.140Z","updatedAt":"2026-03-11T04:47:43.138Z"}
@@ -12,7 +10,7 @@
 {"id":"UwhACkXn","description":"Add rule preferring emulator/simulator verification over real-device testing when equivalent coverage is possible","stage":"done","createdAt":"2026-03-11T05:35:14.485Z","updatedAt":"2026-03-11T05:38:46.504Z"}
 {"id":"KcalNcsQ","description":"Run meal-autopilot production smoke test in Android Emulator Chrome","stage":"done","createdAt":"2026-03-11T05:41:49.225Z","updatedAt":"2026-03-11T05:50:48.084Z"}
 {"id":"f6NGiQ7e","description":"Verify meal-autopilot camera barcode scanning path and update claimed support scope","stage":"done","createdAt":"2026-03-11T05:58:05.942Z","updatedAt":"2026-03-11T06:11:19.414Z"}
-{"id":"Db0a7cT3","description":"Achieve faithful meal-autopilot live camera barcode detection verification and pantry save flow","stage":"in-progress","createdAt":"2026-03-11T06:15:09.028Z","updatedAt":"2026-03-11T07:58:32.167Z"}
+{"id":"Db0a7cT3","description":"Achieve faithful meal-autopilot live camera barcode detection verification and pantry save flow","stage":"done","createdAt":"2026-03-11T06:15:09.028Z","updatedAt":"2026-03-11T12:40:57.863Z"}
 {"id":"im_L8ANl","description":"Implement Google OIDC login for meal-autopilot and document production setup","stage":"done","createdAt":"2026-03-11T06:30:03.308Z","updatedAt":"2026-03-11T06:48:24.700Z"}
 {"id":"S_4VhnIs","description":"Verify production Google OIDC readiness for meal-autopilot or identify the remaining deployment blocker","stage":"done","createdAt":"2026-03-11T06:50:49.423Z","updatedAt":"2026-03-11T06:57:18.040Z"}
 {"id":"JmbmzWhO","description":"Provision Google OAuth web client for meal-autopilot, configure Vercel/Railway env vars, redeploy, and verify live Google OIDC","stage":"done","createdAt":"2026-03-11T07:03:18.235Z","updatedAt":"2026-03-11T07:53:41.695Z"}
@@ -21,3 +19,4 @@
 {"id":"nvVB22v3","description":"Strengthen autonomous continuation rules to cover normal user instructions and remove the remaining quality-and-delivery size-budget warning","stage":"done","createdAt":"2026-03-11T10:01:36.254Z","updatedAt":"2026-03-11T10:05:46.150Z"}
 {"id":"ePHp-hdN","description":"Connect meal-autopilot Stripe live billing end-to-end and verify live entitlements","stage":"in-progress","createdAt":"2026-03-11T10:11:02.605Z","updatedAt":"2026-03-11T10:15:23.919Z"}
 {"id":"9H3Jgbjm","description":"Implement and verify meal-autopilot Android Play Billing/TWA delivery path","stage":"in-progress","createdAt":"2026-03-11T10:11:02.818Z","updatedAt":"2026-03-11T10:15:23.939Z"}
+{"id":"FRoBG3Al","description":"Evaluate agent-browser skill against current browser automation tools for AI agents","stage":"done","createdAt":"2026-03-11T11:29:50.824Z","updatedAt":"2026-03-11T11:33:51.316Z"}
