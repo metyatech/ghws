@@ -102,6 +102,8 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Prefer config/constants over hardcoding; consolidate change points.
 - GUI: prioritize ergonomics, in-app guidance, and a natural top-to-bottom/left-to-right flow from current context to next action to result to optional detail.
 - Optimize for first-use clarity: use ordinary task language, avoid internal jargon, and make current selection, source choices, and result targets visually obvious in the UI.
+- In GUI interactions, default to established user expectations for common controls and patterns. Do not introduce non-standard behavior unless it has a clear UX benefit that outweighs the surprise cost.
+- When a control has a widely recognized meaning (for example info icons, disclosure toggles, close buttons, tabs, row selection), make its behavior match that convention in the local UI context.
 - Prefer modern, visually rich UI and purposeful motion when they improve comprehension; avoid horizontal scrolling in primary application UI unless explicitly justified by the task.
 - In interactive selection flows, make the current item, the choice list, and the destination of the chosen result visually and spatially explicit. Prefer anchored drawers, callouts, overlays, or similar patterns over detached panels when they improve comprehension.
 - Do not treat stylistic richness or "game-like" presentation as success if users cannot immediately tell what is selected now, what they are choosing from, and where the change will apply. Comprehension wins over style.

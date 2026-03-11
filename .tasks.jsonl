@@ -1,6 +1,4 @@
-{"id":"2Zpu4k3W","description":"Design MVP for AI-driven lunch/dinner nutrition management with automated nutrition capture","stage":"done","createdAt":"2026-03-08T09:29:44.426Z","updatedAt":"2026-03-10T10:53:28.422Z"}
 {"id":"ZG3ACdFR","description":"Define product strategy for AI meal autopilot aimed at healthy longevity users","stage":"done","createdAt":"2026-03-10T08:16:52.026Z","updatedAt":"2026-03-10T10:53:28.509Z"}
-{"id":"qDeIh0c7","description":"Draft Play Store-first architecture and MVP spec for AI meal autopilot","stage":"done","createdAt":"2026-03-10T09:26:48.251Z","updatedAt":"2026-03-10T10:53:28.410Z"}
 {"id":"u1riEYx7","description":"Remove top gap behind Step 1 speech-bubble chooser in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:24:56.590Z","updatedAt":"2026-03-10T13:11:36.776Z"}
 {"id":"ZAfqYD1g","description":"Remove remaining top gap above Step 1 picker table header in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:50:29.930Z","updatedAt":"2026-03-10T13:09:03.661Z"}
 {"id":"ugR0XAW_","description":"Implement meal-autopilot MVP completion phase: auth, multi-user, barcode capture, AI suggestions, billing UX foundation","stage":"done","createdAt":"2026-03-10T10:56:58.343Z","updatedAt":"2026-03-11T01:39:32.669Z","committedEventId":"-L6tSTalp2JSsO2H"}
@@ -19,4 +17,4 @@
 {"id":"AOr_R-DG","description":"Add permanent rules requiring full environment-matrix runtime validation and stricter critical-system release gates","stage":"done","createdAt":"2026-03-11T04:54:34.990Z","updatedAt":"2026-03-11T05:08:02.591Z"}
 {"id":"ABACsJVu","description":"Define and document the claimed runtime environment matrix for meal-autopilot","stage":"done","createdAt":"2026-03-11T05:12:48.969Z","updatedAt":"2026-03-11T05:15:11.748Z"}
 {"id":"xZS3UI1r","description":"Attempt production verification of meal-autopilot Android Chrome mobile web support","stage":"done","createdAt":"2026-03-11T05:17:30.046Z","updatedAt":"2026-03-11T05:24:25.864Z"}
-{"id":"OWxWrRUr","description":"Add GUI rule to prefer conventional expected control behavior","stage":"pending","createdAt":"2026-03-11T05:24:51.579Z","updatedAt":"2026-03-11T05:24:51.579Z"}
+{"id":"OWxWrRUr","description":"Add GUI rule to prefer conventional expected control behavior","stage":"done","createdAt":"2026-03-11T05:24:51.579Z","updatedAt":"2026-03-11T05:26:08.307Z"}
