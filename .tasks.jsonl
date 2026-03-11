@@ -19,3 +19,4 @@
 {"id":"f6NGiQ7e","description":"Verify meal-autopilot camera barcode scanning path and update claimed support scope","stage":"done","createdAt":"2026-03-11T05:58:05.942Z","updatedAt":"2026-03-11T06:11:19.414Z"}
 {"id":"Db0a7cT3","description":"Achieve faithful meal-autopilot live camera barcode detection verification and pantry save flow","stage":"pending","createdAt":"2026-03-11T06:15:09.028Z","updatedAt":"2026-03-11T06:26:48.322Z"}
 {"id":"im_L8ANl","description":"Implement Google OIDC login for meal-autopilot and document production setup","stage":"done","createdAt":"2026-03-11T06:30:03.308Z","updatedAt":"2026-03-11T06:48:24.700Z"}
+{"id":"S_4VhnIs","description":"Verify production Google OIDC readiness for meal-autopilot or identify the remaining deployment blocker","stage":"done","createdAt":"2026-03-11T06:50:49.423Z","updatedAt":"2026-03-11T06:57:18.040Z"}
