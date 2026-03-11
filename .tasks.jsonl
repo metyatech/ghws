@@ -1,7 +1,4 @@
 {"id":"2Zpu4k3W","description":"Design MVP for AI-driven lunch/dinner nutrition management with automated nutrition capture","stage":"done","createdAt":"2026-03-08T09:29:44.426Z","updatedAt":"2026-03-10T10:53:28.422Z"}
-{"id":"bYdELcdB","description":"Reshape Step 1 current loadout into a single stat table in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T05:21:24.233Z","updatedAt":"2026-03-10T05:38:04.477Z","committedEventId":"k2Ik0-Yz-QxeeP36"}
-{"id":"AM1ZHtJf","description":"Make Step 1 current loadout a real table in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T06:33:31.158Z","updatedAt":"2026-03-10T06:56:30.699Z","committedEventId":"bczYZOGZbJFvnM_9"}
-{"id":"rxm4L4_3","description":"Change Step 1 picker to a right-side speech-bubble overlay in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T08:12:22.399Z","updatedAt":"2026-03-10T08:43:20.960Z","committedEventId":"meUQO1his-bXSKrV"}
 {"id":"ZG3ACdFR","description":"Define product strategy for AI meal autopilot aimed at healthy longevity users","stage":"done","createdAt":"2026-03-10T08:16:52.026Z","updatedAt":"2026-03-10T10:53:28.509Z"}
 {"id":"J_Y1Q5GY","description":"Refine Step 1 overlay alignment and table styling in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T09:22:23.578Z","updatedAt":"2026-03-10T09:56:16.177Z","committedEventId":"PZBHGvAAOuxgTaDu"}
 {"id":"qDeIh0c7","description":"Draft Play Store-first architecture and MVP spec for AI meal autopilot","stage":"done","createdAt":"2026-03-10T09:26:48.251Z","updatedAt":"2026-03-10T10:53:28.410Z"}
@@ -19,3 +16,5 @@
 {"id":"IyPVCmpc","description":"Relax planning gate so normal in-scope work does not require a separate yes prompt","stage":"done","createdAt":"2026-03-11T02:29:46.198Z","updatedAt":"2026-03-11T02:35:32.877Z"}
 {"id":"t0T50xod","description":"Improve loadout detail affordance so details are easy to peek without a persistent button","stage":"done","createdAt":"2026-03-11T02:44:07.419Z","updatedAt":"2026-03-11T03:04:57.927Z"}
 {"id":"ux7f2wtb","description":"Smoke test meal-autopilot production flow in the live web app before user validation","stage":"done","createdAt":"2026-03-11T02:46:16.898Z","updatedAt":"2026-03-11T03:23:04.977Z"}
+{"id":"uQRsEnjW","description":"Remove persistent 詳細を見る buttons from current loadout rows in vrchat-fish-guide","stage":"done","createdAt":"2026-03-11T03:23:45.767Z","updatedAt":"2026-03-11T04:06:46.811Z"}
+{"id":"dVu-6uLW","description":"Show vrchat-fish-guide site version in UI so stale frontend caches are obvious","stage":"done","createdAt":"2026-03-11T03:29:16.369Z","updatedAt":"2026-03-11T04:06:46.616Z"}
