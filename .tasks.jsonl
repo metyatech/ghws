@@ -1,10 +1,7 @@
 {"id":"2Zpu4k3W","description":"Design MVP for AI-driven lunch/dinner nutrition management with automated nutrition capture","stage":"done","createdAt":"2026-03-08T09:29:44.426Z","updatedAt":"2026-03-10T10:53:28.422Z"}
 {"id":"ZG3ACdFR","description":"Define product strategy for AI meal autopilot aimed at healthy longevity users","stage":"done","createdAt":"2026-03-10T08:16:52.026Z","updatedAt":"2026-03-10T10:53:28.509Z"}
 {"id":"qDeIh0c7","description":"Draft Play Store-first architecture and MVP spec for AI meal autopilot","stage":"done","createdAt":"2026-03-10T09:26:48.251Z","updatedAt":"2026-03-10T10:53:28.410Z"}
-{"id":"-w9S4tSe","description":"Polish Step 1 speech-bubble connector design in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:08:07.188Z","updatedAt":"2026-03-10T10:34:03.000Z"}
 {"id":"u1riEYx7","description":"Remove top gap behind Step 1 speech-bubble chooser in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:24:56.590Z","updatedAt":"2026-03-10T13:11:36.776Z"}
-{"id":"IVreqRfJ","description":"Implement meal-autopilot repo skeleton and MVP foundations","stage":"done","createdAt":"2026-03-10T10:34:31.094Z","updatedAt":"2026-03-10T10:51:26.215Z"}
-{"id":"zwZIwuLh","description":"Make Step 1 picker table header fully opaque in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:37:53.685Z","updatedAt":"2026-03-10T10:46:47.680Z"}
 {"id":"ZAfqYD1g","description":"Remove remaining top gap above Step 1 picker table header in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:50:29.930Z","updatedAt":"2026-03-10T13:09:03.661Z"}
 {"id":"ugR0XAW_","description":"Implement meal-autopilot MVP completion phase: auth, multi-user, barcode capture, AI suggestions, billing UX foundation","stage":"done","createdAt":"2026-03-10T10:56:58.343Z","updatedAt":"2026-03-11T01:39:32.669Z","committedEventId":"-L6tSTalp2JSsO2H"}
 {"id":"insTXI9z","description":"Implement live Stripe billing slice for meal-autopilot: checkout session, webhook verification, entitlement sync","stage":"done","createdAt":"2026-03-10T12:08:25.680Z","updatedAt":"2026-03-11T01:39:32.844Z","committedEventId":"Rxwp0YHHtEtKAZ12"}
@@ -18,5 +15,6 @@
 {"id":"uQRsEnjW","description":"Remove persistent 詳細を見る buttons from current loadout rows in vrchat-fish-guide","stage":"done","createdAt":"2026-03-11T03:23:45.767Z","updatedAt":"2026-03-11T04:06:46.811Z"}
 {"id":"dVu-6uLW","description":"Show vrchat-fish-guide site version in UI so stale frontend caches are obvious","stage":"done","createdAt":"2026-03-11T03:29:16.369Z","updatedAt":"2026-03-11T04:06:46.616Z"}
 {"id":"gjjjh0h1","description":"Fix loadout detail affordance so details open only from the info icon and the icon sits next to the item name","stage":"done","createdAt":"2026-03-11T04:35:49.140Z","updatedAt":"2026-03-11T04:47:43.138Z"}
-{"id":"PETtmwYe","description":"Fix loadout info icon so it never opens the equipment picker","stage":"committed","createdAt":"2026-03-11T04:51:16.735Z","updatedAt":"2026-03-11T05:08:11.322Z","committedEventId":"FG0pVlTqYd-CZePP"}
+{"id":"PETtmwYe","description":"Fix loadout info icon so it never opens the equipment picker","stage":"done","createdAt":"2026-03-11T04:51:16.735Z","updatedAt":"2026-03-11T05:15:23.093Z","committedEventId":"FG0pVlTqYd-CZePP"}
 {"id":"AOr_R-DG","description":"Add permanent rules requiring full environment-matrix runtime validation and stricter critical-system release gates","stage":"done","createdAt":"2026-03-11T04:54:34.990Z","updatedAt":"2026-03-11T05:08:02.591Z"}
+{"id":"ABACsJVu","description":"Define and document the claimed runtime environment matrix for meal-autopilot","stage":"done","createdAt":"2026-03-11T05:12:48.969Z","updatedAt":"2026-03-11T05:15:11.748Z"}
