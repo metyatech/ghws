@@ -92,7 +92,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 
 # Engineering and implementation standards
 
-- Prefer official framework approaches and well-maintained dependencies.
+- Prefer official frameworks and well-maintained dependencies.
 - Use latest stable versions of packages/tools; document blockers if not.
 - Prefer OSS/free-tier services; call out tradeoffs.
 - PowerShell: \ is literal; avoid shadowing auto-vars; prefer single quotes.
@@ -102,8 +102,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Prefer config/constants over hardcoding; consolidate change points.
 - GUI: prioritize ergonomics, in-app guidance, and a natural top-to-bottom/left-to-right flow from current context to next action to result to optional detail.
 - Optimize for first-use clarity: use ordinary task language, avoid internal jargon, and make current selection, source choices, and result targets visually obvious in the UI.
-- In GUI interactions, default to established user expectations for common controls and patterns. Do not introduce non-standard behavior unless it has a clear UX benefit that outweighs the surprise cost.
-- When a control has a widely recognized meaning (for example info icons, disclosure toggles, close buttons, tabs, row selection), make its behavior match that convention in the local UI context.
+- In GUI interactions, follow established expectations for common controls (for example info icons, disclosure toggles, close buttons, tabs, row selection); only deviate when the UX gain clearly outweighs the surprise cost.
 - Prefer modern, visually rich UI and purposeful motion when they improve comprehension; avoid horizontal scrolling in primary application UI unless explicitly justified by the task.
 - In interactive selection flows, make the current item, the choice list, and the destination of the chosen result visually and spatially explicit. Prefer anchored drawers, callouts, overlays, or similar patterns over detached panels when they improve comprehension.
 - Do not treat stylistic richness or "game-like" presentation as success if users cannot immediately tell what is selected now, what they are choosing from, and where the change will apply. Comprehension wins over style.
@@ -113,8 +112,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Do not block async APIs; avoid sync I/O where responsiveness is expected.
 - Avoid external command execution; prefer native SDKs.
 - Prefer stable public APIs; isolate/document unavoidable internal API usage.
-- Externalize large embedded strings/templates/rules.
-- Do not commit build artifacts; keep naming aligned and consistent.
+- Externalize large embedded strings/templates/rules; do not commit build artifacts and keep naming aligned.
 - No machine-specific environments; use relative paths and explicit config.
 - Agent temp files MUST stay under OS temp unless approved.
 - Design tools/services for agent-compatibility via standard interfaces (CLI).

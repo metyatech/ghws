@@ -1,4 +1,3 @@
-{"id":"ZG3ACdFR","description":"Define product strategy for AI meal autopilot aimed at healthy longevity users","stage":"done","createdAt":"2026-03-10T08:16:52.026Z","updatedAt":"2026-03-10T10:53:28.509Z"}
 {"id":"u1riEYx7","description":"Remove top gap behind Step 1 speech-bubble chooser in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:24:56.590Z","updatedAt":"2026-03-10T13:11:36.776Z"}
 {"id":"ZAfqYD1g","description":"Remove remaining top gap above Step 1 picker table header in vrchat-fish-guide","stage":"done","createdAt":"2026-03-10T10:50:29.930Z","updatedAt":"2026-03-10T13:09:03.661Z"}
 {"id":"ugR0XAW_","description":"Implement meal-autopilot MVP completion phase: auth, multi-user, barcode capture, AI suggestions, billing UX foundation","stage":"done","createdAt":"2026-03-10T10:56:58.343Z","updatedAt":"2026-03-11T01:39:32.669Z","committedEventId":"-L6tSTalp2JSsO2H"}
@@ -19,3 +18,5 @@
 {"id":"xZS3UI1r","description":"Attempt production verification of meal-autopilot Android Chrome mobile web support","stage":"done","createdAt":"2026-03-11T05:17:30.046Z","updatedAt":"2026-03-11T05:24:25.864Z"}
 {"id":"OWxWrRUr","description":"Add GUI rule to prefer conventional expected control behavior","stage":"done","createdAt":"2026-03-11T05:24:51.579Z","updatedAt":"2026-03-11T05:26:08.307Z"}
 {"id":"KiOU-D4M","description":"Run meal-autopilot production smoke test on a real Android Chrome device once USB debugging access is available","stage":"pending","createdAt":"2026-03-11T05:28:34.144Z","updatedAt":"2026-03-11T05:28:34.144Z"}
+{"id":"mP4ybzpu","description":"Trim implementation rule module back under line budget","stage":"done","createdAt":"2026-03-11T05:32:34.662Z","updatedAt":"2026-03-11T05:37:27.426Z"}
+{"id":"UwhACkXn","description":"Add rule preferring emulator/simulator verification over real-device testing when equivalent coverage is possible","stage":"pending","createdAt":"2026-03-11T05:35:14.485Z","updatedAt":"2026-03-11T05:35:14.485Z"}
