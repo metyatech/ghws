@@ -1,4 +1,3 @@
-{"id":"IyPVCmpc","description":"Relax planning gate so normal in-scope work does not require a separate yes prompt","stage":"done","createdAt":"2026-03-11T02:29:46.198Z","updatedAt":"2026-03-11T02:35:32.877Z"}
 {"id":"t0T50xod","description":"Improve loadout detail affordance so details are easy to peek without a persistent button","stage":"done","createdAt":"2026-03-11T02:44:07.419Z","updatedAt":"2026-03-11T03:04:57.927Z"}
 {"id":"ux7f2wtb","description":"Smoke test meal-autopilot production flow in the live web app before user validation","stage":"done","createdAt":"2026-03-11T02:46:16.898Z","updatedAt":"2026-03-11T03:23:04.977Z"}
 {"id":"uQRsEnjW","description":"Remove persistent 詳細を見る buttons from current loadout rows in vrchat-fish-guide","stage":"done","createdAt":"2026-03-11T03:23:45.767Z","updatedAt":"2026-03-11T04:06:46.811Z"}
@@ -19,3 +18,4 @@
 {"id":"JmbmzWhO","description":"Provision Google OAuth web client for meal-autopilot, configure Vercel/Railway env vars, redeploy, and verify live Google OIDC","stage":"done","createdAt":"2026-03-11T07:03:18.235Z","updatedAt":"2026-03-11T07:53:41.695Z"}
 {"id":"69zCrKOi","description":"Make Fish calculator Step 1 start closed and align copy with GUI rules","stage":"done","createdAt":"2026-03-11T08:49:22.282Z","updatedAt":"2026-03-11T09:28:57.570Z","committedEventId":"r8lmojqv4_9slMGR"}
 {"id":"dTRPbhsL","description":"Encode the user's preference for maximum autonomous continuation and minimal interruption into agent rules, constrained by higher-priority reporting/approval requirements","stage":"done","createdAt":"2026-03-11T09:08:52.733Z","updatedAt":"2026-03-11T09:46:04.506Z"}
+{"id":"nvVB22v3","description":"Strengthen autonomous continuation rules to cover normal user instructions and remove the remaining quality-and-delivery size-budget warning","stage":"done","createdAt":"2026-03-11T10:01:36.254Z","updatedAt":"2026-03-11T10:05:46.150Z"}

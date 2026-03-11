@@ -52,9 +52,9 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 - Session memory resets; use rule files as persistent memory. Never write to platform-specific local memory files; all persistent behavioral knowledge MUST live in agent rules.
 - Rules are source of truth; update conflicting repos to comply or encode the exception.
 - Investigate unclear items before proceeding; no assumptions without approval. Make scope/risk/cost/irreversibility decisions explicit.
-- In direct mode, when the user asks to proceed or continue, treat that as blanket approval for all normal in-scope follow-up work and keep executing until the strongest justified terminal state is reached: the requested outcome is implemented, verified, deployed/released when applicable, affected claimed runtimes are revalidated, discovered follow-on defects in that delivery chain are addressed, docs are updated, and no further in-scope action remains except irreducible external blockers or explicitly deferred work.
-- Do not stop merely because one subtask, one fix, or one milestone is complete when additional in-scope work is still actionable and materially improves completion quality; continue through the full delivery chain by default.
-- Do not pause for optional reassurance, optional next-step confirmation, or convenience check-ins while actionable in-scope work remains; interrupt only for blockers, mandatory approvals imposed by higher-priority rules, scope/risk changes that require user input, or completion.
+- In direct mode, treat any normal user instruction as approval for the full in-scope follow-up work needed to satisfy that request, unless the user explicitly narrows scope or higher-priority rules require additional approval.
+- After any user instruction, infer and execute the natural delivery chain by default: implementation, testing, debugging, runtime verification, deployment/release when applicable, documentation updates, follow-on defect cleanup, and residual-risk reduction, until the strongest justified terminal state is reached or an irreducible blocker remains.
+- Do not stop at intermediate milestones or pause for optional reassurance, optional next-step confirmation, or convenience check-ins while actionable in-scope work remains; interrupt only for blockers, mandatory approvals imposed by higher-priority rules, explicit stop/pause instructions, or material scope/risk changes that require user input.
 
 ## Autonomous task resolution
 
@@ -198,15 +198,12 @@ Non-negotiable gates for any state-changing work or any claim of "done", "fixed"
 - Test-first: add/update tests, observe failure, implement fix, observe pass.
 - Never swallow errors; fail fast with explicit context.
 - Validate config/external inputs at boundaries.
-- For user-facing apps, perform deterministic runtime verification before completion.
-- Before implementation is considered complete, define the claimed runtime environment matrix and verify every claimed environment directly; anything not directly verified must be reported as unverified or unsupported, never implied as covered.
-- Prefer the least costly faithful verification environment: use automated tests, local or production-like environments, emulators, and simulators whenever they provide equivalent coverage; require real devices or live environments only for behaviors that cannot be validated faithfully otherwise.
-- For authentication, billing, authorization, or data-persistence changes, completion requires end-to-end verification in a live or production-like deployed environment, including post-deploy smoke coverage of the critical user journey.
-- For critical systems, passing unit/integration tests, CI, build, and health checks is necessary but insufficient; do not conclude until runtime user flows succeed in each claimed environment.
-- When an intended environment cannot be exercised with available tools or access, stop short of a completion claim, state the exact gap, and treat that environment as out of scope until verified.
-- For GUI/UX changes, include a first-use walkthrough against the primary user goal; functional E2E alone is insufficient when clarity/usability is in scope.
-- If the user still reports a GUI flow as confusing, treat that as a failed acceptance gate: refine labels/order/flow and add a regression check for that confusion class before concluding.
-- For GUI work, do not conclude from functional correctness alone: require screenshot-based review plus automated checks for horizontal overflow, clipping, unintended compact-control wrapping, and clearly visible primary/current state where feasible.
+- For user-facing apps, perform deterministic runtime verification before completion, define the claimed runtime environment matrix, and prefer the least costly faithful verification environment that covers each claimed behavior.
+- Anything not directly verified must be reported as unverified or unsupported; use real devices or live environments only when lower-cost faithful environments cannot validate the behavior.
+- For authentication, billing, authorization, data persistence, and other critical systems, passing unit/integration tests, CI, build, and health checks is necessary but insufficient; completion requires live or production-like end-to-end verification of the critical user journey.
+- If an intended environment cannot be exercised with available tools or access, stop short of a completion claim, state the exact gap, and leave that environment unclaimed until verified.
+- For GUI work, include a first-use walkthrough against the primary user goal; functional E2E alone is insufficient when clarity/usability is in scope.
+- For GUI work, do not conclude from functional correctness alone: require screenshot-based review plus automated checks for overflow, clipping, wrapping, and clearly visible primary/current state where feasible; if the user still reports confusion, treat that as a failed acceptance gate and add a regression check for that confusion class before concluding.
 - Never claim bug-free behavior. Report scope, evidence, and residual risk explicitly.
 - For AI review bots, follow the re-triggering procedures in the `pr-review-workflow` skill.
 
@@ -286,7 +283,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/writing-and-documentation
 - In direct mode, emit the Windows SystemSounds.Asterisk sound after completing a response; delegated agents never emit sounds, and managers emit at most once for the overall task.
 - When delivering a new tool, feature, or artifact, explain what it is, how to use it, and its key capabilities.
 - Prefer short, user-centric progress reports. Explain what the user can now do, not implementation details, unless internals are requested.
-- In direct mode, keep intermediary progress reports to the minimum required by higher-priority rules; prefer long uninterrupted execution blocks over frequent narration, and interrupt mid-task only for blockers, mandatory approvals, major risk/scope changes, or substantial milestone completions after meaningful work.
+- In direct mode, keep intermediary progress reports to the minimum required by higher-priority rules; prefer long uninterrupted execution blocks over frequent narration, and interrupt mid-task only for blockers, mandatory approvals, material risk/scope changes, or final completion.
 - Do not include AC/evidence sections or command transcripts in normal user reports unless explicitly requested.
 - At the end of a session or task, report any lingering unresolved technical friction or environment issues.
 ## Developer-facing writing
