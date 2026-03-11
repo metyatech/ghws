@@ -18,3 +18,4 @@
 {"id":"UwhACkXn","description":"Add rule preferring emulator/simulator verification over real-device testing when equivalent coverage is possible","stage":"done","createdAt":"2026-03-11T05:35:14.485Z","updatedAt":"2026-03-11T05:38:46.504Z"}
 {"id":"KcalNcsQ","description":"Run meal-autopilot production smoke test in Android Emulator Chrome","stage":"done","createdAt":"2026-03-11T05:41:49.225Z","updatedAt":"2026-03-11T05:50:48.084Z"}
 {"id":"f6NGiQ7e","description":"Verify meal-autopilot camera barcode scanning path and update claimed support scope","stage":"done","createdAt":"2026-03-11T05:58:05.942Z","updatedAt":"2026-03-11T06:11:19.414Z"}
+{"id":"Db0a7cT3","description":"Achieve faithful meal-autopilot live camera barcode detection verification and pantry save flow","stage":"pending","createdAt":"2026-03-11T06:15:09.028Z","updatedAt":"2026-03-11T06:26:48.322Z"}
