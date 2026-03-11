@@ -52,6 +52,9 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 - Session memory resets; use rule files as persistent memory. Never write to platform-specific local memory files; all persistent behavioral knowledge MUST live in agent rules.
 - Rules are source of truth; update conflicting repos to comply or encode the exception.
 - Investigate unclear items before proceeding; no assumptions without approval. Make scope/risk/cost/irreversibility decisions explicit.
+- In direct mode, when the user asks to proceed or continue, treat that as blanket approval for all normal in-scope follow-up work and keep executing until the strongest justified terminal state is reached: the requested outcome is implemented, verified, deployed/released when applicable, affected claimed runtimes are revalidated, discovered follow-on defects in that delivery chain are addressed, docs are updated, and no further in-scope action remains except irreducible external blockers or explicitly deferred work.
+- Do not stop merely because one subtask, one fix, or one milestone is complete when additional in-scope work is still actionable and materially improves completion quality; continue through the full delivery chain by default.
+- Do not pause for optional reassurance, optional next-step confirmation, or convenience check-ins while actionable in-scope work remains; interrupt only for blockers, mandatory approvals imposed by higher-priority rules, scope/risk changes that require user input, or completion.
 
 ## Autonomous task resolution
 
@@ -283,6 +286,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/writing-and-documentation
 - In direct mode, emit the Windows SystemSounds.Asterisk sound after completing a response; delegated agents never emit sounds, and managers emit at most once for the overall task.
 - When delivering a new tool, feature, or artifact, explain what it is, how to use it, and its key capabilities.
 - Prefer short, user-centric progress reports. Explain what the user can now do, not implementation details, unless internals are requested.
+- In direct mode, keep intermediary progress reports to the minimum required by higher-priority rules; prefer long uninterrupted execution blocks over frequent narration, and interrupt mid-task only for blockers, mandatory approvals, major risk/scope changes, or substantial milestone completions after meaningful work.
 - Do not include AC/evidence sections or command transcripts in normal user reports unless explicitly requested.
 - At the end of a session or task, report any lingering unresolved technical friction or environment issues.
 ## Developer-facing writing
