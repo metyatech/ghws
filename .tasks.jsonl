@@ -18,3 +18,4 @@
 {"id":"ABACsJVu","description":"Define and document the claimed runtime environment matrix for meal-autopilot","stage":"done","createdAt":"2026-03-11T05:12:48.969Z","updatedAt":"2026-03-11T05:15:11.748Z"}
 {"id":"xZS3UI1r","description":"Attempt production verification of meal-autopilot Android Chrome mobile web support","stage":"done","createdAt":"2026-03-11T05:17:30.046Z","updatedAt":"2026-03-11T05:24:25.864Z"}
 {"id":"OWxWrRUr","description":"Add GUI rule to prefer conventional expected control behavior","stage":"done","createdAt":"2026-03-11T05:24:51.579Z","updatedAt":"2026-03-11T05:26:08.307Z"}
+{"id":"KiOU-D4M","description":"Run meal-autopilot production smoke test on a real Android Chrome device once USB debugging access is available","stage":"pending","createdAt":"2026-03-11T05:28:34.144Z","updatedAt":"2026-03-11T05:28:34.144Z"}
