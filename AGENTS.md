@@ -166,14 +166,10 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/planning-and-approval-gat
 
 # Planning and approval gate
 
-- **Always OK** (no approval needed): read-only inspection, spawning read-only agents, temp files under OS temp, dependency install, formatters/linters/typecheck/tests/builds (including auto-fix), deterministic codegen/build steps.
-- **Always ask** (approval required): file/rule/config edits, dependency/tool changes, git beyond status/diff/log, external side effects (deploy/publish/API writes/account changes).
+- **Default approval model**: in user-controlled repositories and for in-scope work, the user's request is plan approval. Do not require a separate explicit "yes" for normal implementation, testing, commits, pushes, releases, or deploys that are part of completing the requested task.
+- **Still ask first**: destructive or hard-to-reverse actions, force-push/history rewrite, deleting repos/data, third-party account side effects, billing/permissions changes, or scope expansion beyond the user's request.
 - **Uncertain impact**: request approval.
-- **Default flow**: clarify goal + plan → restate as AC → confirm with requester → wait for explicit "yes" → execute. Re-request only if plan/scope changes.
 - **Delegated mode**: delegation itself is plan approval; fail back on scope expansion.
-- Do not treat the original task request as plan approval.
-- If state-changing work starts without required "yes", stop immediately, report the gate miss, and restart from the approval gate.
-- No bypass exceptions: "skip planning/just do it" means move quickly through the gate, not around it.
 - **Blanket approval**: broad directives (e.g., "fix everything") cover all in-scope follow-up; re-request only for out-of-scope expansion.
 - PR review feedback handling is always pre-approved; do not ask for approval before addressing PR comments.
 - For user-owned publishable packages, explicit requests such as "commit & push" or "complete this fix" include approval for the release/publish chain when release is the normal completion path, unless the user explicitly limits scope.
