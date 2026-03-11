@@ -19,4 +19,4 @@
 {"id":"OWxWrRUr","description":"Add GUI rule to prefer conventional expected control behavior","stage":"done","createdAt":"2026-03-11T05:24:51.579Z","updatedAt":"2026-03-11T05:26:08.307Z"}
 {"id":"KiOU-D4M","description":"Run meal-autopilot production smoke test on a real Android Chrome device once USB debugging access is available","stage":"pending","createdAt":"2026-03-11T05:28:34.144Z","updatedAt":"2026-03-11T05:28:34.144Z"}
 {"id":"mP4ybzpu","description":"Trim implementation rule module back under line budget","stage":"done","createdAt":"2026-03-11T05:32:34.662Z","updatedAt":"2026-03-11T05:37:27.426Z"}
-{"id":"UwhACkXn","description":"Add rule preferring emulator/simulator verification over real-device testing when equivalent coverage is possible","stage":"pending","createdAt":"2026-03-11T05:35:14.485Z","updatedAt":"2026-03-11T05:35:14.485Z"}
+{"id":"UwhACkXn","description":"Add rule preferring emulator/simulator verification over real-device testing when equivalent coverage is possible","stage":"done","createdAt":"2026-03-11T05:35:14.485Z","updatedAt":"2026-03-11T05:38:46.504Z"}

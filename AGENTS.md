@@ -197,6 +197,7 @@ Non-negotiable gates for any state-changing work or any claim of "done", "fixed"
 - Validate config/external inputs at boundaries.
 - For user-facing apps, perform deterministic runtime verification before completion.
 - Before implementation is considered complete, define the claimed runtime environment matrix and verify every claimed environment directly; anything not directly verified must be reported as unverified or unsupported, never implied as covered.
+- Prefer the least costly faithful verification environment: use automated tests, local or production-like environments, emulators, and simulators whenever they provide equivalent coverage; require real devices or live environments only for behaviors that cannot be validated faithfully otherwise.
 - For authentication, billing, authorization, or data-persistence changes, completion requires end-to-end verification in a live or production-like deployed environment, including post-deploy smoke coverage of the critical user journey.
 - For critical systems, passing unit/integration tests, CI, build, and health checks is necessary but insufficient; do not conclude until runtime user flows succeed in each claimed environment.
 - When an intended environment cannot be exercised with available tools or access, stop short of a completion claim, state the exact gap, and treat that environment as out of scope until verified.
