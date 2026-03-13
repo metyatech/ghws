@@ -55,6 +55,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 - Investigate unclear items before proceeding; no assumptions without approval. Make scope/risk/cost/irreversibility decisions explicit.
 - In direct mode, treat any normal user instruction as approval for the full in-scope follow-up work needed to satisfy that request, unless the user explicitly narrows scope or higher-priority rules require additional approval.
 - After any user instruction, infer and execute the natural delivery chain by default: implementation, testing, debugging, runtime verification, deployment/release when applicable, documentation updates, follow-on defect cleanup, and residual-risk reduction, until the strongest justified terminal state is reached or an irreducible blocker remains.
+- When asked to handle PR review feedback, keep running the full PR review loop across successive review rounds without waiting for another user prompt: address feedback, verify, commit/push, re-request the relevant reviewer(s), monitor for new feedback, and repeat until no actionable review feedback remains or a blocker requires user input.
 - Do not stop at intermediate milestones or pause for optional reassurance, optional next-step confirmation, or convenience check-ins while actionable in-scope work remains; interrupt only for blockers, mandatory approvals imposed by higher-priority rules, explicit stop/pause instructions, or material scope/risk changes that require user input.
 - Do not lower the requested outcome on your own. If the intended end state is not yet fully met, continue working or explicitly return the remaining gap to the user; never treat partial satisfaction as completion by your own judgment.
 - Actively consider whether user input carries intent beyond its literal wording, and when it does, state that inferred intent and propose the matching next step.
@@ -78,6 +79,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 - Do not add wrappers or pipes to commands unless the user explicitly asks.
 - Prefer repository-standard scripts/commands (package.json scripts, README instructions).
 - Reproduce reported command issues by running the same command (or closest equivalent) before proposing fixes.
+- When diagnosing third-party tool failures, check the latest stable release first; if the latest still reproduces the failure, treat upgrade as insufficient, record the verified limitation, and use a deterministic workaround when available.
 - Avoid interactive git prompts by using --no-edit or setting GIT_EDITOR=true.
 - If elevated privileges are required, use sudo directly; do not launch a separate elevated shell (e.g., Start-Process -Verb RunAs). Fall back to run as Administrator only when sudo is unavailable.
 - Keep changes scoped to affected repositories; when shared modules change, update consumers and verify at least one.
@@ -170,6 +172,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/multi-agent-delegation.md
 - Do not stop delegated agents merely because they are slow, retrying, or producing weak intermediate output while still making progress.
 - Stop a delegated agent only for a concrete reason: repo/file conflict risk, clear divergence from the approved direction, user-owned data risk, or a better-scoped replacement.
 - If a delegated agent creates clearly agent-owned temp, plan, or memory files outside the target repo, assess and clean them up automatically; escalate only when ownership or value is genuinely ambiguous.
+- When delegated agents are running and there is no other meaningful in-scope work to do locally, prefer waiting for their completion or next material state change rather than repeatedly returning early and polling without progress.
 
 Execution discipline, agents-mcp dispatch configuration, and cost optimization details are in the `manager` skill.
 

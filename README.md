@@ -22,6 +22,15 @@ This repository is a lightweight workspace index for managing the user's GitHub 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build.ps1` regenerates `AGENTS.md`.
 - `compose-agentsmd` regenerates `AGENTS.md` from the configured ruleset.
 
+## AI agent session launcher (Windows + WSL tmux)
+
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-agent-session-launcher-shortcuts.ps1` creates Desktop and Start Menu shortcuts.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-session-launcher.ps1` opens a GUI with buttons for Codex, Claude, Gemini, and Shell tmux sessions.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-session-launcher.ps1 -Mode codex` launches one profile directly without opening the GUI.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/wsl-tmux.ps1 -SessionName shell-main` attaches or creates a named tmux session in WSL.
+- `wsl.exe -d Ubuntu -- bash -lc 'cd /path/to/ghws && ./scripts/install-wsl-mobile-menu-hook.sh'` installs the mobile Termius auto-menu hook in `~/.bashrc`.
+- Smartphone access uses `Termius` to SSH into the Windows host; successful SSH logins auto-open the mobile session menu in WSL.
+
 ## Environment variables
 
 - None.
