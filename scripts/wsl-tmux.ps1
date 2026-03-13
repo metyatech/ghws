@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('ensure', 'attach', 'list')]
+    [ValidateSet('ensure', 'attach', 'list', 'kill')]
     [string]$Action = 'ensure',
 
     [ValidatePattern('^[A-Za-z0-9._-]+$')]
@@ -189,6 +189,21 @@ if ($Action -eq 'list') {
 }
 
 $resolvedSessionName = Resolve-SessionName
+
+if ($Action -eq 'kill') {
+    $killExitCode = Invoke-WslCommand -Arguments @(
+        '-d', $Distro, '--',
+        'bash', '-lc',
+        "tmux kill-session -t '$resolvedSessionName' >/dev/null 2>&1"
+    ) -AllowNonZeroExit
+
+    if ($killExitCode -eq 0) {
+        Write-Output "Killed tmux session '$resolvedSessionName' in distro '$Distro'."
+    } else {
+        Write-Output "tmux session '$resolvedSessionName' was already absent in distro '$Distro'."
+    }
+    exit 0
+}
 
 $sessionCheckOutput = & wsl.exe -d $Distro -- bash -lc "if tmux has-session -t '$resolvedSessionName' >/dev/null 2>&1; then echo exists; else echo missing; fi"
 if ($LASTEXITCODE -ne 0) {

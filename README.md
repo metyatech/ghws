@@ -25,11 +25,18 @@ This repository is a lightweight workspace index for managing the user's GitHub 
 ## AI agent session launcher (Windows + WSL tmux)
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-agent-session-launcher-shortcuts.ps1` creates Desktop and Start Menu shortcuts.
-- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-session-launcher.ps1` opens a GUI with buttons for Codex, Claude, Gemini, and Shell tmux sessions.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-session-launcher.ps1` opens `AI Agent Hub`, which can start new sessions, reopen running sessions, rename titles, archive/unarchive, close, and delete sessions.
 - `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-session-launcher.ps1 -Mode codex` launches one profile directly without opening the GUI.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-session-launcher.ps1 -Mode list -Json -IncludeArchived` prints the full session inventory, including archived or closed entries.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-session-launcher.ps1 -Mode rename -SessionName shell-example -Title "Current debugging task"` updates the human-facing title for an existing session.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-session-launcher.ps1 -Mode archive -SessionName shell-example` hides a session from the default resume list without killing it.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-session-launcher.ps1 -Mode close -SessionName shell-example` kills the running tmux session and keeps it as a closed archived entry.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-session-launcher.ps1 -Mode delete -SessionName shell-example` removes the session entry entirely and kills the tmux session if it is still running.
 - `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/wsl-tmux.ps1 -SessionName shell-main` attaches or creates a named tmux session in WSL.
 - `wsl.exe -d Ubuntu -- bash -lc 'cd /path/to/ghws && ./scripts/install-wsl-mobile-menu-hook.sh'` installs the mobile Termius auto-menu hook in `~/.bashrc`.
 - Smartphone access uses `Termius` to SSH into the Windows host; successful SSH logins auto-open the mobile session menu in WSL.
+- `wsl.exe -d Ubuntu -- bash -lc 'cd /path/to/ghws && ./scripts/wsl-agent-mobile-menu.sh list-all'` shows archived and closed entries from the mobile-side CLI.
+- `wsl.exe -d Ubuntu -- bash -lc 'cd /path/to/ghws && ./scripts/wsl-agent-mobile-menu.sh manage'` opens the mobile management flow for rename/archive/close/delete without using the Windows GUI.
 
 ## Environment variables
 

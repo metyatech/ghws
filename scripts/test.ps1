@@ -44,9 +44,21 @@ if (($startMenuOutput | Out-String).Trim() -notmatch 'PASS') {
     exit 1
 }
 
+$manageMenuOutput = wsl.exe -d Ubuntu -- bash -lc '/mnt/d/ghws/scripts/test-wsl-mobile-menu-manage.sh'
+if (($manageMenuOutput | Out-String).Trim() -notmatch 'PASS') {
+    Write-Error 'Expected mobile session management commands to rename, archive, close, and delete sessions.'
+    exit 1
+}
+
 $mobileSshOutput = python (Join-Path $PSScriptRoot 'test-mobile-ssh.py')
 if (($mobileSshOutput | Out-String).Trim() -notmatch 'PASS') {
     Write-Error 'Expected the SSH -> WSL mobile menu path to pass resume verification.'
+    exit 1
+}
+
+$sessionManagementOutput = & (Join-Path $PSScriptRoot 'test-session-management.ps1')
+if (($sessionManagementOutput | Out-String).Trim() -notmatch 'PASS') {
+    Write-Error 'Expected the launcher session management commands to rename, archive, close, and delete sessions.'
     exit 1
 }
 

@@ -18,6 +18,7 @@ declare -A HEALTHCHECK_COMMANDS=(
 WINDOWS_USERPROFILE="$(cmd.exe /c "echo %USERPROFILE%" < /dev/null 2>/dev/null | tr -d '\r')"
 SESSION_CATALOG_PATH="$(wslpath "$WINDOWS_USERPROFILE")/agent-handoff/session-catalog.json"
 DEFAULT_WORKSPACE_ROOT='/mnt/d/ghws'
+SESSION_FIELD_DELIM=$'\x1f'
 
 trim_cr() {
   tr -d '\r'
@@ -46,8 +47,15 @@ Usage:
   wsl-agent-mobile-menu.sh
   wsl-agent-mobile-menu.sh menu
   wsl-agent-mobile-menu.sh list
+  wsl-agent-mobile-menu.sh list-all
   wsl-agent-mobile-menu.sh start <codex|claude|gemini|shell> [title...]
   wsl-agent-mobile-menu.sh resume <session-name>
+  wsl-agent-mobile-menu.sh rename <session-name> <title...>
+  wsl-agent-mobile-menu.sh archive <session-name>
+  wsl-agent-mobile-menu.sh unarchive <session-name>
+  wsl-agent-mobile-menu.sh close <session-name>
+  wsl-agent-mobile-menu.sh delete <session-name>
+  wsl-agent-mobile-menu.sh manage [session-name]
   wsl-agent-mobile-menu.sh shell
   wsl-agent-mobile-menu.sh --help
 EOF
@@ -113,6 +121,10 @@ if (existingIndex >= 0) {
   if (workingDirectoryWindows) {
     entry.working_directory_windows = workingDirectoryWindows;
   }
+  delete entry.closed_utc;
+  if (typeof entry.archived !== 'boolean') {
+    entry.archived = false;
+  }
   entries[existingIndex] = entry;
 } else {
   entries.push({
@@ -120,12 +132,226 @@ if (existingIndex >= 0) {
     session_type: sessionType,
     title: sessionTitle,
     working_directory_windows: workingDirectoryWindows,
+    archived: false,
     created_utc: nowUtc,
     updated_utc: nowUtc,
   });
 }
 
 fs.writeFileSync(catalogPath, `${JSON.stringify(entries, null, 2)}\n`);
+NODE
+}
+
+set_session_catalog_title() {
+  local session_name="$1"
+  local session_type="$2"
+  local session_title="${3:-}"
+  local working_directory_windows="${4:-}"
+
+  upsert_session_catalog_entry "$session_name" "$session_type" "$session_title" "$working_directory_windows"
+}
+
+set_session_catalog_archived_state() {
+  local session_name="$1"
+  local session_type="$2"
+  local archived="$3"
+  local session_title="${4:-}"
+  local working_directory_windows="${5:-}"
+  ensure_session_catalog_file
+
+  SESSION_CATALOG_PATH="$SESSION_CATALOG_PATH" \
+  SESSION_NAME="$session_name" \
+  SESSION_TYPE="$session_type" \
+  SESSION_ARCHIVED="$archived" \
+  SESSION_TITLE="$session_title" \
+  WORKING_DIRECTORY_WINDOWS="$working_directory_windows" \
+  node <<'NODE'
+const fs = require('fs');
+
+const catalogPath = process.env.SESSION_CATALOG_PATH;
+const sessionName = process.env.SESSION_NAME;
+const sessionType = process.env.SESSION_TYPE;
+const archived = String(process.env.SESSION_ARCHIVED || '').toLowerCase() === 'true';
+const sessionTitle = (process.env.SESSION_TITLE || '').trim();
+const workingDirectoryWindows = (process.env.WORKING_DIRECTORY_WINDOWS || '').trim();
+const nowUtc = new Date().toISOString();
+
+let entries = [];
+try {
+  const raw = fs.readFileSync(catalogPath, 'utf8').trim();
+  if (raw) {
+    const parsed = JSON.parse(raw);
+    entries = Array.isArray(parsed) ? parsed : [parsed];
+  }
+} catch (error) {
+  entries = [];
+}
+
+const existingIndex = entries.findIndex((entry) => String(entry.session_name) === sessionName);
+if (existingIndex >= 0) {
+  const entry = { ...entries[existingIndex], session_type: sessionType, archived, updated_utc: nowUtc };
+  if (sessionTitle) {
+    entry.title = sessionTitle;
+  }
+  if (workingDirectoryWindows) {
+    entry.working_directory_windows = workingDirectoryWindows;
+  }
+  entries[existingIndex] = entry;
+} else {
+  entries.push({
+    session_name: sessionName,
+    session_type: sessionType,
+    title: sessionTitle,
+    working_directory_windows: workingDirectoryWindows,
+    archived,
+    created_utc: nowUtc,
+    updated_utc: nowUtc,
+  });
+}
+
+fs.writeFileSync(catalogPath, `${JSON.stringify(entries, null, 2)}\n`);
+NODE
+}
+
+set_session_catalog_closed_state() {
+  local session_name="$1"
+  local session_type="$2"
+  local closed="$3"
+  local session_title="${4:-}"
+  local working_directory_windows="${5:-}"
+  ensure_session_catalog_file
+
+  SESSION_CATALOG_PATH="$SESSION_CATALOG_PATH" \
+  SESSION_NAME="$session_name" \
+  SESSION_TYPE="$session_type" \
+  SESSION_CLOSED="$closed" \
+  SESSION_TITLE="$session_title" \
+  WORKING_DIRECTORY_WINDOWS="$working_directory_windows" \
+  node <<'NODE'
+const fs = require('fs');
+
+const catalogPath = process.env.SESSION_CATALOG_PATH;
+const sessionName = process.env.SESSION_NAME;
+const sessionType = process.env.SESSION_TYPE;
+const closed = String(process.env.SESSION_CLOSED || '').toLowerCase() === 'true';
+const sessionTitle = (process.env.SESSION_TITLE || '').trim();
+const workingDirectoryWindows = (process.env.WORKING_DIRECTORY_WINDOWS || '').trim();
+const nowUtc = new Date().toISOString();
+
+let entries = [];
+try {
+  const raw = fs.readFileSync(catalogPath, 'utf8').trim();
+  if (raw) {
+    const parsed = JSON.parse(raw);
+    entries = Array.isArray(parsed) ? parsed : [parsed];
+  }
+} catch (error) {
+  entries = [];
+}
+
+const existingIndex = entries.findIndex((entry) => String(entry.session_name) === sessionName);
+let entry;
+if (existingIndex >= 0) {
+  entry = { ...entries[existingIndex] };
+} else {
+  entry = {
+    session_name: sessionName,
+    session_type: sessionType,
+    title: '',
+    working_directory_windows: '',
+    archived: false,
+    created_utc: nowUtc,
+    updated_utc: nowUtc,
+  };
+  entries.push(entry);
+}
+
+entry.session_type = sessionType;
+if (sessionTitle) {
+  entry.title = sessionTitle;
+}
+if (workingDirectoryWindows) {
+  entry.working_directory_windows = workingDirectoryWindows;
+}
+if (closed) {
+  entry.closed_utc = nowUtc;
+  entry.archived = true;
+} else {
+  delete entry.closed_utc;
+}
+entry.updated_utc = nowUtc;
+
+if (existingIndex >= 0) {
+  entries[existingIndex] = entry;
+} else {
+  entries[entries.length - 1] = entry;
+}
+
+fs.writeFileSync(catalogPath, `${JSON.stringify(entries, null, 2)}\n`);
+NODE
+}
+
+remove_session_catalog_entry() {
+  local session_name="$1"
+  ensure_session_catalog_file
+
+  SESSION_CATALOG_PATH="$SESSION_CATALOG_PATH" \
+  SESSION_NAME="$session_name" \
+  node <<'NODE'
+const fs = require('fs');
+
+const catalogPath = process.env.SESSION_CATALOG_PATH;
+const sessionName = process.env.SESSION_NAME;
+
+let entries = [];
+try {
+  const raw = fs.readFileSync(catalogPath, 'utf8').trim();
+  if (raw) {
+    const parsed = JSON.parse(raw);
+    entries = Array.isArray(parsed) ? parsed : [parsed];
+  }
+} catch (error) {
+  entries = [];
+}
+
+const filtered = entries.filter((entry) => String(entry.session_name) !== sessionName);
+fs.writeFileSync(catalogPath, `${JSON.stringify(filtered, null, 2)}\n`);
+NODE
+}
+
+list_session_catalog_entries() {
+  ensure_session_catalog_file
+
+  SESSION_CATALOG_PATH="$SESSION_CATALOG_PATH" \
+  node <<'NODE'
+const fs = require('fs');
+
+const catalogPath = process.env.SESSION_CATALOG_PATH;
+
+try {
+  const raw = fs.readFileSync(catalogPath, 'utf8').trim();
+  if (!raw) {
+    process.exit(0);
+  }
+
+  const parsed = JSON.parse(raw);
+  const entries = Array.isArray(parsed) ? parsed : [parsed];
+  for (const entry of entries) {
+    const fields = [
+      String(entry.session_name || ''),
+      String(entry.session_type || ''),
+      String(entry.title || '').replace(/\t/g, ' ').replace(/\r?\n/g, ' '),
+      String(entry.working_directory_windows || '').replace(/\t/g, ' ').replace(/\r?\n/g, ' '),
+      entry.archived ? 'true' : 'false',
+      String(entry.closed_utc || ''),
+      String(entry.created_utc || ''),
+      String(entry.updated_utc || ''),
+    ];
+    process.stdout.write(`${fields.join('\u001f')}\n`);
+  }
+} catch (error) {
+  process.exit(0);
+}
 NODE
 }
 
@@ -187,6 +413,70 @@ try {
   process.exit(0);
 }
 NODE
+}
+
+get_archived_state_from_catalog() {
+  local session_name="$1"
+  ensure_session_catalog_file
+
+  SESSION_CATALOG_PATH="$SESSION_CATALOG_PATH" \
+  SESSION_NAME="$session_name" \
+  node <<'NODE'
+const fs = require('fs');
+
+const catalogPath = process.env.SESSION_CATALOG_PATH;
+const sessionName = process.env.SESSION_NAME;
+
+try {
+  const raw = fs.readFileSync(catalogPath, 'utf8').trim();
+  if (!raw) {
+    process.stdout.write('false');
+    process.exit(0);
+  }
+
+  const parsed = JSON.parse(raw);
+  const entries = Array.isArray(parsed) ? parsed : [parsed];
+  const entry = entries.find((item) => String(item.session_name) === sessionName);
+  process.stdout.write(entry && entry.archived ? 'true' : 'false');
+} catch (error) {
+  process.stdout.write('false');
+}
+NODE
+}
+
+get_closed_utc_from_catalog() {
+  local session_name="$1"
+  ensure_session_catalog_file
+
+  SESSION_CATALOG_PATH="$SESSION_CATALOG_PATH" \
+  SESSION_NAME="$session_name" \
+  node <<'NODE'
+const fs = require('fs');
+
+const catalogPath = process.env.SESSION_CATALOG_PATH;
+const sessionName = process.env.SESSION_NAME;
+
+try {
+  const raw = fs.readFileSync(catalogPath, 'utf8').trim();
+  if (!raw) {
+    process.exit(0);
+  }
+
+  const parsed = JSON.parse(raw);
+  const entries = Array.isArray(parsed) ? parsed : [parsed];
+  const entry = entries.find((item) => String(item.session_name) === sessionName);
+  if (entry && typeof entry.closed_utc === 'string' && entry.closed_utc.trim()) {
+    process.stdout.write(entry.closed_utc.trim());
+  }
+} catch (error) {
+  process.exit(0);
+}
+NODE
+}
+
+flatten_text() {
+  local value="${1:-}"
+  printf '%s' "$value" | tr '\t\r\n' '   '
 }
 
 new_auto_session_label() {
@@ -252,6 +542,49 @@ format_local_timestamp() {
   date -d "@$epoch_seconds" '+%Y-%m-%d %H:%M'
 }
 
+catalog_timestamp_to_unix() {
+  local utc_text="${1:-}"
+  [[ -n "${utc_text// }" ]] || {
+    printf '0\n'
+    return 0
+  }
+
+  date -d "$utc_text" '+%s' 2>/dev/null || printf '0\n'
+}
+
+format_catalog_timestamp_local() {
+  local utc_text="${1:-}"
+  [[ -n "${utc_text// }" ]] || return 0
+
+  date -d "$utc_text" '+%Y-%m-%d %H:%M' 2>/dev/null || true
+}
+
+get_session_state_label() {
+  local is_live="$1"
+  local archived="$2"
+  local closed_utc="${3:-}"
+
+  if [[ "$is_live" == 'true' ]]; then
+    if [[ "$archived" == 'true' ]]; then
+      printf 'Running (archived)\n'
+    else
+      printf 'Running\n'
+    fi
+    return 0
+  fi
+
+  local base_state='Saved'
+  if [[ -n "${closed_utc// }" ]]; then
+    base_state='Closed'
+  fi
+
+  if [[ "$archived" == 'true' ]]; then
+    printf '%s (archived)\n' "$base_state"
+  else
+    printf '%s\n' "$base_state"
+  fi
+}
+
 get_session_preview_text() {
   local session_name="$1"
   tmux capture-pane -pt "$session_name" -S -40 2>/dev/null | awk 'BEGIN { line = ""; found = 0 } NF { line = $0; found = 1 } END { if (found) print line }'
@@ -300,6 +633,79 @@ split_session_name() {
   fi
 
   printf 'unknown|%s\n' "$name"
+}
+
+build_session_inventory() {
+  local include_catalog_only="${1:-0}"
+  local include_archived="${2:-0}"
+  local -A seen=()
+  local line session_name created attached windows activity split type label preview_text display_title folder_text activity_local archived closed_utc state activity_unix created_info
+
+  while IFS='|' read -r session_name created attached windows activity; do
+    [[ -n "$session_name" ]] || continue
+    split="$(split_session_name "$session_name")"
+    type="${split%%|*}"
+    label="${split#*|}"
+    preview_text="$(flatten_text "$(get_session_preview_text "$session_name")")"
+    display_title="$(flatten_text "$(get_display_title "$session_name" "$type" "$label" "$created" "$preview_text")")"
+    folder_text="$(flatten_text "$(get_session_working_directory_windows "$session_name")")"
+    activity_local="$(format_local_timestamp "$activity")"
+    archived="$(get_archived_state_from_catalog "$session_name")"
+    closed_utc="$(get_closed_utc_from_catalog "$session_name")"
+    state="$(get_session_state_label 'true' "$archived" "$closed_utc")"
+    if [[ "$include_archived" != '1' && "$archived" == 'true' ]]; then
+      seen["$session_name"]=1
+      continue
+    fi
+    printf '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n' \
+      "$session_name" "$SESSION_FIELD_DELIM" "$type" "$SESSION_FIELD_DELIM" "$label" "$SESSION_FIELD_DELIM" "$(flatten_text "$(get_session_title_from_catalog "$session_name")")" "$SESSION_FIELD_DELIM" \
+      "$folder_text" "$SESSION_FIELD_DELIM" "$preview_text" "$SESSION_FIELD_DELIM" "$attached" "$SESSION_FIELD_DELIM" "$windows" "$SESSION_FIELD_DELIM" "$activity" "$SESSION_FIELD_DELIM" "$activity_local" "$SESSION_FIELD_DELIM" "$archived" "$SESSION_FIELD_DELIM" 'true' "$SESSION_FIELD_DELIM" "$closed_utc" "$SESSION_FIELD_DELIM" "$state"
+    seen["$session_name"]=1
+  done < <(tmux list-sessions -F '#{session_name}|#{session_created}|#{session_attached}|#{session_windows}|#{session_activity}' 2>/dev/null | sort -t '|' -k5,5nr)
+
+  if [[ "$include_catalog_only" == '1' ]]; then
+    while IFS="$SESSION_FIELD_DELIM" read -r session_name type title folder_text archived closed_utc created_utc updated_utc; do
+      [[ -n "$session_name" ]] || continue
+      [[ -n "${seen[$session_name]+x}" ]] && continue
+      if [[ "$include_archived" != '1' && "$archived" == 'true' ]]; then
+        continue
+      fi
+      split="$(split_session_name "$session_name")"
+      label="${split#*|}"
+      activity_unix="$(catalog_timestamp_to_unix "${closed_utc:-$updated_utc}")"
+      activity_local="$(format_catalog_timestamp_local "${closed_utc:-$updated_utc}")"
+      created_info="$(catalog_timestamp_to_unix "$created_utc")"
+      display_title="$(flatten_text "$(get_display_title "$session_name" "$type" "$label" "$created_info" '')")"
+      state="$(get_session_state_label 'false' "$archived" "$closed_utc")"
+      printf '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n' \
+        "$session_name" "$SESSION_FIELD_DELIM" "$type" "$SESSION_FIELD_DELIM" "$label" "$SESSION_FIELD_DELIM" "$(flatten_text "$title")" "$SESSION_FIELD_DELIM" \
+        "$(flatten_text "$folder_text")" "$SESSION_FIELD_DELIM" '' "$SESSION_FIELD_DELIM" '0' "$SESSION_FIELD_DELIM" '0' "$SESSION_FIELD_DELIM" "$activity_unix" "$SESSION_FIELD_DELIM" "$activity_local" "$SESSION_FIELD_DELIM" "$archived" "$SESSION_FIELD_DELIM" 'false' "$SESSION_FIELD_DELIM" "$closed_utc" "$SESSION_FIELD_DELIM" "$state"
+    done < <(list_session_catalog_entries)
+  fi
+}
+
+get_session_inventory_row() {
+  local target_session_name="$1"
+  local line
+  local session_name
+
+  while IFS= read -r line; do
+    [[ -n "$line" ]] || continue
+    IFS="$SESSION_FIELD_DELIM" read -r session_name _ <<<"$line"
+    if [[ "$session_name" == "$target_session_name" ]]; then
+      printf '%s\n' "$line"
+      return 0
+    fi
+  done < <(build_session_inventory 1 1)
+
+  return 1
+}
+
+get_inventory_row_session_name() {
+  local row="$1"
+  local session_name
+  IFS="$SESSION_FIELD_DELIM" read -r session_name _ <<<"$row"
+  printf '%s\n' "$session_name"
 }
 
 command_is_healthy() {
@@ -386,19 +792,19 @@ attach_existing_session() {
 }
 
 list_sessions() {
-  local line session_name created attached windows activity split type label preview_text display_title activity_local folder_text
-  printf '%-24s %-8s %-26s %-28s %-8s %-8s %s\n' 'Title' 'Type' 'Folder' 'Preview' 'Attached' 'Windows' 'Last Activity'
-  while IFS='|' read -r session_name created attached windows activity; do
+  local include_archived="${1:-0}"
+  local include_catalog_only="${2:-0}"
+  local line session_name type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state display_title
+  printf '%-24s %-8s %-20s %-26s %-28s %-8s %s\n' 'Title' 'Type' 'State' 'Folder' 'Preview' 'Attached' 'Last Activity'
+  while IFS="$SESSION_FIELD_DELIM" read -r session_name type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state; do
     [[ -n "$session_name" ]] || continue
-    split="$(split_session_name "$session_name")"
-    type="${split%%|*}"
-    label="${split#*|}"
-    preview_text="$(get_session_preview_text "$session_name")"
-    display_title="$(get_display_title "$session_name" "$type" "$label" "$created" "$preview_text")"
-    folder_text="$(get_session_working_directory_windows "$session_name")"
-    activity_local="$(format_local_timestamp "$activity")"
-    printf '%-24s %-8s %-26s %-28s %-8s %-8s %s\n' "$display_title" "$type" "$folder_text" "$preview_text" "$attached" "$windows" "$activity_local"
-  done < <(tmux list-sessions -F '#{session_name}|#{session_created}|#{session_attached}|#{session_windows}|#{session_activity}' 2>/dev/null | sort -t '|' -k5,5nr)
+    display_title="$(get_display_title "$session_name" "$type" "$label" "$(catalog_timestamp_to_unix "$closed_utc")" "$preview_text")"
+    if [[ -n "${title// }" ]]; then
+      display_title="$title"
+    fi
+    printf '%-24s %-8s %-20s %-26s %-28s %-8s %s\n' \
+      "$(flatten_text "$display_title")" "$type" "$state" "$(flatten_text "$folder_text")" "$(flatten_text "$preview_text")" "$attached" "$activity_local"
+  done < <(build_session_inventory "$include_catalog_only" "$include_archived" | sort -t "$SESSION_FIELD_DELIM" -k9,9nr)
 }
 
 choose_agent_type() {
@@ -421,12 +827,12 @@ choose_existing_session() {
   SELECTED_SESSION_NAME=''
   local -a rows=()
   local index=1
-  local line session_name created attached windows activity split type label preview_text display_title activity_local folder_text
+  local line session_name type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state display_title
 
-  while IFS='|' read -r session_name created attached windows activity; do
-    [[ -n "$session_name" ]] || continue
-    rows+=("$session_name|$created|$attached|$windows|$activity")
-  done < <(tmux list-sessions -F '#{session_name}|#{session_created}|#{session_attached}|#{session_windows}|#{session_activity}' 2>/dev/null | sort -t '|' -k5,5nr)
+  while IFS= read -r line; do
+    [[ -n "$line" ]] || continue
+    rows+=("$line")
+  done < <(build_session_inventory 0 0 | sort -t "$SESSION_FIELD_DELIM" -k9,9nr)
 
   if [[ "${#rows[@]}" -eq 0 ]]; then
     printf 'No tmux sessions found.\n' >&2
@@ -434,18 +840,11 @@ choose_existing_session() {
   fi
 
   for line in "${rows[@]}"; do
-    session_name="${line%%|*}"
-    split="$(split_session_name "$session_name")"
-    type="${split%%|*}"
-    label="${split#*|}"
-    created="$(printf '%s' "$line" | cut -d '|' -f 2)"
-    attached="$(printf '%s' "$line" | cut -d '|' -f 3)"
-    windows="$(printf '%s' "$line" | cut -d '|' -f 4)"
-    activity="$(printf '%s' "$line" | cut -d '|' -f 5)"
-    preview_text="$(get_session_preview_text "$session_name")"
-    display_title="$(get_display_title "$session_name" "$type" "$label" "$created" "$preview_text")"
-    folder_text="$(get_session_working_directory_windows "$session_name")"
-    activity_local="$(format_local_timestamp "$activity")"
+    IFS="$SESSION_FIELD_DELIM" read -r session_name type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state <<<"$line"
+    display_title="$title"
+    if [[ -z "${display_title// }" ]]; then
+      display_title="$(get_display_title "$session_name" "$type" "$label" "$activity_unix" "$preview_text")"
+    fi
     printf '[%d] %s  type=%s  folder=%s  preview=%s  attached=%s  windows=%s  activity=%s\n' "$index" "$display_title" "$type" "$folder_text" "$preview_text" "$attached" "$windows" "$activity_local"
     index=$((index + 1))
   done
@@ -454,11 +853,180 @@ choose_existing_session() {
     local selected
     read -r -p 'Select session number: ' selected
     if [[ "$selected" =~ ^[0-9]+$ ]] && (( selected >= 1 && selected <= ${#rows[@]} )); then
-      SELECTED_SESSION_NAME="${rows[$((selected - 1))]%%|*}"
+      SELECTED_SESSION_NAME="$(get_inventory_row_session_name "${rows[$((selected - 1))]}")"
       return 0
     fi
     printf 'Invalid number.\n'
   done
+}
+
+choose_any_session() {
+  SELECTED_SESSION_NAME=''
+  local -a rows=()
+  local index=1
+  local line session_name type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state display_title
+
+  while IFS= read -r line; do
+    [[ -n "$line" ]] || continue
+    rows+=("$line")
+  done < <(build_session_inventory 1 1 | sort -t "$SESSION_FIELD_DELIM" -k9,9nr)
+
+  if [[ "${#rows[@]}" -eq 0 ]]; then
+    printf 'No sessions found.\n' >&2
+    return 1
+  fi
+
+  for line in "${rows[@]}"; do
+    IFS="$SESSION_FIELD_DELIM" read -r session_name type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state <<<"$line"
+    display_title="$title"
+    if [[ -z "${display_title// }" ]]; then
+      display_title="$(get_display_title "$session_name" "$type" "$label" "$activity_unix" "$preview_text")"
+    fi
+    printf '[%d] %s  type=%s  state=%s  folder=%s\n' "$index" "$display_title" "$type" "$state" "$folder_text"
+    index=$((index + 1))
+  done
+
+  while true; do
+    local selected
+    read -r -p 'Select session number: ' selected
+    if [[ "$selected" =~ ^[0-9]+$ ]] && (( selected >= 1 && selected <= ${#rows[@]} )); then
+      SELECTED_SESSION_NAME="$(get_inventory_row_session_name "${rows[$((selected - 1))]}")"
+      return 0
+    fi
+    printf 'Invalid number.\n'
+  done
+}
+
+rename_session() {
+  local session_name="$1"
+  local new_title="${2:-}"
+  [[ -n "${new_title// }" ]] || {
+    printf 'Title is required.\n' >&2
+    return 1
+  }
+
+  local row type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state
+  row="$(get_session_inventory_row "$session_name")" || {
+    printf 'Session not found: %s\n' "$session_name" >&2
+    return 1
+  }
+  IFS="$SESSION_FIELD_DELIM" read -r _ type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state <<<"$row"
+  set_session_catalog_title "$session_name" "$type" "$new_title" "$folder_text"
+}
+
+set_session_archived_state() {
+  local session_name="$1"
+  local archived_target="$2"
+  local row type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state
+  row="$(get_session_inventory_row "$session_name")" || {
+    printf 'Session not found: %s\n' "$session_name" >&2
+    return 1
+  }
+  IFS="$SESSION_FIELD_DELIM" read -r _ type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state <<<"$row"
+  set_session_catalog_archived_state "$session_name" "$type" "$archived_target" "$title" "$folder_text"
+}
+
+close_session() {
+  local session_name="$1"
+  local row type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state
+  row="$(get_session_inventory_row "$session_name")" || {
+    printf 'Session not found: %s\n' "$session_name" >&2
+    return 1
+  }
+  IFS="$SESSION_FIELD_DELIM" read -r _ type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state <<<"$row"
+  if [[ "$is_live" == 'true' ]]; then
+    tmux kill-session -t "$session_name" >/dev/null 2>&1 || true
+  fi
+  set_session_catalog_closed_state "$session_name" "$type" 'true' "$title" "$folder_text"
+}
+
+delete_session() {
+  local session_name="$1"
+  local row is_live
+  row="$(get_session_inventory_row "$session_name" 2>/dev/null || true)"
+  if [[ -n "${row// }" ]]; then
+    IFS="$SESSION_FIELD_DELIM" read -r _ _ _ _ _ _ _ _ _ _ _ is_live _ _ <<<"$row"
+    if [[ "$is_live" == 'true' ]]; then
+      tmux kill-session -t "$session_name" >/dev/null 2>&1 || true
+    fi
+  fi
+  remove_session_catalog_entry "$session_name"
+}
+
+manage_selected_session() {
+  local session_name="$1"
+  local row type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state display_title action new_title
+
+  row="$(get_session_inventory_row "$session_name")" || {
+    printf 'Session not found: %s\n' "$session_name" >&2
+    return 1
+  }
+
+  IFS="$SESSION_FIELD_DELIM" read -r _ type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state <<<"$row"
+  display_title="$title"
+  if [[ -z "${display_title// }" ]]; then
+    display_title="$(get_display_title "$session_name" "$type" "$label" "$activity_unix" "$preview_text")"
+  fi
+
+  while true; do
+    printf '\nManage session: %s\n' "$display_title"
+    printf '[1] Rename title\n'
+    if [[ "$archived" == 'true' ]]; then
+      printf '[2] Unarchive\n'
+    else
+      printf '[2] Archive\n'
+    fi
+    if [[ "$is_live" == 'true' ]]; then
+      printf '[3] Close session\n'
+    else
+      printf '[3] Close session (already closed)\n'
+    fi
+    printf '[4] Delete entry\n'
+    printf '[5] Back\n'
+    read -r -p 'Choose 1/2/3/4/5: ' action
+    case "$action" in
+      1)
+        read -r -p 'New title: ' new_title
+        rename_session "$session_name" "$new_title"
+        ;;
+      2)
+        if [[ "$archived" == 'true' ]]; then
+          set_session_archived_state "$session_name" 'false'
+        else
+          set_session_archived_state "$session_name" 'true'
+        fi
+        ;;
+      3)
+        if [[ "$is_live" == 'true' ]]; then
+          close_session "$session_name"
+          return 0
+        fi
+        printf 'Session is already closed.\n'
+        ;;
+      4)
+        delete_session "$session_name"
+        return 0
+        ;;
+      5)
+        return 0
+        ;;
+      *)
+        printf 'Invalid choice.\n'
+        ;;
+    esac
+    row="$(get_session_inventory_row "$session_name" 2>/dev/null || true)"
+    [[ -n "${row// }" ]] || return 0
+    IFS="$SESSION_FIELD_DELIM" read -r _ type label title folder_text preview_text attached windows activity_unix activity_local archived is_live closed_utc state <<<"$row"
+    display_title="$title"
+    if [[ -z "${display_title// }" ]]; then
+      display_title="$(get_display_title "$session_name" "$type" "$label" "$activity_unix" "$preview_text")"
+    fi
+  done
+}
+
+manage_interactive_session() {
+  choose_any_session
+  manage_selected_session "$SELECTED_SESSION_NAME"
 }
 
 open_plain_shell() {
@@ -485,12 +1053,13 @@ run_menu() {
     printf '\nAI session mobile menu\n'
     printf '[1] Start new typed session\n'
     printf '[2] Resume existing session\n'
-    printf '[3] List sessions\n'
-    printf '[4] Open plain shell\n'
-    printf '[5] Exit\n'
+    printf '[3] List active sessions\n'
+    printf '[4] Manage sessions\n'
+    printf '[5] Open plain shell\n'
+    printf '[6] Exit\n'
 
     local choice
-    read -r -p 'Choose 1/2/3/4/5: ' choice
+    read -r -p 'Choose 1/2/3/4/5/6: ' choice
     case "$choice" in
       1)
         start_interactive_session
@@ -499,12 +1068,15 @@ run_menu() {
         resume_interactive_session
         ;;
       3)
-        list_sessions
+        list_sessions 0 0
         ;;
       4)
-        open_plain_shell
+        manage_interactive_session
         ;;
       5)
+        open_plain_shell
+        ;;
+      6)
         exit 0
         ;;
       *)
@@ -522,7 +1094,10 @@ main() {
       run_menu
       ;;
     list)
-      list_sessions
+      list_sessions 0 0
+      ;;
+    list-all)
+      list_sessions 1 1
       ;;
     start)
       [[ $# -ge 2 ]] || {
@@ -544,6 +1119,48 @@ main() {
         return 1
       }
       attach_existing_session "$2"
+      ;;
+    rename)
+      [[ $# -ge 3 ]] || {
+        usage >&2
+        return 1
+      }
+      rename_session "$2" "${*:3}"
+      ;;
+    archive)
+      [[ $# -eq 2 ]] || {
+        usage >&2
+        return 1
+      }
+      set_session_archived_state "$2" 'true'
+      ;;
+    unarchive)
+      [[ $# -eq 2 ]] || {
+        usage >&2
+        return 1
+      }
+      set_session_archived_state "$2" 'false'
+      ;;
+    close)
+      [[ $# -eq 2 ]] || {
+        usage >&2
+        return 1
+      }
+      close_session "$2"
+      ;;
+    delete)
+      [[ $# -eq 2 ]] || {
+        usage >&2
+        return 1
+      }
+      delete_session "$2"
+      ;;
+    manage)
+      if [[ $# -eq 2 ]]; then
+        manage_selected_session "$2"
+      else
+        manage_interactive_session
+      fi
       ;;
     shell)
       open_plain_shell

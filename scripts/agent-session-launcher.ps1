@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('gui', 'codex', 'claude', 'gemini', 'shell', 'new', 'start', 'resume', 'existing', 'list', 'mobile')]
+    [ValidateSet('gui', 'codex', 'claude', 'gemini', 'shell', 'new', 'start', 'resume', 'existing', 'list', 'mobile', 'rename', 'archive', 'unarchive', 'close', 'delete')]
     [string]$Mode = 'gui',
     [ValidateSet('codex', 'claude', 'gemini', 'shell')]
     [string]$Type,
@@ -9,6 +9,7 @@ param(
     [string]$Distro = 'Ubuntu',
     [string]$WorkingDirectory = '',
     [switch]$Detach,
+    [switch]$IncludeArchived,
     [switch]$Json,
     [switch]$SmokeTest
 )
@@ -79,11 +80,80 @@ function Get-SessionCatalogEntries {
 function Save-SessionCatalogEntries {
     param(
         [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
         [object[]]$Entries
     )
 
     Ensure-SessionCatalogFile
+    if ($Entries.Count -eq 0) {
+        '[]' | Set-Content -Path $sessionCatalogPath
+        return
+    }
+
     ($Entries | ConvertTo-Json -Depth 6) | Set-Content -Path $sessionCatalogPath
+}
+
+function Remove-ObjectPropertyIfPresent {
+    param(
+        [Parameter(Mandatory = $true)]
+        [psobject]$Object,
+        [Parameter(Mandatory = $true)]
+        [string]$PropertyName
+    )
+
+    $property = $Object.PSObject.Properties[$PropertyName]
+    if ($property) {
+        [void]$Object.PSObject.Properties.Remove($PropertyName)
+    }
+}
+
+function Set-ObjectPropertyValue {
+    param(
+        [Parameter(Mandatory = $true)]
+        [psobject]$Object,
+        [Parameter(Mandatory = $true)]
+        [string]$PropertyName,
+        [AllowNull()]
+        $Value
+    )
+
+    if ($Object.PSObject.Properties[$PropertyName]) {
+        $Object.$PropertyName = $Value
+    } else {
+        Add-Member -InputObject $Object -NotePropertyName $PropertyName -NotePropertyValue $Value -Force
+    }
+}
+
+function Get-CatalogBooleanValue {
+    param(
+        $Value
+    )
+
+    if ($null -eq $Value) {
+        return $false
+    }
+
+    if ($Value -is [bool]) {
+        return [bool]$Value
+    }
+
+    $text = [string]$Value
+    return ($text -eq 'true' -or $text -eq 'True')
+}
+
+function Get-SessionCatalogEntryByName {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$SessionNameValue
+    )
+
+    foreach ($entry in @(Get-SessionCatalogEntries)) {
+        if ([string]$entry.session_name -eq $SessionNameValue) {
+            return $entry
+        }
+    }
+
+    return $null
 }
 
 function Get-SessionCatalogMap {
@@ -129,6 +199,7 @@ function Upsert-SessionCatalogEntry {
             $entry.working_directory_windows = $WorkingDirectoryWindows
         }
         $entry.updated_utc = $nowUtc
+        Remove-ObjectPropertyIfPresent -Object $entry -PropertyName 'closed_utc'
         $entries[$matchIndex] = $entry
     } else {
         [void]$entries.Add([pscustomobject]@{
@@ -136,12 +207,161 @@ function Upsert-SessionCatalogEntry {
             session_type = $SessionTypeValue
             title = $normalizedTitle
             working_directory_windows = $WorkingDirectoryWindows
+            archived = $false
             created_utc = $nowUtc
             updated_utc = $nowUtc
         })
     }
 
     Save-SessionCatalogEntries -Entries @($entries)
+}
+
+function Set-SessionCatalogTitle {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$SessionNameValue,
+        [Parameter(Mandatory = $true)]
+        [string]$SessionTypeValue,
+        [string]$SessionTitle,
+        [string]$WorkingDirectoryWindows
+    )
+
+    Upsert-SessionCatalogEntry -SessionNameValue $SessionNameValue -SessionTypeValue $SessionTypeValue -SessionTitle $SessionTitle -WorkingDirectoryWindows $WorkingDirectoryWindows
+}
+
+function Set-SessionCatalogArchivedState {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$SessionNameValue,
+        [Parameter(Mandatory = $true)]
+        [string]$SessionTypeValue,
+        [Parameter(Mandatory = $true)]
+        [bool]$Archived,
+        [string]$SessionTitle,
+        [string]$WorkingDirectoryWindows
+    )
+
+    $entries = [System.Collections.Generic.List[object]]::new()
+    foreach ($entry in @(Get-SessionCatalogEntries)) {
+        [void]$entries.Add($entry)
+    }
+
+    $nowUtc = (Get-Date).ToUniversalTime().ToString('o')
+    $matchIndex = -1
+    for ($index = 0; $index -lt $entries.Count; $index++) {
+        if ([string]$entries[$index].session_name -eq $SessionNameValue) {
+            $matchIndex = $index
+            break
+        }
+    }
+
+    if ($matchIndex -ge 0) {
+        $entry = $entries[$matchIndex]
+        $entry.session_type = $SessionTypeValue
+        Set-ObjectPropertyValue -Object $entry -PropertyName 'archived' -Value $Archived
+        if ($SessionTitle -and $SessionTitle.Trim()) {
+            $entry.title = $SessionTitle.Trim()
+        }
+        if ($WorkingDirectoryWindows -and $WorkingDirectoryWindows.Trim()) {
+            $entry.working_directory_windows = $WorkingDirectoryWindows.Trim()
+        }
+        $entry.updated_utc = $nowUtc
+        $entries[$matchIndex] = $entry
+    } else {
+        $newTitleValue = if ($SessionTitle) { $SessionTitle.Trim() } else { '' }
+        $newWorkingDirectoryValue = if ($WorkingDirectoryWindows) { $WorkingDirectoryWindows.Trim() } else { '' }
+        [void]$entries.Add([pscustomobject]@{
+            session_name = $SessionNameValue
+            session_type = $SessionTypeValue
+            title = $newTitleValue
+            working_directory_windows = $newWorkingDirectoryValue
+            archived = $Archived
+            created_utc = $nowUtc
+            updated_utc = $nowUtc
+        })
+    }
+
+    Save-SessionCatalogEntries -Entries @($entries)
+}
+
+function Set-SessionCatalogClosedState {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$SessionNameValue,
+        [Parameter(Mandatory = $true)]
+        [string]$SessionTypeValue,
+        [Parameter(Mandatory = $true)]
+        [bool]$Closed,
+        [string]$SessionTitle,
+        [string]$WorkingDirectoryWindows,
+        [bool]$ArchiveOnClose = $true
+    )
+
+    $entries = [System.Collections.Generic.List[object]]::new()
+    foreach ($entry in @(Get-SessionCatalogEntries)) {
+        [void]$entries.Add($entry)
+    }
+
+    $nowUtc = (Get-Date).ToUniversalTime().ToString('o')
+    $matchIndex = -1
+    for ($index = 0; $index -lt $entries.Count; $index++) {
+        if ([string]$entries[$index].session_name -eq $SessionNameValue) {
+            $matchIndex = $index
+            break
+        }
+    }
+
+    if ($matchIndex -ge 0) {
+        $entry = $entries[$matchIndex]
+    } else {
+        $entry = [pscustomobject]@{
+            session_name = $SessionNameValue
+            session_type = $SessionTypeValue
+            title = ''
+            working_directory_windows = ''
+            archived = $false
+            created_utc = $nowUtc
+            updated_utc = $nowUtc
+        }
+        [void]$entries.Add($entry)
+        $matchIndex = $entries.Count - 1
+    }
+
+    $entry.session_type = $SessionTypeValue
+    if ($SessionTitle -and $SessionTitle.Trim()) {
+        $entry.title = $SessionTitle.Trim()
+    }
+    if ($WorkingDirectoryWindows -and $WorkingDirectoryWindows.Trim()) {
+        $entry.working_directory_windows = $WorkingDirectoryWindows.Trim()
+    }
+    if ($Closed) {
+        Set-ObjectPropertyValue -Object $entry -PropertyName 'closed_utc' -Value $nowUtc
+        if ($ArchiveOnClose) {
+            Set-ObjectPropertyValue -Object $entry -PropertyName 'archived' -Value $true
+        }
+    } else {
+        Remove-ObjectPropertyIfPresent -Object $entry -PropertyName 'closed_utc'
+    }
+    $entry.updated_utc = $nowUtc
+    $entries[$matchIndex] = $entry
+
+    Save-SessionCatalogEntries -Entries @($entries)
+}
+
+function Remove-SessionCatalogEntry {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$SessionNameValue
+    )
+
+    $remaining = @()
+    foreach ($entry in @(Get-SessionCatalogEntries)) {
+        if ([string]$entry.session_name -ne $SessionNameValue) {
+            $remaining += $entry
+        }
+    }
+
+    Save-SessionCatalogEntries -Entries @($remaining)
 }
 
 function New-AutoSessionLabel {
@@ -182,6 +402,75 @@ function Convert-WslPathToWindowsPath {
     }
 
     return $WslPath
+}
+
+function Split-SessionIdentity {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$TargetSessionName
+    )
+
+    $match = [regex]::Match($TargetSessionName, '^(codex|claude|gemini|shell)-(.+)$')
+    if (-not $match.Success) {
+        return @{
+            Type = 'unknown'
+            DisplayName = $TargetSessionName
+        }
+    }
+
+    return @{
+        Type = $match.Groups[1].Value
+        DisplayName = $match.Groups[2].Value
+    }
+}
+
+function Get-SessionCatalogTimestampInfo {
+    param(
+        [string]$UtcText
+    )
+
+    if (-not $UtcText -or -not $UtcText.Trim()) {
+        return @{
+            Local = ''
+            Unix = 0L
+        }
+    }
+
+    try {
+        $parsed = [DateTimeOffset]::Parse($UtcText)
+        return @{
+            Local = $parsed.LocalDateTime.ToString('yyyy-MM-dd HH:mm:ss')
+            Unix = [long]$parsed.ToUnixTimeSeconds()
+        }
+    } catch {
+        return @{
+            Local = ''
+            Unix = 0L
+        }
+    }
+}
+
+function Get-SessionStateLabel {
+    param(
+        [Parameter(Mandatory = $true)]
+        [bool]$IsLive,
+        [Parameter(Mandatory = $true)]
+        [bool]$Archived,
+        [string]$ClosedUtc
+    )
+
+    if ($IsLive) {
+        if ($Archived) {
+            return 'Running (archived)'
+        }
+        return 'Running'
+    }
+
+    $baseState = if ($ClosedUtc -and $ClosedUtc.Trim()) { 'Closed' } else { 'Saved' }
+    if ($Archived) {
+        return "$baseState (archived)"
+    }
+    return $baseState
 }
 
 function Get-SessionWorkingDirectoryWindows {
@@ -453,7 +742,8 @@ function Invoke-AttachSessionByName {
 function Get-ExistingSessions {
     param(
         [Parameter(Mandatory = $true)]
-        [string]$TargetDistro
+        [string]$TargetDistro,
+        [switch]$IncludeCatalogOnly
     )
 
     $jsonText = & $tmuxScriptPath -Action list -Distro $TargetDistro -Json
@@ -462,30 +752,185 @@ function Get-ExistingSessions {
     }
 
     $raw = ($jsonText | Out-String).Trim()
-    if (-not $raw) {
-        return @()
+    $liveSessions = @()
+    if ($raw) {
+        $parsed = $raw | ConvertFrom-Json
+        $liveSessions = if ($parsed -is [System.Array]) { @($parsed) } else { @($parsed) }
     }
-
-    $parsed = $raw | ConvertFrom-Json
-    $sessions = if ($parsed -is [System.Array]) { @($parsed) } else { @($parsed) }
     $catalogMap = Get-SessionCatalogMap
+    $results = [System.Collections.Generic.List[object]]::new()
+    $seenSessionNames = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
 
-    foreach ($session in $sessions) {
+    foreach ($session in $liveSessions) {
         $sessionNameValue = [string]$session.Name
+        [void]$seenSessionNames.Add($sessionNameValue)
         $metadata = $catalogMap[$sessionNameValue]
         $previewText = Get-SessionPreviewText -TargetSessionName $sessionNameValue -TargetDistro $TargetDistro
         $titleValue = if ($metadata) { [string]$metadata.title } else { '' }
         $workingDirectoryValue = if ($metadata -and $metadata.PSObject.Properties.Name -contains 'working_directory_windows') { [string]$metadata.working_directory_windows } else { '' }
+        $archivedValue = if ($metadata -and $metadata.PSObject.Properties.Name -contains 'archived') { Get-CatalogBooleanValue -Value $metadata.archived } else { $false }
+        $closedUtcValue = if ($metadata -and $metadata.PSObject.Properties.Name -contains 'closed_utc') { [string]$metadata.closed_utc } else { '' }
         if (-not $workingDirectoryValue) {
             $workingDirectoryValue = Get-SessionWorkingDirectoryWindows -TargetSessionName $sessionNameValue -TargetDistro $TargetDistro
         }
         Add-Member -InputObject $session -NotePropertyName 'Title' -NotePropertyValue $titleValue -Force
         Add-Member -InputObject $session -NotePropertyName 'WorkingDirectoryWindows' -NotePropertyValue $workingDirectoryValue -Force
         Add-Member -InputObject $session -NotePropertyName 'PreviewText' -NotePropertyValue $previewText -Force
+        Add-Member -InputObject $session -NotePropertyName 'Archived' -NotePropertyValue $archivedValue -Force
+        Add-Member -InputObject $session -NotePropertyName 'ClosedUtc' -NotePropertyValue $closedUtcValue -Force
+        Add-Member -InputObject $session -NotePropertyName 'IsLive' -NotePropertyValue $true -Force
+        Add-Member -InputObject $session -NotePropertyName 'State' -NotePropertyValue (Get-SessionStateLabel -IsLive $true -Archived $archivedValue -ClosedUtc $closedUtcValue) -Force
+        Add-Member -InputObject $session -NotePropertyName 'SortUnix' -NotePropertyValue ([long]$session.LastActivityUnix) -Force
         Add-Member -InputObject $session -NotePropertyName 'DisplayTitle' -NotePropertyValue (Get-SessionDisplayTitle -Session $session) -Force
+        [void]$results.Add($session)
     }
 
-    return $sessions
+    if ($IncludeCatalogOnly) {
+        foreach ($entry in @(Get-SessionCatalogEntries)) {
+            $sessionNameValue = [string]$entry.session_name
+            if (-not $sessionNameValue -or $seenSessionNames.Contains($sessionNameValue)) {
+                continue
+            }
+
+            $identity = Split-SessionIdentity -TargetSessionName $sessionNameValue
+            $closedUtcValue = if ($entry.PSObject.Properties.Name -contains 'closed_utc') { [string]$entry.closed_utc } else { '' }
+            $timestampInfo = if ($closedUtcValue) { Get-SessionCatalogTimestampInfo -UtcText $closedUtcValue } elseif ($entry.PSObject.Properties.Name -contains 'updated_utc') { Get-SessionCatalogTimestampInfo -UtcText ([string]$entry.updated_utc) } else { Get-SessionCatalogTimestampInfo -UtcText '' }
+            $createdUtcValue = if ($entry.PSObject.Properties.Name -contains 'created_utc') { [string]$entry.created_utc } else { '' }
+            $createdInfo = Get-SessionCatalogTimestampInfo -UtcText $createdUtcValue
+            $archivedValue = if ($entry.PSObject.Properties.Name -contains 'archived') { Get-CatalogBooleanValue -Value $entry.archived } else { $false }
+            $catalogSessionType = if ($entry.PSObject.Properties.Name -contains 'session_type' -and [string]$entry.session_type) { [string]$entry.session_type } else { [string]$identity.Type }
+            $catalogTitleValue = if ($entry.PSObject.Properties.Name -contains 'title') { [string]$entry.title } else { '' }
+            $catalogWorkingDirectoryValue = if ($entry.PSObject.Properties.Name -contains 'working_directory_windows') { [string]$entry.working_directory_windows } else { '' }
+            $session = [pscustomobject]@{
+                Name = $sessionNameValue
+                Type = $catalogSessionType
+                DisplayName = [string]$identity.DisplayName
+                Distro = $TargetDistro
+                CreatedUnix = [long]$createdInfo.Unix
+                CreatedLocal = [string]$createdInfo.Local
+                AttachedClients = 0
+                WindowCount = 0
+                LastActivityUnix = [long]$timestampInfo.Unix
+                LastActivityLocal = [string]$timestampInfo.Local
+                Title = $catalogTitleValue
+                WorkingDirectoryWindows = $catalogWorkingDirectoryValue
+                PreviewText = ''
+                Archived = $archivedValue
+                ClosedUtc = $closedUtcValue
+                IsLive = $false
+                State = Get-SessionStateLabel -IsLive $false -Archived $archivedValue -ClosedUtc $closedUtcValue
+                SortUnix = [long]$timestampInfo.Unix
+            }
+            Add-Member -InputObject $session -NotePropertyName 'DisplayTitle' -NotePropertyValue (Get-SessionDisplayTitle -Session $session) -Force
+            [void]$results.Add($session)
+        }
+    }
+
+    return @($results | Sort-Object -Property @(@{ Expression = 'SortUnix'; Descending = $true }, 'DisplayTitle'))
+}
+
+function Get-SessionRecordByName {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$TargetSessionName,
+        [Parameter(Mandatory = $true)]
+        [string]$TargetDistro
+    )
+
+    foreach ($session in @(Get-ExistingSessions -TargetDistro $TargetDistro -IncludeCatalogOnly)) {
+        if ([string]$session.Name -eq $TargetSessionName) {
+            return $session
+        }
+    }
+
+    return $null
+}
+
+function Invoke-KillSessionByName {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$TargetSessionName,
+        [Parameter(Mandatory = $true)]
+        [string]$TargetDistro
+    )
+
+    Invoke-TmuxScript -Parameters @{
+        Action = 'kill'
+        Distro = $TargetDistro
+        SessionName = $TargetSessionName
+    }
+}
+
+function Set-ManagedSessionTitle {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$TargetSessionName,
+        [Parameter(Mandatory = $true)]
+        [string]$TargetTitle,
+        [Parameter(Mandatory = $true)]
+        [string]$TargetDistro
+    )
+
+    $session = Get-SessionRecordByName -TargetSessionName $TargetSessionName -TargetDistro $TargetDistro
+    if (-not $session) {
+        throw "Session '$TargetSessionName' was not found."
+    }
+
+    Set-SessionCatalogTitle -SessionNameValue $TargetSessionName -SessionTypeValue ([string]$session.Type) -SessionTitle $TargetTitle -WorkingDirectoryWindows ([string]$session.WorkingDirectoryWindows)
+}
+
+function Set-ManagedSessionArchivedState {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$TargetSessionName,
+        [Parameter(Mandatory = $true)]
+        [bool]$Archived,
+        [Parameter(Mandatory = $true)]
+        [string]$TargetDistro
+    )
+
+    $session = Get-SessionRecordByName -TargetSessionName $TargetSessionName -TargetDistro $TargetDistro
+    if (-not $session) {
+        throw "Session '$TargetSessionName' was not found."
+    }
+
+    Set-SessionCatalogArchivedState -SessionNameValue $TargetSessionName -SessionTypeValue ([string]$session.Type) -Archived $Archived -SessionTitle ([string]$session.Title) -WorkingDirectoryWindows ([string]$session.WorkingDirectoryWindows)
+}
+
+function Close-ManagedSession {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$TargetSessionName,
+        [Parameter(Mandatory = $true)]
+        [string]$TargetDistro
+    )
+
+    $session = Get-SessionRecordByName -TargetSessionName $TargetSessionName -TargetDistro $TargetDistro
+    if (-not $session) {
+        throw "Session '$TargetSessionName' was not found."
+    }
+
+    if ([bool]$session.IsLive) {
+        Invoke-KillSessionByName -TargetSessionName $TargetSessionName -TargetDistro $TargetDistro
+    }
+
+    Set-SessionCatalogClosedState -SessionNameValue $TargetSessionName -SessionTypeValue ([string]$session.Type) -Closed $true -SessionTitle ([string]$session.Title) -WorkingDirectoryWindows ([string]$session.WorkingDirectoryWindows)
+}
+
+function Remove-ManagedSession {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$TargetSessionName,
+        [Parameter(Mandatory = $true)]
+        [string]$TargetDistro
+    )
+
+    $session = Get-SessionRecordByName -TargetSessionName $TargetSessionName -TargetDistro $TargetDistro
+    if ($session -and [bool]$session.IsLive) {
+        Invoke-KillSessionByName -TargetSessionName $TargetSessionName -TargetDistro $TargetDistro
+    }
+
+    Remove-SessionCatalogEntry -SessionNameValue $TargetSessionName
 }
 
 function Test-ExistingSessionName {
@@ -496,13 +941,8 @@ function Test-ExistingSessionName {
         [string]$TargetDistro
     )
 
-    $sessions = @(Get-ExistingSessions -TargetDistro $TargetDistro)
-    foreach ($session in $sessions) {
-        if ([string]$session.Name -eq $TargetSessionName) {
-            return $true
-        }
-    }
-    return $false
+    $session = Get-SessionRecordByName -TargetSessionName $TargetSessionName -TargetDistro $TargetDistro
+    return ($session -and [bool]$session.IsLive)
 }
 
 function Resolve-TypedSessionName {
@@ -668,11 +1108,14 @@ function Start-MobileFlow {
 }
 
 if ($Mode -eq 'list') {
-    $items = @(Get-ExistingSessions -TargetDistro $Distro)
+    $items = @(Get-ExistingSessions -TargetDistro $Distro -IncludeCatalogOnly:$IncludeArchived)
+    if (-not $IncludeArchived) {
+        $items = @($items | Where-Object { $_.IsLive -and (-not $_.Archived) })
+    }
     if ($Json) {
         if ($items.Count -eq 0) { '[]' } else { $items | ConvertTo-Json -Depth 4 }
     } else {
-        $items | Format-Table DisplayTitle, Type, WorkingDirectoryWindows, PreviewText, AttachedClients, WindowCount, LastActivityLocal -AutoSize
+        $items | Format-Table DisplayTitle, Type, State, WorkingDirectoryWindows, PreviewText, AttachedClients, WindowCount, LastActivityLocal -AutoSize
     }
     exit 0
 }
@@ -700,6 +1143,49 @@ if ($Mode -eq 'resume' -or $Mode -eq 'existing') {
         $selectedName = Select-ExistingSessionInteractive -TargetDistro $Distro
         Invoke-AttachSessionByName -TargetSessionName $selectedName -TargetDistro $Distro
     }
+    exit 0
+}
+
+if ($Mode -eq 'rename') {
+    if (-not $SessionName) {
+        throw 'Use -SessionName with -Mode rename.'
+    }
+    if (-not $Title -or -not $Title.Trim()) {
+        throw 'Use -Title with -Mode rename.'
+    }
+    Set-ManagedSessionTitle -TargetSessionName $SessionName -TargetTitle $Title -TargetDistro $Distro
+    exit 0
+}
+
+if ($Mode -eq 'archive') {
+    if (-not $SessionName) {
+        throw 'Use -SessionName with -Mode archive.'
+    }
+    Set-ManagedSessionArchivedState -TargetSessionName $SessionName -Archived $true -TargetDistro $Distro
+    exit 0
+}
+
+if ($Mode -eq 'unarchive') {
+    if (-not $SessionName) {
+        throw 'Use -SessionName with -Mode unarchive.'
+    }
+    Set-ManagedSessionArchivedState -TargetSessionName $SessionName -Archived $false -TargetDistro $Distro
+    exit 0
+}
+
+if ($Mode -eq 'close') {
+    if (-not $SessionName) {
+        throw 'Use -SessionName with -Mode close.'
+    }
+    Close-ManagedSession -TargetSessionName $SessionName -TargetDistro $Distro
+    exit 0
+}
+
+if ($Mode -eq 'delete') {
+    if (-not $SessionName) {
+        throw 'Use -SessionName with -Mode delete.'
+    }
+    Remove-ManagedSession -TargetSessionName $SessionName -TargetDistro $Distro
     exit 0
 }
 
@@ -735,6 +1221,7 @@ if ($Mode -ne 'gui') {
 
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName Microsoft.VisualBasic
 
 function Open-TmuxInNewWindow {
     param(
@@ -903,22 +1390,58 @@ $sessionList.FullRowSelect = $true
 $sessionList.GridLines = $true
 [void]$sessionList.Columns.Add('Title', 200)
 [void]$sessionList.Columns.Add('Type', 70)
-[void]$sessionList.Columns.Add('Folder', 260)
-[void]$sessionList.Columns.Add('Preview', 180)
+[void]$sessionList.Columns.Add('State', 120)
+[void]$sessionList.Columns.Add('Folder', 230)
+[void]$sessionList.Columns.Add('Preview', 150)
 [void]$sessionList.Columns.Add('Attached', 70)
 [void]$sessionList.Columns.Add('Last Activity', 120)
 $existingGroup.Controls.Add($sessionList)
 
+$showArchivedCheckBox = New-Object System.Windows.Forms.CheckBox
+$showArchivedCheckBox.Text = 'Show Archived / Closed'
+$showArchivedCheckBox.AutoSize = $true
+$showArchivedCheckBox.Location = New-Object System.Drawing.Point(18, 181)
+$existingGroup.Controls.Add($showArchivedCheckBox)
+
 $refreshButton = New-Object System.Windows.Forms.Button
 $refreshButton.Text = 'Refresh'
-$refreshButton.Location = New-Object System.Drawing.Point(666, 176)
-$refreshButton.Size = New-Object System.Drawing.Size(110, 30)
+$refreshButton.Location = New-Object System.Drawing.Point(194, 176)
+$refreshButton.Size = New-Object System.Drawing.Size(88, 30)
 $existingGroup.Controls.Add($refreshButton)
+
+$renameButton = New-Object System.Windows.Forms.Button
+$renameButton.Text = 'Rename Title'
+$renameButton.Location = New-Object System.Drawing.Point(300, 176)
+$renameButton.Size = New-Object System.Drawing.Size(100, 30)
+$renameButton.Enabled = $false
+$existingGroup.Controls.Add($renameButton)
+
+$archiveButton = New-Object System.Windows.Forms.Button
+$archiveButton.Text = 'Archive'
+$archiveButton.Location = New-Object System.Drawing.Point(418, 176)
+$archiveButton.Size = New-Object System.Drawing.Size(90, 30)
+$archiveButton.Enabled = $false
+$existingGroup.Controls.Add($archiveButton)
+
+$closeSessionButton = New-Object System.Windows.Forms.Button
+$closeSessionButton.Text = 'Close Session'
+$closeSessionButton.Location = New-Object System.Drawing.Point(526, 176)
+$closeSessionButton.Size = New-Object System.Drawing.Size(102, 30)
+$closeSessionButton.Enabled = $false
+$existingGroup.Controls.Add($closeSessionButton)
+
+$deleteSessionButton = New-Object System.Windows.Forms.Button
+$deleteSessionButton.Text = 'Delete'
+$deleteSessionButton.Location = New-Object System.Drawing.Point(646, 176)
+$deleteSessionButton.Size = New-Object System.Drawing.Size(88, 30)
+$deleteSessionButton.Enabled = $false
+$existingGroup.Controls.Add($deleteSessionButton)
 
 $resumeButton = New-Object System.Windows.Forms.Button
 $resumeButton.Text = 'Open Selected'
-$resumeButton.Location = New-Object System.Drawing.Point(794, 176)
-$resumeButton.Size = New-Object System.Drawing.Size(122, 30)
+$resumeButton.Location = New-Object System.Drawing.Point(752, 176)
+$resumeButton.Size = New-Object System.Drawing.Size(146, 30)
+$resumeButton.Enabled = $false
 $existingGroup.Controls.Add($resumeButton)
 
 $closeButton = New-Object System.Windows.Forms.Button
@@ -952,23 +1475,37 @@ function Refresh-GuiDirectorySuggestions {
     }
 }
 
-function Get-GuiSessionListSignature {
-    $jsonText = & $tmuxScriptPath -Action list -Distro $Distro -Json
-    if ($LASTEXITCODE -ne 0) {
-        throw 'Unable to retrieve tmux session signature.'
+function Update-GuiSelectionState {
+    $selectedItem = if ($sessionList.SelectedItems.Count -gt 0) { $sessionList.SelectedItems[0] } else { $null }
+    if (-not $selectedItem) {
+        $renameButton.Enabled = $false
+        $archiveButton.Enabled = $false
+        $closeSessionButton.Enabled = $false
+        $deleteSessionButton.Enabled = $false
+        $resumeButton.Enabled = $false
+        $archiveButton.Text = 'Archive'
+        return
     }
 
-    $raw = ($jsonText | Out-String).Trim()
-    if (-not $raw) {
+    $isLive = [bool]$selectedItem.SubItems[5].Tag
+    $isArchived = [bool]$selectedItem.SubItems[2].Tag
+    $renameButton.Enabled = $true
+    $archiveButton.Enabled = $true
+    $closeSessionButton.Enabled = $isLive
+    $deleteSessionButton.Enabled = $true
+    $resumeButton.Enabled = $isLive
+    $archiveButton.Text = if ($isArchived) { 'Unarchive' } else { 'Archive' }
+}
+
+function Get-GuiSessionListSignature {
+    $sessions = @(Get-ExistingSessions -TargetDistro $Distro -IncludeCatalogOnly)
+    if ($sessions.Count -eq 0) {
         return ''
     }
 
-    $parsed = $raw | ConvertFrom-Json
-    $sessions = if ($parsed -is [System.Array]) { @($parsed) } else { @($parsed) }
     $parts = foreach ($s in $sessions) {
-        '{0}|{1}|{2}|{3}' -f $s.Name, $s.Type, $s.AttachedClients, $s.WindowCount
+        '{0}|{1}|{2}|{3}|{4}|{5}|{6}' -f $s.Name, $s.Type, $s.State, $s.Archived, $s.IsLive, $s.DisplayTitle, $s.LastActivityLocal
     }
-
     return (($parts | Sort-Object) -join "`n")
 }
 
@@ -993,18 +1530,24 @@ function Refresh-GuiSessions {
             $selectedTag = [string]$sessionList.SelectedItems[0].Tag
         }
 
-        $sessions = @(Get-ExistingSessions -TargetDistro $Distro)
+        $sessions = @(Get-ExistingSessions -TargetDistro $Distro -IncludeCatalogOnly:$showArchivedCheckBox.Checked)
+        if (-not $showArchivedCheckBox.Checked) {
+            $sessions = @($sessions | Where-Object { $_.IsLive -and (-not $_.Archived) })
+        }
         $sessionList.BeginUpdate()
         try {
             $sessionList.Items.Clear()
             foreach ($s in $sessions) {
                 $item = New-Object System.Windows.Forms.ListViewItem((Get-SessionDisplayTitle -Session $s))
                 [void]$item.SubItems.Add([string]$s.Type)
+                [void]$item.SubItems.Add([string]$s.State)
                 [void]$item.SubItems.Add([string]$s.WorkingDirectoryWindows)
                 [void]$item.SubItems.Add([string]$s.PreviewText)
                 [void]$item.SubItems.Add([string]$s.AttachedClients)
                 [void]$item.SubItems.Add([string]$s.LastActivityLocal)
                 $item.Tag = [string]$s.Name
+                $item.SubItems[2].Tag = [bool]$s.Archived
+                $item.SubItems[5].Tag = [bool]$s.IsLive
                 [void]$sessionList.Items.Add($item)
 
                 if ($selectedTag -and [string]$item.Tag -eq $selectedTag) {
@@ -1018,6 +1561,7 @@ function Refresh-GuiSessions {
         }
 
         $script:lastGuiSessionSignature = $signature
+        Update-GuiSelectionState
     } finally {
         $script:guiRefreshInProgress = $false
     }
@@ -1059,6 +1603,23 @@ $browseButton.Add_Click({
     }
 })
 
+$sessionList.Add_SelectedIndexChanged({
+    Update-GuiSelectionState
+})
+
+$showArchivedCheckBox.Add_CheckedChanged({
+    try {
+        Refresh-GuiSessions -Force
+    } catch {
+        [System.Windows.Forms.MessageBox]::Show(
+            $_.Exception.Message,
+            'Filter Error',
+            [System.Windows.Forms.MessageBoxButtons]::OK,
+            [System.Windows.Forms.MessageBoxIcon]::Error
+        ) | Out-Null
+    }
+})
+
 $refreshButton.Add_Click({
     try {
         Refresh-GuiSessions -Force
@@ -1066,6 +1627,98 @@ $refreshButton.Add_Click({
         [System.Windows.Forms.MessageBox]::Show(
             $_.Exception.Message,
             'Refresh Error',
+            [System.Windows.Forms.MessageBoxButtons]::OK,
+            [System.Windows.Forms.MessageBoxIcon]::Error
+        ) | Out-Null
+    }
+})
+
+$renameButton.Add_Click({
+    try {
+        if ($sessionList.SelectedItems.Count -eq 0) {
+            return
+        }
+
+        $selected = $sessionList.SelectedItems[0]
+        $currentSession = Get-SessionRecordByName -TargetSessionName ([string]$selected.Tag) -TargetDistro $Distro
+        if (-not $currentSession) {
+            throw "Session '$([string]$selected.Tag)' was not found."
+        }
+
+        $initialTitle = [string]$currentSession.DisplayTitle
+        $newTitle = [Microsoft.VisualBasic.Interaction]::InputBox(
+            'Choose a clearer title for this session.',
+            'Rename Session',
+            $initialTitle
+        )
+        if (-not $newTitle -or -not $newTitle.Trim()) {
+            return
+        }
+
+        Set-ManagedSessionTitle -TargetSessionName ([string]$selected.Tag) -TargetTitle $newTitle -TargetDistro $Distro
+        Refresh-GuiSessions -Force
+    } catch {
+        [System.Windows.Forms.MessageBox]::Show(
+            $_.Exception.Message,
+            'Rename Error',
+            [System.Windows.Forms.MessageBoxButtons]::OK,
+            [System.Windows.Forms.MessageBoxIcon]::Error
+        ) | Out-Null
+    }
+})
+
+$archiveButton.Add_Click({
+    try {
+        if ($sessionList.SelectedItems.Count -eq 0) {
+            return
+        }
+
+        $selected = $sessionList.SelectedItems[0]
+        $isArchived = [bool]$selected.SubItems[2].Tag
+        Set-ManagedSessionArchivedState -TargetSessionName ([string]$selected.Tag) -Archived (-not $isArchived) -TargetDistro $Distro
+        Refresh-GuiSessions -Force
+    } catch {
+        [System.Windows.Forms.MessageBox]::Show(
+            $_.Exception.Message,
+            'Archive Error',
+            [System.Windows.Forms.MessageBoxButtons]::OK,
+            [System.Windows.Forms.MessageBoxIcon]::Error
+        ) | Out-Null
+    }
+})
+
+$closeSessionButton.Add_Click({
+    try {
+        if ($sessionList.SelectedItems.Count -eq 0) {
+            return
+        }
+
+        $selected = $sessionList.SelectedItems[0]
+        Close-ManagedSession -TargetSessionName ([string]$selected.Tag) -TargetDistro $Distro
+        Refresh-GuiSessions -Force
+    } catch {
+        [System.Windows.Forms.MessageBox]::Show(
+            $_.Exception.Message,
+            'Close Session Error',
+            [System.Windows.Forms.MessageBoxButtons]::OK,
+            [System.Windows.Forms.MessageBoxIcon]::Error
+        ) | Out-Null
+    }
+})
+
+$deleteSessionButton.Add_Click({
+    try {
+        if ($sessionList.SelectedItems.Count -eq 0) {
+            return
+        }
+
+        $selected = $sessionList.SelectedItems[0]
+        Remove-ManagedSession -TargetSessionName ([string]$selected.Tag) -TargetDistro $Distro
+        Refresh-GuiSessions -Force
+    } catch {
+        [System.Windows.Forms.MessageBox]::Show(
+            $_.Exception.Message,
+            'Delete Error',
             [System.Windows.Forms.MessageBoxButtons]::OK,
             [System.Windows.Forms.MessageBoxIcon]::Error
         ) | Out-Null
@@ -1100,6 +1753,15 @@ $resumeButton.Add_Click({
         }
 
         $selected = $sessionList.SelectedItems[0]
+        if (-not [bool]$selected.SubItems[5].Tag) {
+            [System.Windows.Forms.MessageBox]::Show(
+                'This session is closed. Only running sessions can be reopened.',
+                'Open Existing Session',
+                [System.Windows.Forms.MessageBoxButtons]::OK,
+                [System.Windows.Forms.MessageBoxIcon]::Information
+            ) | Out-Null
+            return
+        }
         Open-GuiExistingSession -TargetSessionName ([string]$selected.Tag) -TargetDistro $Distro
     } catch {
         [System.Windows.Forms.MessageBox]::Show(

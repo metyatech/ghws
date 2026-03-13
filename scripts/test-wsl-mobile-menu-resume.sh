@@ -12,6 +12,7 @@ cleanup() {
 trap cleanup EXIT
 
 tmux new-session -d -s "$menu_session" -c /mnt/d/ghws 'env AI_AGENT_SESSION_NO_ATTACH=1 /mnt/d/ghws/scripts/wsl-agent-mobile-menu.sh'
+tmux set-option -t "$menu_session" remain-on-exit on >/dev/null 2>&1 || true
 sleep 1
 
 tmux new-session -d -s "$target_session" -c /mnt/d/ghws
@@ -24,8 +25,8 @@ sleep 1
 
 pane_output="$(tmux capture-pane -pt "$menu_session" -S -200)"
 
-printf '%s\n' "$pane_output" | grep -q '^\[1\] '
-printf '%s\n' "$pane_output" | grep -q 'resume-check'
-printf '%s\n' "$pane_output" | grep -q "Session ready: $target_session"
+[[ "$pane_output" == *'[1] '* ]]
+[[ "$pane_output" == *'resume-check'* ]]
+[[ "$pane_output" == *"Session ready: $target_session"* ]]
 
 printf 'PASS\n'
