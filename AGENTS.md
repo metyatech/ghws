@@ -84,6 +84,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 - Do not assume agent platform capabilities beyond what is available; fail explicitly when unavailable.
 - When building a CLI, follow standard conventions: --help/-h, --version/-V, stdin/stdout piping, --json output, --dry-run for mutations, deterministic exit codes, and JSON Schema config validation.
 - Treat `agent-browser` sessions as temporary resources: close them immediately when they are no longer needed, and before concluding a task verify that no sessions spawned for that task remain open.
+- For federated identity flows (Google, Apple, Microsoft, GitHub, etc.), when automation-launched browser contexts are blocked, degraded, or risky, hand off only the IdP step to a real browser/session via CDP or explicit user interaction, then resume automation after the redirect; do not try to bypass provider anti-automation or embedded-browser restrictions.
 ## Codex-only PowerShell safety
 - `Remove-Item` (aliases: `rm`, `ri`, `del`, `erase`) ↁEUse: `if ([IO.File]::Exists($p)) { [IO.File]::SetAttributes($p,[IO.FileAttributes]::Normal); [IO.File]::Delete($p) }`
 - `Remove-Item -Recurse` (aliases: `rmdir`, `rd`) ↁEUse: `if ([IO.Directory]::Exists($d)) { [IO.File]::SetAttributes($d,[IO.FileAttributes]::Normal); foreach ($e in [IO.Directory]::EnumerateFileSystemEntries($d,'*',[IO.SearchOption]::AllDirectories)) { [IO.File]::SetAttributes($e,[IO.FileAttributes]::Normal) }; [IO.Directory]::Delete($d,$true) }`
