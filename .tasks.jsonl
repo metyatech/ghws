@@ -1,4 +1,3 @@
-{"id":"UwhACkXn","description":"Add rule preferring emulator/simulator verification over real-device testing when equivalent coverage is possible","stage":"done","createdAt":"2026-03-11T05:35:14.485Z","updatedAt":"2026-03-11T05:38:46.504Z"}
 {"id":"KcalNcsQ","description":"Run meal-autopilot production smoke test in Android Emulator Chrome","stage":"done","createdAt":"2026-03-11T05:41:49.225Z","updatedAt":"2026-03-11T05:50:48.084Z"}
 {"id":"f6NGiQ7e","description":"Verify meal-autopilot camera barcode scanning path and update claimed support scope","stage":"done","createdAt":"2026-03-11T05:58:05.942Z","updatedAt":"2026-03-11T06:11:19.414Z"}
 {"id":"Db0a7cT3","description":"Achieve faithful meal-autopilot live camera barcode detection verification and pantry save flow","stage":"done","createdAt":"2026-03-11T06:15:09.028Z","updatedAt":"2026-03-11T12:40:57.863Z"}
@@ -21,3 +20,5 @@
 {"id":"CLbsfIzz","description":"Tone down Fish loadout detail disclosure so it reads as a secondary helper action","stage":"done","createdAt":"2026-03-13T06:31:14.757Z","updatedAt":"2026-03-13T06:44:01.187Z"}
 {"id":"oePdVrbD","description":"Monitor Fab review status for Runtime Asset Import plugin","stage":"pending","createdAt":"2026-03-13T06:40:36.303Z","updatedAt":"2026-03-13T06:40:36.303Z"}
 {"id":"wVMWCb7_","description":"Make Fish detail disclosure focus behavior match standard UI expectations","stage":"done","createdAt":"2026-03-13T06:48:02.781Z","updatedAt":"2026-03-13T06:55:19.202Z"}
+{"id":"orkD99ag","description":"Toggle off active Fish loadout row picker on second click","stage":"done","createdAt":"2026-03-13T07:04:21.659Z","updatedAt":"2026-03-13T07:11:02.430Z"}
+{"id":"XQoX0pdw","description":"Design and set up a mobile-friendly way to use AI agent CLIs from smartphone while away from PC","stage":"in-progress","createdAt":"2026-03-13T07:10:09.002Z","updatedAt":"2026-03-13T07:10:44.428Z"}
