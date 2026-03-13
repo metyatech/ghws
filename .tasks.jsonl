@@ -1,4 +1,3 @@
-{"id":"Db0a7cT3","description":"Achieve faithful meal-autopilot live camera barcode detection verification and pantry save flow","stage":"done","createdAt":"2026-03-11T06:15:09.028Z","updatedAt":"2026-03-11T12:40:57.863Z"}
 {"id":"ePHp-hdN","description":"Connect meal-autopilot Stripe live billing end-to-end and verify live entitlements","stage":"in-progress","createdAt":"2026-03-11T10:11:02.605Z","updatedAt":"2026-03-13T05:07:39.079Z"}
 {"id":"9H3Jgbjm","description":"Implement and verify meal-autopilot Android Play Billing/TWA delivery path","stage":"in-progress","createdAt":"2026-03-11T10:11:02.818Z","updatedAt":"2026-03-13T04:46:43.738Z"}
 {"id":"KZr4amor","description":"Reinstall official agent-browser from scratch and verify it works","stage":"done","createdAt":"2026-03-11T13:10:36.108Z","updatedAt":"2026-03-11T13:14:31.395Z"}
@@ -31,5 +30,5 @@
 {"id":"e7kdoCf_","description":"Define MVP spec for autonomous orchestrator over agent session fabric","stage":"pending","createdAt":"2026-03-13T09:05:32.721Z","updatedAt":"2026-03-13T09:05:32.721Z"}
 {"id":"rRHgdpv7","description":"Re-run alternate Windows user verification for agent-dotfiles with elevation if available","stage":"committed","createdAt":"2026-03-13T09:18:47.872Z","updatedAt":"2026-03-13T09:32:26.014Z","committedEventId":"WtPsWRdC5B63qaXr"}
 {"id":"AgXTfuCB","description":"Add GUI whole-screen plausibility review rule","stage":"done","createdAt":"2026-03-13T09:19:08.455Z","updatedAt":"2026-03-13T09:20:31.510Z"}
-{"id":"3tlEkPND","description":"Keep other loadout rows and totals visible while comparing equipment candidates in Fish calculator","stage":"in-progress","createdAt":"2026-03-13T09:27:08.666Z","updatedAt":"2026-03-13T09:27:21.007Z"}
+{"id":"3tlEkPND","description":"Keep other loadout rows and totals visible while comparing equipment candidates in Fish calculator","stage":"done","createdAt":"2026-03-13T09:27:08.666Z","updatedAt":"2026-03-13T09:37:50.614Z","committedEventId":"zhIgyMRJBKgu_PmW"}
 {"id":"bUIJGbY8","description":"Design anti-forgetting workflow for interactive manager agent sessions","stage":"done","createdAt":"2026-03-13T09:30:05.228Z","updatedAt":"2026-03-13T09:31:08.470Z"}
