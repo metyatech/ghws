@@ -96,7 +96,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 - Do not claim completion until the running instance reflects the changes.
 - Detection and verification procedures are in the `post-deploy` skill.
 
-- **PowerShell native environment**: This is a Windows/PowerShell environment. Do not use Unix commands directly. In Bash-tool commands, run PowerShell only via a temp `.ps1` and `pwsh`/`powershell -File`; do not use `-Command`, stdin, heredoc, or `-EncodedCommand` for PowerShell scripts.
+- **PowerShell native environment**: This is a Windows/PowerShell environment. Do not use Unix commands directly, and do not run PowerShell through Bash. For PowerShell scripts, use `pwsh`/`powershell -File` with a `.ps1` file, not `-Command`, stdin, heredoc, or `-EncodedCommand`.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding-standards.md
 
