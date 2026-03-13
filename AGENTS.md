@@ -60,6 +60,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 - Actively consider whether user input carries intent beyond its literal wording, and when it does, state that inferred intent and propose the matching next step.
 - If a problem can be fundamentally solved by modifying global rules, solve it by modifying global rules.
 - When modifying global rules, choose the shortest rule change that is still sufficient to solve the problem.
+- When multiple viable approaches exist, default to the highest-standard option that maximizes long-term quality, maintainability, and durability; lower-standard tradeoffs require explicit user request.
 
 ## Autonomous task resolution
 
