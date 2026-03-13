@@ -21,4 +21,5 @@
 {"id":"wVMWCb7_","description":"Make Fish detail disclosure focus behavior match standard UI expectations","stage":"done","createdAt":"2026-03-13T06:48:02.781Z","updatedAt":"2026-03-13T06:55:19.202Z"}
 {"id":"orkD99ag","description":"Toggle off active Fish loadout row picker on second click","stage":"done","createdAt":"2026-03-13T07:04:21.659Z","updatedAt":"2026-03-13T07:11:02.430Z"}
 {"id":"XQoX0pdw","description":"Design and set up a mobile-friendly way to use AI agent CLIs from smartphone while away from PC","stage":"in-progress","createdAt":"2026-03-13T07:10:09.002Z","updatedAt":"2026-03-13T07:10:44.428Z"}
-{"id":"VVYvgOvs","description":"Fix uneven focus outline rendering on Fish loadout row after closing picker","stage":"done","createdAt":"2026-03-13T07:14:42.766Z","updatedAt":"2026-03-13T07:20:00.189Z"}
+{"id":"VVYvgOvs","description":"Fix uneven focus outline rendering on Fish loadout row after closing picker","stage":"done","createdAt":"2026-03-13T07:14:42.766Z","updatedAt":"2026-03-13T07:23:43.092Z"}
+{"id":"P1m5GLBQ","description":"Keep current loadout stats visible while picker is open and improve picker readability in Fish UI","stage":"pending","createdAt":"2026-03-13T07:23:14.378Z","updatedAt":"2026-03-13T07:23:14.378Z"}
