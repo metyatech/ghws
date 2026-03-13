@@ -37,3 +37,6 @@
 {"id":"C1gozsGx","description":"Implement Manager web app with single-entry start-or-attach and inbox view","stage":"in-progress","createdAt":"2026-03-13T10:41:31.710Z","updatedAt":"2026-03-13T10:41:31.710Z"}
 {"id":"_aIxjEh-","description":"Implement default manager launch/status path behind thread-inbox Manager GUI","stage":"in-progress","createdAt":"2026-03-13T11:59:23.801Z","updatedAt":"2026-03-13T12:02:37.916Z"}
 {"id":"tmNdoRHt","description":"Fix Fish calculator Step 1 overlay layout so current loadout table stays readable while chooser panel opens","stage":"done","createdAt":"2026-03-13T12:02:16.840Z","updatedAt":"2026-03-13T12:49:03.233Z"}
+{"id":"MfwTe4P_","description":"Redesign Fish calculator Step 1 so the chooser never hides current loadout or total stats while comparing candidates","stage":"in-progress","createdAt":"2026-03-13T13:33:50.786Z","updatedAt":"2026-03-13T13:34:42.940Z"}
+{"id":"fLzDs8ip","description":"Dogfood thread-inbox Manager GUI from smartphone and validate cross-device inbox/start flow","stage":"pending","createdAt":"2026-03-13T13:41:10.652Z","updatedAt":"2026-03-13T13:41:10.652Z"}
+{"id":"AtqSG5yb","description":"Remove ghws local .gemini workspace config and commit/push the change","stage":"committed","createdAt":"2026-03-13T13:42:10.873Z","updatedAt":"2026-03-13T13:47:15.034Z","committedEventId":"HS7AYYR87SkoOQA4"}

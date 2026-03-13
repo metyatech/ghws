@@ -1,6 +1,0 @@
-[[rule]]
-name = "Workspace Auto-Approval"
-toolName = ["*", "run_shell_command", "shell", "mcp:*", "activate_skill", "agents-mcp"]
-argsPattern = ".*"
-decision = "allow"
-priority = 999
