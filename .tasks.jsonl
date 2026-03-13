@@ -1,7 +1,6 @@
 {"id":"Db0a7cT3","description":"Achieve faithful meal-autopilot live camera barcode detection verification and pantry save flow","stage":"done","createdAt":"2026-03-11T06:15:09.028Z","updatedAt":"2026-03-11T12:40:57.863Z"}
 {"id":"ePHp-hdN","description":"Connect meal-autopilot Stripe live billing end-to-end and verify live entitlements","stage":"in-progress","createdAt":"2026-03-11T10:11:02.605Z","updatedAt":"2026-03-13T05:07:39.079Z"}
 {"id":"9H3Jgbjm","description":"Implement and verify meal-autopilot Android Play Billing/TWA delivery path","stage":"in-progress","createdAt":"2026-03-11T10:11:02.818Z","updatedAt":"2026-03-13T04:46:43.738Z"}
-{"id":"FRoBG3Al","description":"Evaluate agent-browser skill against current browser automation tools for AI agents","stage":"done","createdAt":"2026-03-11T11:29:50.824Z","updatedAt":"2026-03-11T11:33:51.316Z"}
 {"id":"KZr4amor","description":"Reinstall official agent-browser from scratch and verify it works","stage":"done","createdAt":"2026-03-11T13:10:36.108Z","updatedAt":"2026-03-11T13:14:31.395Z"}
 {"id":"uukaHGfc","description":"Eliminate remaining Fish calculator GUI rule violations","stage":"done","createdAt":"2026-03-13T02:25:58.457Z","updatedAt":"2026-03-13T03:10:35.977Z"}
 {"id":"esn50ji1","description":"Add rule requiring agent-browser sessions to be closed when no longer needed","stage":"done","createdAt":"2026-03-13T02:37:21.399Z","updatedAt":"2026-03-13T02:39:14.887Z"}
@@ -30,5 +29,7 @@
 {"id":"DMUtrcKW","description":"Complete Windows+WSL+tmux typed multi-session start/resume flow for PC+smartphone including dynamic session picker","stage":"in-progress","createdAt":"2026-03-13T08:47:33.911Z","updatedAt":"2026-03-13T08:54:23.643Z"}
 {"id":"9E4xGgMs","description":"Verify agent-dotfiles under a different local Windows user account and assess ease of new-PC rollout","stage":"committed","createdAt":"2026-03-13T09:03:03.847Z","updatedAt":"2026-03-13T09:16:09.513Z","committedEventId":"yds6zm6zBqTObnWN"}
 {"id":"e7kdoCf_","description":"Define MVP spec for autonomous orchestrator over agent session fabric","stage":"pending","createdAt":"2026-03-13T09:05:32.721Z","updatedAt":"2026-03-13T09:05:32.721Z"}
-{"id":"rRHgdpv7","description":"Re-run alternate Windows user verification for agent-dotfiles with elevation if available","stage":"in-progress","createdAt":"2026-03-13T09:18:47.872Z","updatedAt":"2026-03-13T09:19:14.275Z"}
+{"id":"rRHgdpv7","description":"Re-run alternate Windows user verification for agent-dotfiles with elevation if available","stage":"committed","createdAt":"2026-03-13T09:18:47.872Z","updatedAt":"2026-03-13T09:32:26.014Z","committedEventId":"WtPsWRdC5B63qaXr"}
 {"id":"AgXTfuCB","description":"Add GUI whole-screen plausibility review rule","stage":"done","createdAt":"2026-03-13T09:19:08.455Z","updatedAt":"2026-03-13T09:20:31.510Z"}
+{"id":"3tlEkPND","description":"Keep other loadout rows and totals visible while comparing equipment candidates in Fish calculator","stage":"in-progress","createdAt":"2026-03-13T09:27:08.666Z","updatedAt":"2026-03-13T09:27:21.007Z"}
+{"id":"bUIJGbY8","description":"Design anti-forgetting workflow for interactive manager agent sessions","stage":"done","createdAt":"2026-03-13T09:30:05.228Z","updatedAt":"2026-03-13T09:31:08.470Z"}
