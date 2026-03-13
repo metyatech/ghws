@@ -1,8 +1,6 @@
 {"id":"ePHp-hdN","description":"Connect meal-autopilot Stripe live billing end-to-end and verify live entitlements","stage":"in-progress","createdAt":"2026-03-11T10:11:02.605Z","updatedAt":"2026-03-13T05:07:39.079Z"}
 {"id":"9H3Jgbjm","description":"Implement and verify meal-autopilot Android Play Billing/TWA delivery path","stage":"in-progress","createdAt":"2026-03-11T10:11:02.818Z","updatedAt":"2026-03-13T04:46:43.738Z"}
-{"id":"KZr4amor","description":"Reinstall official agent-browser from scratch and verify it works","stage":"done","createdAt":"2026-03-11T13:10:36.108Z","updatedAt":"2026-03-11T13:14:31.395Z"}
 {"id":"uukaHGfc","description":"Eliminate remaining Fish calculator GUI rule violations","stage":"done","createdAt":"2026-03-13T02:25:58.457Z","updatedAt":"2026-03-13T03:10:35.977Z"}
-{"id":"esn50ji1","description":"Add rule requiring agent-browser sessions to be closed when no longer needed","stage":"done","createdAt":"2026-03-13T02:37:21.399Z","updatedAt":"2026-03-13T02:39:14.887Z"}
 {"id":"vucHkJsV","description":"Add federated-login handoff rule for Sign in with Google and other IdP-based account creation flows","stage":"done","createdAt":"2026-03-13T02:59:56.910Z","updatedAt":"2026-03-13T03:56:37.094Z"}
 {"id":"vD0-agBc","description":"Stop including AC/evidence sections in normal direct-mode user responses unless explicitly requested","stage":"done","createdAt":"2026-03-13T03:43:36.274Z","updatedAt":"2026-03-13T03:51:28.614Z"}
 {"id":"gWC3PU2W","description":"Fix remaining Fish calculator follow-ups: GH Actions Node24 warning, calculation-notes wording polish, experimental model accuracy improvements where feasible, and equipment list search/filter","stage":"done","createdAt":"2026-03-13T03:51:26.348Z","updatedAt":"2026-03-13T04:51:18.846Z"}
@@ -32,3 +30,6 @@
 {"id":"AgXTfuCB","description":"Add GUI whole-screen plausibility review rule","stage":"done","createdAt":"2026-03-13T09:19:08.455Z","updatedAt":"2026-03-13T09:20:31.510Z"}
 {"id":"3tlEkPND","description":"Keep other loadout rows and totals visible while comparing equipment candidates in Fish calculator","stage":"done","createdAt":"2026-03-13T09:27:08.666Z","updatedAt":"2026-03-13T09:37:50.614Z","committedEventId":"zhIgyMRJBKgu_PmW"}
 {"id":"bUIJGbY8","description":"Design anti-forgetting workflow for interactive manager agent sessions","stage":"done","createdAt":"2026-03-13T09:30:05.228Z","updatedAt":"2026-03-13T09:31:08.470Z"}
+{"id":"DuiBCGr8","description":"Create disposable elevated local Windows user for real alternate-user CLI runtime verification, then clean up temporary artifacts","stage":"done","createdAt":"2026-03-13T09:41:22.213Z","updatedAt":"2026-03-13T09:52:23.968Z"}
+{"id":"6Dz3bldY","description":"Investigate intermittent agent-browser daemon EACCES startup failure","stage":"done","createdAt":"2026-03-13T09:54:57.731Z","updatedAt":"2026-03-13T10:02:32.152Z"}
+{"id":"Q3QShoAp","description":"Define cross-device manager start/attach flow integrated with agent session fabric","stage":"pending","createdAt":"2026-03-13T10:00:39.636Z","updatedAt":"2026-03-13T10:00:39.636Z"}
