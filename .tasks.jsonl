@@ -1,4 +1,3 @@
-{"id":"gjjjh0h1","description":"Fix loadout detail affordance so details open only from the info icon and the icon sits next to the item name","stage":"done","createdAt":"2026-03-11T04:35:49.140Z","updatedAt":"2026-03-11T04:47:43.138Z"}
 {"id":"PETtmwYe","description":"Fix loadout info icon so it never opens the equipment picker","stage":"done","createdAt":"2026-03-11T04:51:16.735Z","updatedAt":"2026-03-11T05:15:23.093Z","committedEventId":"FG0pVlTqYd-CZePP"}
 {"id":"AOr_R-DG","description":"Add permanent rules requiring full environment-matrix runtime validation and stricter critical-system release gates","stage":"done","createdAt":"2026-03-11T04:54:34.990Z","updatedAt":"2026-03-11T05:08:02.591Z"}
 {"id":"ABACsJVu","description":"Define and document the claimed runtime environment matrix for meal-autopilot","stage":"done","createdAt":"2026-03-11T05:12:48.969Z","updatedAt":"2026-03-11T05:15:11.748Z"}
@@ -19,5 +18,6 @@
 {"id":"9H3Jgbjm","description":"Implement and verify meal-autopilot Android Play Billing/TWA delivery path","stage":"in-progress","createdAt":"2026-03-11T10:11:02.818Z","updatedAt":"2026-03-11T10:15:23.939Z"}
 {"id":"FRoBG3Al","description":"Evaluate agent-browser skill against current browser automation tools for AI agents","stage":"done","createdAt":"2026-03-11T11:29:50.824Z","updatedAt":"2026-03-11T11:33:51.316Z"}
 {"id":"KZr4amor","description":"Reinstall official agent-browser from scratch and verify it works","stage":"done","createdAt":"2026-03-11T13:10:36.108Z","updatedAt":"2026-03-11T13:14:31.395Z"}
-{"id":"uukaHGfc","description":"Eliminate remaining Fish calculator GUI rule violations","stage":"in-progress","createdAt":"2026-03-13T02:25:58.457Z","updatedAt":"2026-03-13T02:28:23.080Z"}
+{"id":"uukaHGfc","description":"Eliminate remaining Fish calculator GUI rule violations","stage":"done","createdAt":"2026-03-13T02:25:58.457Z","updatedAt":"2026-03-13T03:10:35.977Z"}
 {"id":"esn50ji1","description":"Add rule requiring agent-browser sessions to be closed when no longer needed","stage":"done","createdAt":"2026-03-13T02:37:21.399Z","updatedAt":"2026-03-13T02:39:14.887Z"}
+{"id":"vucHkJsV","description":"Add federated-login handoff rule for Sign in with Google and other IdP-based account creation flows","stage":"in-progress","createdAt":"2026-03-13T02:59:56.910Z","updatedAt":"2026-03-13T03:09:57.658Z"}
