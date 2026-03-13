@@ -195,7 +195,7 @@ Non-negotiable gates for any state-changing work or any claim of "done", "fixed"
 3. **WITH** each AC: define verification evidence.
 4. **FOR** code/runtime changes: automated tests required. Bugfixes MUST include a regression test.
 5. **ALWAYS**: run repo-standard verify command; if missing, add it.
-6. **IN** final response: AC -> evidence mapping with outcomes and verification commands.
+6. **IN** final response: keep completion reporting concise by default.
 
 ## Quality principles
 - Quality (correctness, safety, robustness, verifiability) > speed/convenience.
