@@ -1,4 +1,3 @@
-{"id":"mP4ybzpu","description":"Trim implementation rule module back under line budget","stage":"done","createdAt":"2026-03-11T05:32:34.662Z","updatedAt":"2026-03-11T05:37:27.426Z"}
 {"id":"UwhACkXn","description":"Add rule preferring emulator/simulator verification over real-device testing when equivalent coverage is possible","stage":"done","createdAt":"2026-03-11T05:35:14.485Z","updatedAt":"2026-03-11T05:38:46.504Z"}
 {"id":"KcalNcsQ","description":"Run meal-autopilot production smoke test in Android Emulator Chrome","stage":"done","createdAt":"2026-03-11T05:41:49.225Z","updatedAt":"2026-03-11T05:50:48.084Z"}
 {"id":"f6NGiQ7e","description":"Verify meal-autopilot camera barcode scanning path and update claimed support scope","stage":"done","createdAt":"2026-03-11T05:58:05.942Z","updatedAt":"2026-03-11T06:11:19.414Z"}
@@ -21,3 +20,4 @@
 {"id":"SyHaH2EZ","description":"Refine Fish calculator loadout detail interaction to use a more standard inline disclosure pattern","stage":"done","createdAt":"2026-03-13T06:18:08.514Z","updatedAt":"2026-03-13T06:27:02.683Z"}
 {"id":"CLbsfIzz","description":"Tone down Fish loadout detail disclosure so it reads as a secondary helper action","stage":"done","createdAt":"2026-03-13T06:31:14.757Z","updatedAt":"2026-03-13T06:44:01.187Z"}
 {"id":"oePdVrbD","description":"Monitor Fab review status for Runtime Asset Import plugin","stage":"pending","createdAt":"2026-03-13T06:40:36.303Z","updatedAt":"2026-03-13T06:40:36.303Z"}
+{"id":"wVMWCb7_","description":"Make Fish detail disclosure focus behavior match standard UI expectations","stage":"done","createdAt":"2026-03-13T06:48:02.781Z","updatedAt":"2026-03-13T06:55:19.202Z"}
