@@ -1,6 +1,5 @@
 {"id":"ePHp-hdN","description":"Connect meal-autopilot Stripe live billing end-to-end and verify live entitlements","stage":"in-progress","createdAt":"2026-03-11T10:11:02.605Z","updatedAt":"2026-03-13T05:07:39.079Z"}
 {"id":"9H3Jgbjm","description":"Implement and verify meal-autopilot Android Play Billing/TWA delivery path","stage":"in-progress","createdAt":"2026-03-11T10:11:02.818Z","updatedAt":"2026-03-13T04:46:43.738Z"}
-{"id":"gWC3PU2W","description":"Fix remaining Fish calculator follow-ups: GH Actions Node24 warning, calculation-notes wording polish, experimental model accuracy improvements where feasible, and equipment list search/filter","stage":"done","createdAt":"2026-03-13T03:51:26.348Z","updatedAt":"2026-03-13T04:51:18.846Z"}
 {"id":"SyHaH2EZ","description":"Refine Fish calculator loadout detail interaction to use a more standard inline disclosure pattern","stage":"done","createdAt":"2026-03-13T06:18:08.514Z","updatedAt":"2026-03-13T06:27:02.683Z"}
 {"id":"CLbsfIzz","description":"Tone down Fish loadout detail disclosure so it reads as a secondary helper action","stage":"done","createdAt":"2026-03-13T06:31:14.757Z","updatedAt":"2026-03-13T06:44:01.187Z"}
 {"id":"oePdVrbD","description":"Monitor Fab review status for Runtime Asset Import plugin","stage":"pending","createdAt":"2026-03-13T06:40:36.303Z","updatedAt":"2026-03-13T06:40:36.303Z"}
@@ -36,3 +35,5 @@
 {"id":"Nu-evf3X","description":"Keep current loadout visible while choosing equipment candidates in Fish calculator","stage":"done","createdAt":"2026-03-13T10:38:14.733Z","updatedAt":"2026-03-13T11:27:11.762Z","committedEventId":"GyjhwmwofJjkP-xb"}
 {"id":"Tt1cWrbj","description":"Prepare alternate-user CLI auth flows and hand off IdP login steps for Codex/Claude/Gemini/Copilot","stage":"in-progress","createdAt":"2026-03-13T10:41:10.269Z","updatedAt":"2026-03-13T10:42:38.728Z"}
 {"id":"C1gozsGx","description":"Implement Manager web app with single-entry start-or-attach and inbox view","stage":"in-progress","createdAt":"2026-03-13T10:41:31.710Z","updatedAt":"2026-03-13T10:41:31.710Z"}
+{"id":"_aIxjEh-","description":"Implement default manager launch/status path behind thread-inbox Manager GUI","stage":"in-progress","createdAt":"2026-03-13T11:59:23.801Z","updatedAt":"2026-03-13T12:02:37.916Z"}
+{"id":"tmNdoRHt","description":"Fix Fish calculator Step 1 overlay layout so current loadout table stays readable while chooser panel opens","stage":"done","createdAt":"2026-03-13T12:02:16.840Z","updatedAt":"2026-03-13T12:49:03.233Z"}
