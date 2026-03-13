@@ -21,3 +21,4 @@
 {"id":"uukaHGfc","description":"Eliminate remaining Fish calculator GUI rule violations","stage":"done","createdAt":"2026-03-13T02:25:58.457Z","updatedAt":"2026-03-13T03:10:35.977Z"}
 {"id":"esn50ji1","description":"Add rule requiring agent-browser sessions to be closed when no longer needed","stage":"done","createdAt":"2026-03-13T02:37:21.399Z","updatedAt":"2026-03-13T02:39:14.887Z"}
 {"id":"vucHkJsV","description":"Add federated-login handoff rule for Sign in with Google and other IdP-based account creation flows","stage":"in-progress","createdAt":"2026-03-13T02:59:56.910Z","updatedAt":"2026-03-13T03:09:57.658Z"}
+{"id":"vD0-agBc","description":"Stop including AC/evidence sections in normal direct-mode user responses unless explicitly requested","stage":"pending","createdAt":"2026-03-13T03:43:36.274Z","updatedAt":"2026-03-13T03:43:36.274Z"}

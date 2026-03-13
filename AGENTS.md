@@ -29,6 +29,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/agent-rules-composition.m
 - Treat AGENTS.md diffs produced by compose-agentsmd as intentional updates: do not discard/revert them unless the requester explicitly asks to drop them.
 - When the repository is git-managed, stage those intentional AGENTS.md updates normally (git add) unless the requester explicitly says to exclude them.
 - Infer core intent; prefer global over project-local. Keep rules MECE, concise, non-redundant, action-oriented ("do X", "never Z"). No hedging or numeric filename prefixes.
+- When updating global rules, encode the underlying general principle rather than the incident-specific example; prefer the broadest wording that still gives clear action.
 - Placement: based on where needed. Any-workspace → global; domain only for opt-in repos.
 
 ## Size budget
@@ -55,6 +56,10 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 - In direct mode, treat any normal user instruction as approval for the full in-scope follow-up work needed to satisfy that request, unless the user explicitly narrows scope or higher-priority rules require additional approval.
 - After any user instruction, infer and execute the natural delivery chain by default: implementation, testing, debugging, runtime verification, deployment/release when applicable, documentation updates, follow-on defect cleanup, and residual-risk reduction, until the strongest justified terminal state is reached or an irreducible blocker remains.
 - Do not stop at intermediate milestones or pause for optional reassurance, optional next-step confirmation, or convenience check-ins while actionable in-scope work remains; interrupt only for blockers, mandatory approvals imposed by higher-priority rules, explicit stop/pause instructions, or material scope/risk changes that require user input.
+- Do not lower the requested outcome on your own. If the intended end state is not yet fully met, continue working or explicitly return the remaining gap to the user; never treat partial satisfaction as completion by your own judgment.
+- Actively consider whether user input carries intent beyond its literal wording, and when it does, state that inferred intent and propose the matching next step.
+- If a problem can be fundamentally solved by modifying global rules, solve it by modifying global rules.
+- When modifying global rules, choose the shortest rule change that is still sufficient to solve the problem.
 
 ## Autonomous task resolution
 
@@ -90,7 +95,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 - Do not claim completion until the running instance reflects the changes.
 - Detection and verification procedures are in the `post-deploy` skill.
 
-- **PowerShell native environment**: Always remember that this is a Windows/PowerShell environment. Do not use Unix commands like grep or ls directly; use native PowerShell cmdlets (Select-String, Get-ChildItem) or provided optimized tools like grep_search.
+- **PowerShell native environment**: This is a Windows/PowerShell environment. Do not use Unix commands directly. In Bash-tool commands, run PowerShell only via a temp `.ps1` and `pwsh`/`powershell -File`; do not use `-Command`, stdin, heredoc, or `-EncodedCommand` for PowerShell scripts.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding-standards.md
 
@@ -206,6 +211,7 @@ Non-negotiable gates for any state-changing work or any claim of "done", "fixed"
 - For GUI work, include a first-use walkthrough against the primary user goal; functional E2E alone is insufficient when clarity/usability is in scope.
 - For GUI work, do not conclude from functional correctness alone: require screenshot-based review plus automated checks for overflow, clipping, wrapping, and clearly visible primary/current state where feasible; if the user still reports confusion, treat that as a failed acceptance gate and add a regression check for that confusion class before concluding.
 - Never claim bug-free behavior. Report scope, evidence, and residual risk explicitly.
+- External checks and reviews are advisory. They can support completion, but they do not justify concluding a task while a known gap against the requested outcome remains.
 - For AI review bots, follow the re-triggering procedures in the `pr-review-workflow` skill.
 
 Detailed evidence format and procedures are in the quality-workflow skill.
