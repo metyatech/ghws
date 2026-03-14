@@ -18,7 +18,7 @@ This repository is a lightweight workspace index for managing the user's GitHub 
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-hooks.ps1` configures git hooks.
 - `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/lint.ps1` validates the ruleset JSON.
-- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test.ps1` checks the documented automation link.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test.ps1` runs the shell/mobile regression suite. Set `GHWS_RUN_ANDROID_MOBILE_E2E=1` to add the emulator-backed mobile SSH check.
 - `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build.ps1` regenerates `AGENTS.md`.
 - `compose-agentsmd` regenerates `AGENTS.md` from the configured ruleset.
 
@@ -37,6 +37,8 @@ This repository is a lightweight workspace index for managing the user's GitHub 
 - Smartphone access uses `Termius` to SSH into the Windows host; successful SSH logins auto-open the mobile session menu in WSL.
 - `wsl.exe -d Ubuntu -- bash -lc 'cd /path/to/ghws && ./scripts/wsl-agent-mobile-menu.sh list-all'` shows archived and closed entries from the mobile-side CLI.
 - `wsl.exe -d Ubuntu -- bash -lc 'cd /path/to/ghws && ./scripts/wsl-agent-mobile-menu.sh manage'` opens the mobile management flow for rename/archive/close/delete without using the Windows GUI.
+- `python scripts/test-android-mobile-e2e.py` boots an Android emulator, installs ConnectBot if needed, connects to a temporary WSL `sshd`, and checks whether the Android SSH client can authenticate and auto-attach to a prepared tmux session. The script exits non-zero when it reproduces the current ConnectBot disconnect limitation.
+- `GHWS_RUN_ANDROID_MOBILE_E2E=1 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test.ps1` adds the emulator-backed mobile E2E to the normal regression suite.
 
 ## Environment variables
 

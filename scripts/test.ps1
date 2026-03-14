@@ -44,10 +44,33 @@ if (($manageMenuOutput | Out-String).Trim() -notmatch 'PASS') {
     exit 1
 }
 
+$catalogPathOutput = wsl.exe -d Ubuntu -- bash -lc '/mnt/d/ghws/scripts/test-wsl-mobile-menu-catalog-path.sh'
+if (($catalogPathOutput | Out-String).Trim() -notmatch 'PASS') {
+    Write-Error 'Expected the mobile menu to fall back cleanly when Windows USERPROFILE is unavailable and to honor AI_AGENT_SESSION_CATALOG_PATH overrides.'
+    exit 1
+}
+
 $mobileSshOutput = python (Join-Path $PSScriptRoot 'test-mobile-ssh.py')
 if (($mobileSshOutput | Out-String).Trim() -notmatch 'PASS') {
     Write-Error 'Expected the SSH -> WSL mobile menu path to pass resume verification.'
     exit 1
+}
+
+$runAndroidMobileE2E = ($env:GHWS_RUN_ANDROID_MOBILE_E2E -eq '1')
+if ($runAndroidMobileE2E) {
+    $androidE2eScript = Join-Path $PSScriptRoot 'test-android-mobile-e2e.py'
+    $androidProbeOutput = python $androidE2eScript --probe
+    if (($androidProbeOutput | Out-String).Trim() -eq 'available') {
+        $androidE2eOutput = python $androidE2eScript
+        if (($androidE2eOutput | Out-String).Trim() -notmatch 'PASS') {
+            Write-Error 'Expected the Android emulator mobile E2E to connect through ConnectBot and resume the prepared tmux session.'
+            exit 1
+        }
+    } else {
+        Write-Output "Skipping Android emulator mobile E2E. $($androidProbeOutput | Out-String | ForEach-Object { $_.Trim() })"
+    }
+} else {
+    Write-Output 'Skipping Android emulator mobile E2E. Set GHWS_RUN_ANDROID_MOBILE_E2E=1 to run the emulator-backed ConnectBot check.'
 }
 
 $sessionManagementOutput = & (Join-Path $PSScriptRoot 'test-session-management.ps1')

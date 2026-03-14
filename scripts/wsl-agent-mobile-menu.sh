@@ -15,8 +15,6 @@ declare -A HEALTHCHECK_COMMANDS=(
   [shell]=''
 )
 
-WINDOWS_USERPROFILE="$(cmd.exe /c "echo %USERPROFILE%" < /dev/null 2>/dev/null | tr -d '\r')"
-SESSION_CATALOG_PATH="$(wslpath "$WINDOWS_USERPROFILE")/agent-handoff/session-catalog.json"
 DEFAULT_WORKSPACE_ROOT='/mnt/d/ghws'
 SESSION_FIELD_DELIM=$'\x1f'
 
@@ -34,6 +32,30 @@ get_windows_env() {
   fi
   printf '%s\n' "$value"
 }
+
+resolve_session_catalog_path() {
+  local override="${AI_AGENT_SESSION_CATALOG_PATH:-}"
+  local windows_userprofile=''
+  local wsl_userprofile=''
+
+  if [[ -n "${override// }" ]]; then
+    printf '%s\n' "$override"
+    return 0
+  fi
+
+  windows_userprofile="$(get_windows_env 'USERPROFILE')"
+  if [[ -n "${windows_userprofile// }" ]]; then
+    wsl_userprofile="$(wslpath "$windows_userprofile" 2>/dev/null || true)"
+    if [[ -n "${wsl_userprofile// }" ]]; then
+      printf '%s\n' "${wsl_userprofile}/agent-handoff/session-catalog.json"
+      return 0
+    fi
+  fi
+
+  printf '%s\n' "${HOME}/.agent-handoff/session-catalog.json"
+}
+
+SESSION_CATALOG_PATH="$(resolve_session_catalog_path)"
 
 no_attach_requested() {
   [[ -n "${AI_AGENT_SESSION_NO_ATTACH:-}" ]] && return 0

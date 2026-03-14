@@ -49,3 +49,6 @@
 {"id":"aXGFdiFG","description":"Add minimal authentication to thread-inbox Manager GUI for cross-device access","stage":"in-progress","createdAt":"2026-03-14T01:18:23.454Z","updatedAt":"2026-03-14T01:18:50.554Z"}
 {"id":"7dRzY2vz","description":"Fix Fish loadout total row readability and table alignment","stage":"done","createdAt":"2026-03-14T04:45:57.591Z","updatedAt":"2026-03-14T04:56:20.011Z","committedEventId":"Eo7c9_4YtUsJVW_b"}
 {"id":"WC8HJ4Vs","description":"Add smartphone emulator/simulator E2E coverage or best-available substitute for AI agent mobile flow, plus recurrence prevention for unverified environment reporting","stage":"in-progress","createdAt":"2026-03-14T04:54:00.286Z","updatedAt":"2026-03-14T04:54:31.178Z"}
+{"id":"OBAb1V1b","description":"Improve Manager GUI first-use clarity and remove internal status jargon","stage":"in-progress","createdAt":"2026-03-14T05:37:28.638Z","updatedAt":"2026-03-14T05:37:36.425Z"}
+{"id":"gDC0BwJF","description":"Redesign Fish Step 1 into a comparison workspace layout","stage":"in-progress","createdAt":"2026-03-14T05:37:49.871Z","updatedAt":"2026-03-14T05:43:27.822Z"}
+{"id":"1FTGCqHr","description":"Add manager-gui no-open flag and source-mode manager-app asset fallback","stage":"in-progress","createdAt":"2026-03-14T05:52:45.827Z","updatedAt":"2026-03-14T05:53:16.485Z"}
