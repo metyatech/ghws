@@ -62,3 +62,4 @@
 {"id":"lOQJtqWC","description":"Improve Fish Step 1 candidate table with clearer recommendation, sorting, and delta emphasis","stage":"released","createdAt":"2026-03-14T08:17:50.208Z","updatedAt":"2026-03-14T08:30:24.356Z"}
 {"id":"8DCzhDql","description":"Build a mobile-friendly PWA/web UI in workspace-agent-hub for PC/smartphone AI session management and dogfood it end-to-end","stage":"in-progress","createdAt":"2026-03-14T08:18:11.613Z","updatedAt":"2026-03-14T08:18:50.800Z"}
 {"id":"u_1h6ZZx","description":"Add Fish candidate table column-header sorting and initial-order sort option","stage":"released","createdAt":"2026-03-14T08:54:55.258Z","updatedAt":"2026-03-14T09:02:30.879Z","committedEventId":"UMeEqMFVQ_uYOIEF"}
+{"id":"NOSd4Yjs","description":"Improve Fish candidate filtering and recommendation cues","stage":"in-progress","createdAt":"2026-03-14T09:11:25.255Z","updatedAt":"2026-03-14T09:11:45.923Z"}
