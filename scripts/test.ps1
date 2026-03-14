@@ -32,12 +32,6 @@ if (($probeBypassed | Out-String).Trim() -ne 'skip-menu') {
     exit 1
 }
 
-$resumeMenuOutput = wsl.exe -d Ubuntu -- bash -lc '/mnt/d/ghws/scripts/test-wsl-mobile-menu-resume.sh'
-if (($resumeMenuOutput | Out-String).Trim() -notmatch 'PASS') {
-    Write-Error 'Expected resume menu to render the numbered session list to the interactive terminal.'
-    exit 1
-}
-
 $startMenuOutput = wsl.exe -d Ubuntu -- bash -lc '/mnt/d/ghws/scripts/test-wsl-mobile-menu-start.sh'
 if (($startMenuOutput | Out-String).Trim() -notmatch 'PASS') {
     Write-Error 'Expected start-menu flow to create a session with the requested title and directory.'

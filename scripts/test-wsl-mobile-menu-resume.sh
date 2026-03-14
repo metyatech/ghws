@@ -19,14 +19,29 @@ tmux new-session -d -s "$target_session" -c /mnt/d/ghws
 sleep 1
 
 tmux send-keys -t "$menu_session" '2' C-m
-sleep 1
-tmux send-keys -t "$menu_session" '1' C-m
-sleep 1
-
-pane_output="$(tmux capture-pane -pt "$menu_session" -S -200)"
-
+pane_output=''
+for _ in $(seq 1 100); do
+  pane_output="$(tmux capture-pane -pt "$menu_session" -S -200)"
+  if [[ "$pane_output" == *'resume-check'* ]]; then
+    break
+  fi
+  sleep 0.2
+done
 [[ "$pane_output" == *'[1] '* ]]
 [[ "$pane_output" == *'resume-check'* ]]
+
+selected_index="$(printf '%s\n' "$pane_output" | sed -n 's/^\[\([0-9]\+\)\].*resume-check.*/\1/p')"
+[[ -n "${selected_index// }" ]]
+
+tmux send-keys -t "$menu_session" "$selected_index" C-m
+for _ in $(seq 1 100); do
+  pane_output="$(tmux capture-pane -pt "$menu_session" -S -200)"
+  if [[ "$pane_output" == *"Session ready: $target_session"* ]]; then
+    break
+  fi
+  sleep 0.2
+done
+
 [[ "$pane_output" == *"Session ready: $target_session"* ]]
 
 printf 'PASS\n'

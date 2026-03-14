@@ -28,7 +28,7 @@ get_windows_env() {
   local variable_name="$1"
   local value
 
-  value="$(cmd.exe /c "echo %${variable_name}%" 2>/dev/null | trim_cr || true)"
+  value="$(cmd.exe /c "echo %${variable_name}%" < /dev/null 2>/dev/null | trim_cr || true)"
   if [[ "$value" == "%${variable_name}%" ]]; then
     value=''
   fi
