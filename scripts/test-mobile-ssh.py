@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import json
 import os
+import re
 import shutil
 import socket
 import subprocess
@@ -12,6 +14,9 @@ from pathlib import Path
 
 
 WINDOWS_OPENSSH_DIR = r"C:\Windows\System32\OpenSSH"
+SCRIPT_DIR = Path(__file__).resolve().parent
+LAUNCHER_SCRIPT = SCRIPT_DIR / "agent-session-launcher.ps1"
+POWERSHELL_EXE = shutil.which("pwsh.exe") or shutil.which("pwsh") or shutil.which("powershell.exe") or shutil.which("powershell")
 
 
 def resolve_windows_openssh_binary(binary_name: str, *fallback_names: str) -> str | None:
@@ -34,6 +39,86 @@ SSHD_EXE = resolve_windows_openssh_binary("sshd.exe")
 
 def run_command(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
     return subprocess.run(args, check=check, text=True, capture_output=True)
+
+
+def powershell_file(script_path: Path, *script_args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
+    if not POWERSHELL_EXE:
+        raise RuntimeError("PowerShell executable not found.")
+    return run_command(
+        [
+            POWERSHELL_EXE,
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-File",
+            str(script_path),
+            *script_args,
+        ],
+        check=check,
+    )
+
+
+def launcher_create_shell(label: str, title: str, working_directory: str) -> str:
+    session_name = f"shell-{label}"
+    powershell_file(
+        LAUNCHER_SCRIPT,
+        "-Mode",
+        "new",
+        "-Type",
+        "shell",
+        "-Name",
+        label,
+        "-Title",
+        title,
+        "-WorkingDirectory",
+        working_directory,
+        "-Detach",
+    )
+    return session_name
+
+
+def launcher_delete_session(session_name: str) -> None:
+    powershell_file(
+        LAUNCHER_SCRIPT,
+        "-Mode",
+        "delete",
+        "-SessionName",
+        session_name,
+        check=False,
+    )
+
+
+def launcher_list_sessions(*, include_archived: bool = False) -> list[dict[str, object]]:
+    args = ["-Mode", "list", "-Json"]
+    if include_archived:
+        args.append("-IncludeArchived")
+    result = powershell_file(LAUNCHER_SCRIPT, *args)
+    raw = result.stdout.strip()
+    if not raw:
+        return []
+    parsed = json.loads(raw)
+    return parsed if isinstance(parsed, list) else [parsed]
+
+
+def launcher_get_session(session_name: str, *, include_archived: bool = False) -> dict[str, object] | None:
+    for item in launcher_list_sessions(include_archived=include_archived):
+        if str(item.get("Name", "")) == session_name:
+            return item
+    return None
+
+
+def launcher_assert_resume_available(session_name: str) -> None:
+    result = powershell_file(
+        LAUNCHER_SCRIPT,
+        "-Mode",
+        "resume",
+        "-SessionName",
+        session_name,
+        "-Detach",
+    )
+    expected = f"Session '{session_name}' is available"
+    if expected not in result.stdout:
+        raise RuntimeError(f"Unexpected launcher resume output for {session_name!r}: {result.stdout.strip()}")
 
 
 def wsl_bash(command: str, *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -111,12 +196,19 @@ class InteractiveSsh:
         with self._lock:
             return "".join(self._stdout_chunks) + "".join(self._stderr_chunks)
 
-    def wait_for(self, needle: str, timeout_seconds: float) -> str:
+    def stdout_output(self) -> str:
+        with self._lock:
+            return "".join(self._stdout_chunks)
+
+    def checkpoint(self) -> int:
+        return len(self.stdout_output())
+
+    def wait_for(self, needle: str, timeout_seconds: float, *, after: int = 0) -> str:
         deadline = time.time() + timeout_seconds
         while time.time() < deadline:
-            combined = self.output()
-            if needle in combined:
-                return combined
+            stdout_text = self.stdout_output()
+            if needle in stdout_text[after:]:
+                return stdout_text
             if self.process.poll() is not None:
                 time.sleep(0.2)
                 raise RuntimeError(f"SSH process exited before '{needle}' appeared.\nOutput:\n{self.output()}")
@@ -224,33 +316,132 @@ def kill_tmux_session(session_name: str) -> None:
     wsl_bash(f"tmux kill-session -t {tmux_quote(session_name)} >/dev/null 2>&1 || true", check=False)
 
 
-def assert_resume_flow(sshd: TemporarySshd, cleanup_sessions: set[str]) -> None:
-    resume_suffix = uuid.uuid4().hex[:10]
-    session_name = f"shell-ssh-resume-check-{resume_suffix}"
+def parse_session_index(output: str, title: str, folder: str | None = None) -> str:
+    lines = output.splitlines()
+    for line in lines:
+        if title not in line:
+            continue
+        if folder and f"folder={folder}" not in line:
+            continue
+        match = re.search(r"^\[(\d+)\]", line)
+        if match:
+            return match.group(1)
+    raise RuntimeError(f"Unable to find a session index for title={title!r} folder={folder!r}.\nOutput:\n{output}")
+
+
+def disconnect_ssh(ssh: InteractiveSsh) -> str:
+    if ssh.process.poll() is None:
+        ssh.process.terminate()
+        try:
+            ssh.process.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            ssh.process.kill()
+            ssh.process.wait(timeout=5)
+    return ssh.close()
+
+
+def assert_pc_to_mobile_resume_flow(sshd: TemporarySshd, cleanup_sessions: set[str]) -> None:
+    suffix = uuid.uuid4().hex[:10]
+    session_label = f"matrix-pc-mobile-{suffix}"
+    session_name = launcher_create_shell(session_label, f"Matrix PC Mobile {suffix}", r"D:\ghws")
     cleanup_sessions.add(session_name)
-    ensure_tmux_session(session_name, "/mnt/d/ghws")
 
     ssh = InteractiveSsh(sshd.port, sshd.user_key_path, sshd.known_hosts_path)
     try:
         ssh.wait_for("AI session mobile menu", 15)
+        after = ssh.checkpoint()
         ssh.send("2\n")
-        ssh.wait_for(f"ssh-resume-check-{resume_suffix}", 15)
-        ssh.send("1\n")
-        ssh.wait_for("/mnt/d/ghws", 15)
-        ssh.send("\x02d")
-        ssh.wait_for("AI session mobile menu", 15)
-        ssh.send("5\n")
-        output = ssh.close()
+        output = ssh.wait_for(f"Matrix PC Mobile {suffix}", 15, after=after)
+        selected_index = parse_session_index(output, f"Matrix PC Mobile {suffix}", r"D:\ghws")
+        after = ssh.checkpoint()
+        ssh.send(f"{selected_index}\n")
+        ssh.wait_for("/mnt/d/ghws", 15, after=after)
+        disconnect_ssh(ssh)
     finally:
         if ssh.process.poll() is None:
-            try:
-                ssh.send("5\n")
-            except Exception:
-                pass
-            ssh.close()
+            disconnect_ssh(ssh)
 
-    if f"ssh-resume-check-{resume_suffix}" not in output:
-        raise RuntimeError("Resume flow did not render the expected session label.")
+
+def assert_mobile_start_pc_resume_flow(sshd: TemporarySshd, cleanup_sessions: set[str]) -> None:
+    suffix = uuid.uuid4().hex[:10]
+    session_title = f"Matrix Mobile Start {suffix}"
+
+    ssh = InteractiveSsh(sshd.port, sshd.user_key_path, sshd.known_hosts_path)
+    try:
+        ssh.wait_for("AI session mobile menu", 15)
+
+        after = ssh.checkpoint()
+        ssh.send("1\n")
+        ssh.wait_for("Type (codex/claude/gemini/shell):", 15, after=after)
+
+        after = ssh.checkpoint()
+        ssh.send("shell\n")
+        ssh.wait_for("What is this session about? (optional):", 15, after=after)
+
+        after = ssh.checkpoint()
+        ssh.send(f"{session_title}\n")
+        ssh.wait_for("Working directory (optional, default:", 15, after=after)
+
+        after = ssh.checkpoint()
+        ssh.send("/mnt/d/ghws/scripts\n")
+        ssh.wait_for("/mnt/d/ghws/scripts", 15, after=after)
+
+        disconnect_ssh(ssh)
+    finally:
+        if ssh.process.poll() is None:
+            disconnect_ssh(ssh)
+
+    launcher_session = None
+    for item in launcher_list_sessions():
+        if str(item.get("DisplayTitle", "")) == session_title:
+            launcher_session = item
+            break
+    if not launcher_session:
+        raise RuntimeError("Expected PC launcher inventory to include the mobile-started session title.")
+
+    session_name = str(launcher_session.get("Name", ""))
+    if not session_name:
+        raise RuntimeError("Expected the launcher inventory to expose the mobile-started session name.")
+    cleanup_sessions.add(session_name)
+
+    if str(launcher_session.get("DisplayTitle", "")) != session_title:
+        raise RuntimeError(
+            f"Expected launcher title {session_title!r} for mobile-started session, got {str(launcher_session.get('DisplayTitle', ''))!r}."
+        )
+
+    if str(launcher_session.get("WorkingDirectoryWindows", "")) != r"D:\ghws\scripts":
+        raise RuntimeError(
+            "Expected launcher inventory to report D:\\ghws\\scripts for the mobile-started session."
+        )
+
+    if not bool(launcher_session.get("IsLive", False)):
+        raise RuntimeError("Expected the mobile-started session to remain live in the PC launcher inventory.")
+
+    launcher_assert_resume_available(session_name)
+
+
+def assert_multi_session_selection_flow(sshd: TemporarySshd, cleanup_sessions: set[str]) -> None:
+    suffix = uuid.uuid4().hex[:10]
+    session_a = launcher_create_shell(f"matrix-pick-a-{suffix}", f"Matrix Pick A {suffix}", r"D:\ghws")
+    session_b = launcher_create_shell(f"matrix-pick-b-{suffix}", f"Matrix Pick B {suffix}", r"D:\ghws\scripts")
+    cleanup_sessions.update({session_a, session_b})
+
+    ssh = InteractiveSsh(sshd.port, sshd.user_key_path, sshd.known_hosts_path)
+    try:
+        ssh.wait_for("AI session mobile menu", 15)
+        after = ssh.checkpoint()
+        ssh.send("2\n")
+        output = ssh.wait_for(f"Matrix Pick B {suffix}", 15, after=after)
+        if f"Matrix Pick A {suffix}" not in output:
+            output = ssh.wait_for(f"Matrix Pick A {suffix}", 15, after=after)
+        selected_index = parse_session_index(output, f"Matrix Pick B {suffix}", r"D:\ghws\scripts")
+        after = ssh.checkpoint()
+        ssh.send(f"{selected_index}\n")
+        ssh.wait_for("/mnt/d/ghws/scripts", 15, after=after)
+        disconnect_ssh(ssh)
+    finally:
+        if ssh.process.poll() is None:
+            disconnect_ssh(ssh)
 
 
 def main() -> None:
@@ -258,10 +449,13 @@ def main() -> None:
     sshd = TemporarySshd()
     try:
         sshd.start()
-        assert_resume_flow(sshd, cleanup_sessions)
+        assert_pc_to_mobile_resume_flow(sshd, cleanup_sessions)
+        assert_mobile_start_pc_resume_flow(sshd, cleanup_sessions)
+        assert_multi_session_selection_flow(sshd, cleanup_sessions)
         print("PASS")
     finally:
         for session_name in cleanup_sessions:
+            launcher_delete_session(session_name)
             kill_tmux_session(session_name)
         sshd.stop()
 

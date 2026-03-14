@@ -40,6 +40,22 @@ This repository is a lightweight workspace index for managing the user's GitHub 
 - `python scripts/test-android-mobile-e2e.py` boots an Android emulator, installs ConnectBot if needed, connects to a temporary WSL `sshd`, and checks whether the Android SSH client can authenticate and auto-attach to a prepared tmux session. The script exits non-zero when it reproduces the current ConnectBot disconnect limitation.
 - `GHWS_RUN_ANDROID_MOBILE_E2E=1 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test.ps1` adds the emulator-backed mobile E2E to the normal regression suite.
 
+### Primary path matrix
+
+This session fabric claims the following primary handoff paths and ties each one to automated verification in the repo-standard test suite.
+
+| Path | Claimed behavior | Automated evidence |
+| --- | --- | --- |
+| `P1` | PC-side launcher flow can create a session, surface it in the inventory, and resolve it again for reopening. | `scripts/test-primary-path-matrix.ps1` creates launcher-managed shell sessions, verifies title/folder metadata in `agent-session-launcher.ps1 -Mode list -Json`, and checks `-Mode resume -Detach` availability. |
+| `P2` | A session started from the PC side can be reopened from the mobile SSH menu. | `scripts/test-mobile-ssh.py` creates a launcher-managed shell session, enters the mobile menu over a temporary SSH path, selects the matching title/folder, and verifies that the session opens in the expected working directory before the SSH client disconnects. |
+| `P3` | A session started from the mobile SSH menu becomes visible and reopenable from the PC-side launcher flow. | `scripts/test-mobile-ssh.py` starts a shell session through the mobile menu, verifies that it opens in the requested working directory, then checks launcher inventory metadata and `-Mode resume -Detach` on the PC side. |
+| `P4` | When multiple sessions exist, the user can distinguish and reopen the intended one by title/folder. | `scripts/test-primary-path-matrix.ps1` verifies distinct launcher inventory entries on the PC side, and `scripts/test-mobile-ssh.py` verifies mobile-menu selection of the intended session among multiple active entries. |
+
+Additional environment notes:
+
+- `scripts/test-mobile-ssh.py` uses a temporary Windows `sshd` plus the WSL mobile-menu bootstrap as the least-cost faithful automated boundary for the mobile control path.
+- `python scripts/test-android-mobile-e2e.py` covers an Android emulator plus ConnectBot separately and currently reproduces a known limitation: ConnectBot authenticates and starts the session, then disconnects before `tmux attach`.
+
 ## Environment variables
 
 - None.
