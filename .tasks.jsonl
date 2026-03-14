@@ -1,7 +1,6 @@
 {"id":"ePHp-hdN","description":"Connect meal-autopilot Stripe live billing end-to-end and verify live entitlements","stage":"in-progress","createdAt":"2026-03-11T10:11:02.605Z","updatedAt":"2026-03-13T05:07:39.079Z"}
 {"id":"9H3Jgbjm","description":"Implement and verify meal-autopilot Android Play Billing/TWA delivery path","stage":"in-progress","createdAt":"2026-03-11T10:11:02.818Z","updatedAt":"2026-03-13T04:46:43.738Z"}
 {"id":"oePdVrbD","description":"Monitor Fab review status for Runtime Asset Import plugin","stage":"pending","createdAt":"2026-03-13T06:40:36.303Z","updatedAt":"2026-03-13T06:40:36.303Z"}
-{"id":"wVMWCb7_","description":"Make Fish detail disclosure focus behavior match standard UI expectations","stage":"done","createdAt":"2026-03-13T06:48:02.781Z","updatedAt":"2026-03-13T06:55:19.202Z"}
 {"id":"orkD99ag","description":"Toggle off active Fish loadout row picker on second click","stage":"done","createdAt":"2026-03-13T07:04:21.659Z","updatedAt":"2026-03-13T07:11:02.430Z"}
 {"id":"XQoX0pdw","description":"Design and set up a mobile-friendly way to use AI agent CLIs from smartphone while away from PC","stage":"in-progress","createdAt":"2026-03-13T07:10:09.002Z","updatedAt":"2026-03-13T07:25:43.041Z"}
 {"id":"VVYvgOvs","description":"Fix uneven focus outline rendering on Fish loadout row after closing picker","stage":"done","createdAt":"2026-03-13T07:14:42.766Z","updatedAt":"2026-03-13T07:23:43.092Z"}
@@ -48,3 +47,5 @@
 {"id":"tX0LneNI","description":"Stabilize WSL mobile menu resume test by polling for the rendered session list","stage":"committed","createdAt":"2026-03-14T00:48:22.415Z","updatedAt":"2026-03-14T00:50:19.769Z","committedEventId":"o5HJ86pKfiIo4gFX"}
 {"id":"Fa6e7Y-_","description":"Move Fish calculator total stats into the current-loadout table footer row and release it","stage":"done","createdAt":"2026-03-14T01:05:50.164Z","updatedAt":"2026-03-14T01:19:52.754Z","committedEventId":"C9poWQE9Vn454c-e"}
 {"id":"aXGFdiFG","description":"Add minimal authentication to thread-inbox Manager GUI for cross-device access","stage":"in-progress","createdAt":"2026-03-14T01:18:23.454Z","updatedAt":"2026-03-14T01:18:50.554Z"}
+{"id":"7dRzY2vz","description":"Fix Fish loadout total row readability and table alignment","stage":"done","createdAt":"2026-03-14T04:45:57.591Z","updatedAt":"2026-03-14T04:56:20.011Z","committedEventId":"Eo7c9_4YtUsJVW_b"}
+{"id":"WC8HJ4Vs","description":"Add smartphone emulator/simulator E2E coverage or best-available substitute for AI agent mobile flow, plus recurrence prevention for unverified environment reporting","stage":"in-progress","createdAt":"2026-03-14T04:54:00.286Z","updatedAt":"2026-03-14T04:54:31.178Z"}
