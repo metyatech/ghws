@@ -13,8 +13,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - name: Install compose-agentsmd
         run: npm install -g compose-agentsmd
-      - name: Compose AGENTS.md
-        run: compose-agentsmd
+      - name: Lint
+        shell: pwsh
+        run: pwsh -NoProfile -File scripts/lint.ps1
+      - name: Test
+        shell: pwsh
+        run: pwsh -NoProfile -File scripts/test.ps1
+      - name: Build
+        shell: pwsh
+        run: pwsh -NoProfile -File scripts/build.ps1

@@ -4,20 +4,26 @@ Thanks for your interest in contributing to `ghws`.
 
 ## Scope
 
-This repository is a lightweight workspace index. It stores shared agent rule configuration and local workspace rules, and intentionally avoids tracking the actual project repositories.
+This repository is the workspace index and agent-rules composition root for the multi-repository `ghws` workspace. Feature implementation for workspace tools belongs in the relevant sibling repository, such as `workspace-agent-hub`.
 
 ## Workflow
 
 - Create a branch (optional) or work on `main`.
-- Update or add rule files as needed.
-- Regenerate `AGENTS.md` by running:
-  - `compose-agentsmd`
+- Update docs and rules together when behavior changes.
+- Regenerate `AGENTS.md` by running `compose-agentsmd`.
 - Commit with a clear message and open a PR if desired.
 
 ## Development commands
 
-- `compose-agentsmd`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-hooks.ps1`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/lint.ps1`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test.ps1`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build.ps1`
 
 ## Testing
 
-There are no runtime tests. The CI workflow verifies that `AGENTS.md` is up to date by running `compose-agentsmd` and checking for diffs.
+Run the full verification suite before each commit:
+
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/lint.ps1`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test.ps1`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build.ps1`
