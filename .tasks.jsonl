@@ -75,3 +75,4 @@
 {"id":"gnxYY_9d","description":"Investigate workspace-agent-hub start-web-ui -PhoneReady hanging with no startup output and fix the blocking path with regression coverage","stage":"committed","createdAt":"2026-03-15T05:31:34.558Z","updatedAt":"2026-03-15T07:10:12.718Z","committedEventId":"LaTpNV8YsUTMW9jv"}
 {"id":"Ki4MYDoy","description":"outside repo probe","stage":"pending","createdAt":"2026-03-15T06:29:10.660Z","updatedAt":"2026-03-15T06:29:10.660Z"}
 {"id":"txqH15AB","description":"Implement ZIP export in qti-studio using jszip","stage":"in-progress","createdAt":"2026-03-15T06:40:58.135Z","updatedAt":"2026-03-15T06:46:37.713Z"}
+{"id":"iM7CLdCz","description":"Make workspace-agent-hub smartphone onboarding QR-first and demote manual URL sharing to fallback","stage":"committed","createdAt":"2026-03-15T07:25:44.102Z","updatedAt":"2026-03-15T07:50:25.016Z","committedEventId":"doRy5-k9cc5sgEh1"}
