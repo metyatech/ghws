@@ -78,3 +78,4 @@
 {"id":"7n_p4ORf","description":"Investigate multiple blank black PowerShell windows on this PC without touching the agent-hosting window","stage":"in-progress","createdAt":"2026-03-15T08:02:36.776Z","updatedAt":"2026-03-15T08:03:16.500Z"}
 {"id":"m3QQujuT","description":"Investigate root cause of codex runner argument conflict (--dangerously-bypass-approvals-and-sandbox with --full-auto)","stage":"done","createdAt":"2026-03-15T08:10:36.776Z","updatedAt":"2026-03-15T08:15:06.282Z"}
 {"id":"cKO9LiHu","description":"Run echo hello in D:\\ghws shell","stage":"done","createdAt":"2026-03-15T08:13:57.263Z","updatedAt":"2026-03-15T08:14:08.309Z"}
+{"id":"oQ_QxOra","description":"Fix local Codex swarm launch conflict by keeping dangerously-bypass and removing launcher-added full-auto","stage":"pending","createdAt":"2026-03-15T08:19:23.822Z","updatedAt":"2026-03-15T08:19:23.822Z"}
