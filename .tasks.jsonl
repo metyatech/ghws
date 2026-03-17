@@ -103,3 +103,4 @@
 {"id":"azZUSR0e","description":"Add a one-click ghws script that pulls all nested git repositories except submodules","stage":"done","createdAt":"2026-03-17T01:39:58.415Z","updatedAt":"2026-03-17T01:53:44.106Z"}
 {"id":"4lRfqKhO","description":"Improve ghws pull-all output to show full paths and hierarchical repo context for submodules","stage":"done","createdAt":"2026-03-17T02:43:20.716Z","updatedAt":"2026-03-17T02:50:15.923Z"}
 {"id":"oc5I9zq4","description":"Finish ghws pull-all summary output so full paths are shown there too","stage":"done","createdAt":"2026-03-17T02:50:40.858Z","updatedAt":"2026-03-17T02:54:40.593Z"}
+{"id":"02M7ook3","description":"Explain workspace-agent-hub auth-screen bug cause, propose permanent recurrence prevention, and remove leftover debug artifacts","stage":"committed","createdAt":"2026-03-17T10:54:13.718Z","updatedAt":"2026-03-17T10:57:07.214Z","committedEventId":"ZP88uDVCHMZI4xg8"}
