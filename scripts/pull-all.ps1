@@ -3,27 +3,36 @@ $ErrorActionPreference = 'Continue'
 
 # ---------------------------------------------------------------------------
 # pull-all.ps1
-# Runs `git pull` on every standalone Git repository that is a direct child
-# of the workspace root.  Submodules (whose .git entry is a file, not a
-# directory) are intentionally skipped.
+# Runs `git pull` on every standalone Git repository found anywhere under the
+# workspace root, including the root itself.  Discovery is recursive; paths
+# that reside inside a .git directory (e.g. .git/modules/...) are excluded so
+# internal git storage is never mistaken for a repository.  Submodules (whose
+# .git entry is a file, not a directory) are detected and skipped.
 # ---------------------------------------------------------------------------
 
 $workspaceRoot = Resolve-Path (Join-Path $PSScriptRoot '..')
+$sep           = [IO.Path]::DirectorySeparatorChar
 
 Write-Host "Workspace: $workspaceRoot" -ForegroundColor Cyan
 Write-Host ('-' * 60)
 
 $results = [System.Collections.Generic.List[PSCustomObject]]::new()
 
-foreach ($item in Get-ChildItem -Path $workspaceRoot -Directory) {
+# Candidates: workspace root itself, then every descendant directory that does
+# not live inside a .git folder (which would be internal git storage).
+$candidates  = @(Get-Item -Path $workspaceRoot)
+$candidates += Get-ChildItem -Path $workspaceRoot -Directory -Recurse -Force |
+    Where-Object { $_.FullName -notmatch ([regex]::Escape("${sep}.git${sep}")) }
+
+foreach ($item in $candidates) {
     $gitEntry = Join-Path $item.FullName '.git'
 
-    # .git does not exist at all -> not a Git repository
+    # No .git entry -> not a Git repository; skip silently
     if (-not (Test-Path -Path $gitEntry)) {
         continue
     }
 
-    # .git is a file (not a directory) -> this is a submodule; skip
+    # .git is a file (not a directory) -> submodule; skip with notice
     if ((Get-Item -Path $gitEntry -Force).PSIsContainer -eq $false) {
         Write-Host "  SKIP (submodule) $($item.Name)" -ForegroundColor DarkGray
         $results.Add([PSCustomObject]@{ Repo = $item.Name; Status = 'SKIP (submodule)' })

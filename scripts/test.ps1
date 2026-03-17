@@ -74,11 +74,14 @@ $tmpDir  = Join-Path ([IO.Path]::GetTempPath()) "ghws-pull-all-test-$([IO.Path]:
 $scripts = Join-Path $tmpDir 'scripts'
 [void][IO.Directory]::CreateDirectory($scripts)
 
-# Create a fake PSScriptRoot by wrapping the call
-# Build a minimal workspace structure in $tmpDir:
-#   repo-normal/  - standalone git repo (expect: git pull attempted)
-#   repo-sub/     - submodule (.git is a file, expect: skipped)
-#   not-git/      - plain dir (expect: ignored)
+# Workspace structure under $tmpDir (acts as the workspace root):
+#   .git/                          - root is a standalone git repo (expect: detected)
+#   repo-normal/                   - standalone git repo (expect: detected)
+#   repo-sub/                      - submodule (.git is file, expect: skipped)
+#   not-git/                       - plain dir (expect: ignored)
+#   repo-normal/.git/modules/inner - internal .git storage path (expect: NOT detected)
+
+[void][IO.Directory]::CreateDirectory((Join-Path $tmpDir '.git'))  # root is a standalone repo
 
 $repoNormal = Join-Path $tmpDir 'repo-normal'
 $repoSub    = Join-Path $tmpDir 'repo-sub'
@@ -89,12 +92,22 @@ $notGit     = Join-Path $tmpDir 'not-git'
 [IO.File]::WriteAllText((Join-Path $repoSub '.git'), 'gitdir: ../.git/modules/sub')  # file -> submodule
 [void][IO.Directory]::CreateDirectory($notGit)
 
-# Run pull-all logic inline (mirror the detection logic without calling git)
+# Fake internal .git storage path — naive recursion would wrongly detect this as a repo root
+$innerPath = Join-Path $repoNormal '.git\modules\inner'
+[void][IO.Directory]::CreateDirectory((Join-Path $innerPath '.git'))
+
+# Mirror the pull-all discovery logic: root + recursive, excluding .git internal paths
+$sep      = [IO.Path]::DirectorySeparatorChar
 $detected = @()
 $skipped  = @()
 $ignored  = @()
 
-foreach ($item in Get-ChildItem -Path $tmpDir -Directory) {
+$rootName    = Split-Path $tmpDir -Leaf
+$candidates  = @(Get-Item -Path $tmpDir)
+$candidates += Get-ChildItem -Path $tmpDir -Directory -Recurse -Force |
+    Where-Object { $_.FullName -notmatch ([regex]::Escape("${sep}.git${sep}")) }
+
+foreach ($item in $candidates) {
     $gitEntry = Join-Path $item.FullName '.git'
     if (-not (Test-Path -Path $gitEntry)) {
         $ignored += $item.Name
@@ -111,8 +124,12 @@ foreach ($item in Get-ChildItem -Path $tmpDir -Directory) {
 try { [IO.Directory]::Delete($tmpDir, $true) } catch {}
 
 # Assertions
+if ($detected -notcontains $rootName) {
+    Write-Error "pull-all test FAIL: workspace root repo was not detected"
+    exit 1
+}
 if ($detected -notcontains 'repo-normal') {
-    Write-Error "pull-all test FAIL: standalone repo was not detected"
+    Write-Error "pull-all test FAIL: standalone child repo was not detected"
     exit 1
 }
 if ($skipped -notcontains 'repo-sub') {
@@ -121,6 +138,10 @@ if ($skipped -notcontains 'repo-sub') {
 }
 if ($ignored -notcontains 'not-git') {
     Write-Error "pull-all test FAIL: plain dir was not ignored"
+    exit 1
+}
+if ($detected -contains 'inner') {
+    Write-Error "pull-all test FAIL: internal .git/modules path was incorrectly detected as a repo"
     exit 1
 }
 
