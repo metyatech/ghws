@@ -76,7 +76,7 @@ foreach ($r in $results) {
         'SKIP*'         { 'DarkGray' }
         default         { 'Red'      }
     }
-    Write-Host ("  {0,-50} {1}" -f $r.RelPath, $r.Status) -ForegroundColor $color
+    Write-Host ("  {0,-50} {1}  [{2}]" -f $r.RelPath, $r.Status, $r.FullPath) -ForegroundColor $color
 }
 
 $failed = @($results | Where-Object { $_.Status -like 'FAILED*' })

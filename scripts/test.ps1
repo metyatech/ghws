@@ -239,6 +239,20 @@ if ($skippedRelPaths -notcontains $expectedSubPath) {
 }
 
 # ---------------------------------------------------------------------------
+# pull-all.ps1 regression: summary output includes full path
+# Verifies that the Summary: section's Write-Host line references FullPath so
+# repositories with ambiguous leaf names remain unambiguous in the summary.
+# ---------------------------------------------------------------------------
+
+$pullAllContent = [IO.File]::ReadAllText($pullAllScript)
+# Split on the "Summary:" string and check the tail of the script
+$summarySection = ($pullAllContent -split 'Summary:')[1]
+if ($null -eq $summarySection -or $summarySection -notmatch '\$r\.FullPath') {
+    Write-Error "pull-all test FAIL: Summary section does not include `$r.FullPath — full path must appear in summary lines"
+    exit 1
+}
+
+# ---------------------------------------------------------------------------
 # pull-all.cmd wrapper: verify it exists and delegates to pull-all.ps1
 # ---------------------------------------------------------------------------
 
