@@ -99,6 +99,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 - After modifying code, check whether deployment steps beyond commit/push are needed before concluding.
 - If the repo is globally linked (`npm ls -g` shows `->` to local path), rebuild and verify the global binary is functional.
 - If the repo powers a running service, daemon, or scheduled task, rebuild, restart, and verify with deterministic evidence; do not claim completion until the running instance reflects the changes. Detection and verification procedures are in the `post-deploy` skill.
+- For tests or helper flows that spawn background services, daemons, browsers, or other long-lived processes, verify teardown and absence of agent-owned orphaned temp/process artifacts before concluding; if teardown fails, fix the harness instead of leaving residue.
 - **PowerShell native environment**: This is a Windows/PowerShell environment. Do not use Unix commands directly. On Windows, any Bash-tool command containing `pwsh` or `powershell` is invalid; rewrite it to `pwsh`/`powershell -File` with a `.ps1` file before execution. Do not use `-Command`, stdin, heredoc, or `-EncodedCommand` for PowerShell scripts.
 
 Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding-standards.md
@@ -218,6 +219,8 @@ Non-negotiable gates for any state-changing work or any claim of "done", "fixed"
 - For GUI work, do not conclude from functional correctness alone: require screenshot-based review plus automated checks for overflow, clipping, wrapping, and clearly visible primary/current state where feasible; if the user still reports confusion, treat that as a failed acceptance gate and add a regression check for that confusion class before concluding.
 - For GUI work that affects first-use flow, information hierarchy, navigation, or user guidance, require a separate agent review before concluding; the reviewer must assess the rendered UI from the primary user goal and report whether the next action and result location are immediately understandable.
 - For GUI work, perform a whole-screen plausibility review: if the result would look obviously wrong, broken, or visually incoherent to a reasonable user at a glance, treat it as unfinished even when tests pass.
+- On every user-reported bug, identify the earliest deterministic gate that should have caught it and add or strengthen that gate in the same change set before concluding; a fix without a new catching gate is incomplete.
+- For GUI states that intentionally block progress (for example auth walls, modal dialogs, overlays, loading covers, or permission prompts), treat each blocking state as a primary UI state and verify at every primary viewport that it visually dominates, suppresses background interaction, and keeps the next action obvious.
 - Never claim bug-free behavior. Report scope, evidence, and residual risk explicitly.
 - External checks and reviews are advisory. They can support completion, but they do not justify concluding a task while a known gap against the requested outcome remains.
 - For AI review bots, follow the re-triggering procedures in the `pr-review-workflow` skill. Detailed evidence format and procedures are in the quality-workflow skill.
