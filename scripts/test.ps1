@@ -145,4 +145,20 @@ if ($detected -contains 'inner') {
     exit 1
 }
 
+# ---------------------------------------------------------------------------
+# pull-all.cmd wrapper: verify it exists and delegates to pull-all.ps1
+# ---------------------------------------------------------------------------
+
+$cmdLauncher = Join-Path $repoRoot 'pull-all.cmd'
+if (-not (Test-Path -Path $cmdLauncher)) {
+    Write-Error "Missing one-click launcher: $cmdLauncher"
+    exit 1
+}
+
+$cmdContent = [IO.File]::ReadAllText($cmdLauncher)
+if ($cmdContent -notmatch 'scripts\\pull-all\.ps1') {
+    Write-Error "pull-all.cmd does not reference scripts\pull-all.ps1"
+    exit 1
+}
+
 Write-Output 'Tests OK.'

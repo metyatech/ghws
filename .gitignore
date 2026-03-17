@@ -10,6 +10,7 @@
 !.github/**
 !.githooks/
 !.githooks/**
+!pull-all.cmd
 !CHANGELOG.md
 !SECURITY.md
 !CONTRIBUTING.md
