@@ -29,7 +29,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/pull-all.ps1
 
 Both paths invoke the same `scripts/pull-all.ps1` implementation.
 The script recursively discovers every standalone Git repository under the workspace root, including the root repository itself, and runs `git pull` on each one, printing a per-repo status summary.
-Submodules (`.git` is a file) are detected and skipped automatically. Internal `.git` storage paths (e.g. `.git/modules/...`) are excluded so they are never mistaken for repositories. Non-git directories are silently ignored. If any repository fails to pull, it is reported and the script exits with code 1 after finishing all others.
+Each repository is identified by its workspace-relative path and full absolute path so that repositories with the same leaf name are unambiguous (e.g. `parent-a\repo [C:\ghws\parent-a\repo]`).
+Submodules (`.git` is a file) are detected and skipped automatically; the skip line includes the relative path so the parent directory context is visible. Internal `.git` storage paths (e.g. `.git/modules/...`) are excluded so they are never mistaken for repositories. Non-git directories are silently ignored. If any repository fails to pull, it is reported and the script exits with code 1 after finishing all others.
 `pull-all.cmd` propagates the same exit code.
 
 ## Workspace tools

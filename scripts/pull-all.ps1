@@ -18,6 +18,14 @@ Write-Host ('-' * 60)
 
 $results = [System.Collections.Generic.List[PSCustomObject]]::new()
 
+# Returns the path of $fullPath relative to $workspaceRoot.
+# The workspace root itself is represented as "." for clarity.
+function Get-RelPath([string]$fullPath) {
+    $rootStr = $workspaceRoot.Path.TrimEnd($sep)
+    if ($fullPath -eq $rootStr) { return '.' }
+    return $fullPath.Substring($rootStr.Length + 1)
+}
+
 # Candidates: workspace root itself, then every descendant directory that does
 # not live inside a .git folder (which would be internal git storage).
 $candidates  = @(Get-Item -Path $workspaceRoot)
@@ -26,6 +34,7 @@ $candidates += Get-ChildItem -Path $workspaceRoot -Directory -Recurse -Force |
 
 foreach ($item in $candidates) {
     $gitEntry = Join-Path $item.FullName '.git'
+    $relPath  = Get-RelPath $item.FullName
 
     # No .git entry -> not a Git repository; skip silently
     if (-not (Test-Path -Path $gitEntry)) {
@@ -34,14 +43,14 @@ foreach ($item in $candidates) {
 
     # .git is a file (not a directory) -> submodule; skip with notice
     if ((Get-Item -Path $gitEntry -Force).PSIsContainer -eq $false) {
-        Write-Host "  SKIP (submodule) $($item.Name)" -ForegroundColor DarkGray
-        $results.Add([PSCustomObject]@{ Repo = $item.Name; Status = 'SKIP (submodule)' })
+        Write-Host "  SKIP (submodule)  $relPath  [$($item.FullName)]" -ForegroundColor DarkGray
+        $results.Add([PSCustomObject]@{ RelPath = $relPath; FullPath = $item.FullName; Status = 'SKIP (submodule)' })
         continue
     }
 
     # .git is a directory -> standalone repository
     Write-Host ""
-    Write-Host ">> $($item.Name)" -ForegroundColor Yellow
+    Write-Host ">> $relPath  [$($item.FullName)]" -ForegroundColor Yellow
 
     $pullOutput = & git -C $item.FullName pull 2>&1
     $exitCode   = $LASTEXITCODE
@@ -51,10 +60,10 @@ foreach ($item in $candidates) {
     }
 
     if ($exitCode -eq 0) {
-        $results.Add([PSCustomObject]@{ Repo = $item.Name; Status = 'OK' })
+        $results.Add([PSCustomObject]@{ RelPath = $relPath; FullPath = $item.FullName; Status = 'OK' })
     } else {
         Write-Host "   [FAILED with exit code $exitCode]" -ForegroundColor Red
-        $results.Add([PSCustomObject]@{ Repo = $item.Name; Status = "FAILED (exit $exitCode)" })
+        $results.Add([PSCustomObject]@{ RelPath = $relPath; FullPath = $item.FullName; Status = "FAILED (exit $exitCode)" })
     }
 }
 
@@ -67,7 +76,7 @@ foreach ($r in $results) {
         'SKIP*'         { 'DarkGray' }
         default         { 'Red'      }
     }
-    Write-Host ("  {0,-35} {1}" -f $r.Repo, $r.Status) -ForegroundColor $color
+    Write-Host ("  {0,-50} {1}" -f $r.RelPath, $r.Status) -ForegroundColor $color
 }
 
 $failed = @($results | Where-Object { $_.Status -like 'FAILED*' })

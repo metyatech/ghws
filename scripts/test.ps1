@@ -146,6 +146,99 @@ if ($detected -contains 'inner') {
 }
 
 # ---------------------------------------------------------------------------
+# pull-all.ps1 regression: relative-path labeling for unambiguous identity
+# Covers: duplicate leaf names in different parent directories, and
+# submodule hierarchy context (parent path visible in skipped label).
+# ---------------------------------------------------------------------------
+
+$tmpDir2 = Join-Path ([IO.Path]::GetTempPath()) "ghws-pull-all-test2-$([IO.Path]::GetRandomFileName())"
+[void][IO.Directory]::CreateDirectory($tmpDir2)
+
+# Workspace structure:
+#   .git/              - root is a standalone repo
+#   parent-a/repo/     - standalone repo (leaf name "repo")
+#   parent-b/repo/     - standalone repo (same leaf name "repo" — must be distinguishable)
+#   parent-a/sub/      - submodule under parent-a (hierarchy context must be visible)
+
+[void][IO.Directory]::CreateDirectory((Join-Path $tmpDir2 '.git'))
+
+$parentA = Join-Path $tmpDir2 'parent-a'
+$parentB = Join-Path $tmpDir2 'parent-b'
+[void][IO.Directory]::CreateDirectory($parentA)
+[void][IO.Directory]::CreateDirectory($parentB)
+
+# parent-a/repo and parent-b/repo — both standalone, both named "repo"
+$parentARepo = Join-Path $parentA 'repo'
+$parentBRepo = Join-Path $parentB 'repo'
+[void][IO.Directory]::CreateDirectory($parentARepo)
+[void][IO.Directory]::CreateDirectory((Join-Path $parentARepo '.git'))
+[void][IO.Directory]::CreateDirectory($parentBRepo)
+[void][IO.Directory]::CreateDirectory((Join-Path $parentBRepo '.git'))
+
+# parent-a/sub — submodule; relative path must expose the parent-a context
+$parentASub = Join-Path $parentA 'sub'
+[void][IO.Directory]::CreateDirectory($parentASub)
+[IO.File]::WriteAllText((Join-Path $parentASub '.git'), 'gitdir: ../../.git/modules/sub')
+
+# Mirror pull-all discovery + relative-path computation
+$sep2     = [IO.Path]::DirectorySeparatorChar
+$rootStr2 = $tmpDir2.TrimEnd($sep2)
+
+function Get-RelPathTest([string]$fullPath) {
+    if ($fullPath -eq $rootStr2) { return '.' }
+    return $fullPath.Substring($rootStr2.Length + 1)
+}
+
+$detectedRelPaths = @()
+$skippedRelPaths  = @()
+
+$candidates2  = @(Get-Item -Path $tmpDir2)
+$candidates2 += Get-ChildItem -Path $tmpDir2 -Directory -Recurse -Force |
+    Where-Object { $_.FullName -notmatch ([regex]::Escape("${sep2}.git${sep2}")) }
+
+foreach ($item in $candidates2) {
+    $gitEntry = Join-Path $item.FullName '.git'
+    $relPath  = Get-RelPathTest $item.FullName
+    if (-not (Test-Path -Path $gitEntry)) { continue }
+    if ((Get-Item -Path $gitEntry -Force).PSIsContainer -eq $false) {
+        $skippedRelPaths += $relPath
+        continue
+    }
+    $detectedRelPaths += $relPath
+}
+
+# Clean up temp dir
+try { [IO.Directory]::Delete($tmpDir2, $true) } catch {}
+
+# Both "repo" entries must appear with distinct relative paths
+$repoRelPaths = @($detectedRelPaths | Where-Object { $_ -like '*repo*' })
+if ($repoRelPaths.Count -ne 2) {
+    Write-Error "pull-all test FAIL: expected 2 repos named 'repo' from different parents, got $($repoRelPaths.Count)"
+    exit 1
+}
+if ($repoRelPaths[0] -eq $repoRelPaths[1]) {
+    Write-Error "pull-all test FAIL: duplicate leaf-name repos have identical relative paths (not distinguishable)"
+    exit 1
+}
+$expectedParentA = "parent-a${sep2}repo"
+$expectedParentB = "parent-b${sep2}repo"
+if ($repoRelPaths -notcontains $expectedParentA) {
+    Write-Error "pull-all test FAIL: expected relative path '$expectedParentA', got: $($repoRelPaths -join ', ')"
+    exit 1
+}
+if ($repoRelPaths -notcontains $expectedParentB) {
+    Write-Error "pull-all test FAIL: expected relative path '$expectedParentB', got: $($repoRelPaths -join ', ')"
+    exit 1
+}
+
+# Submodule's relative path must include the parent directory name for context
+$expectedSubPath = "parent-a${sep2}sub"
+if ($skippedRelPaths -notcontains $expectedSubPath) {
+    Write-Error "pull-all test FAIL: submodule relative path '$expectedSubPath' not found in skipped list, got: $($skippedRelPaths -join ', ')"
+    exit 1
+}
+
+# ---------------------------------------------------------------------------
 # pull-all.cmd wrapper: verify it exists and delegates to pull-all.ps1
 # ---------------------------------------------------------------------------
 
