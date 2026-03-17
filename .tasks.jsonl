@@ -56,7 +56,6 @@
 {"id":"Ki4MYDoy","description":"outside repo probe","stage":"pending","createdAt":"2026-03-15T06:29:10.660Z","updatedAt":"2026-03-15T06:29:10.660Z"}
 {"id":"txqH15AB","description":"Implement ZIP export in qti-studio using jszip","stage":"committed","createdAt":"2026-03-15T06:40:58.135Z","updatedAt":"2026-03-15T09:11:19.207Z","committedEventId":"vGR_zBbFT_ntvkNc"}
 {"id":"iM7CLdCz","description":"Make workspace-agent-hub smartphone onboarding QR-first and demote manual URL sharing to fallback","stage":"committed","createdAt":"2026-03-15T07:25:44.102Z","updatedAt":"2026-03-15T07:50:25.016Z","committedEventId":"doRy5-k9cc5sgEh1"}
-{"id":"JkllTDwK","description":"Investigate 3000/3001 environment anomalies affecting qti-studio and course-docs-site runtime verification","stage":"done","createdAt":"2026-03-15T07:51:48.825Z","updatedAt":"2026-03-15T07:58:23.077Z"}
 {"id":"2C_3-1eo","description":"Investigate and fix workspace-agent-hub automatic Tailscale Serve enablement not completing on this PC","stage":"committed","createdAt":"2026-03-15T07:54:03.025Z","updatedAt":"2026-03-15T08:18:52.818Z","committedEventId":"EsDu18hk4cSil-gR"}
 {"id":"7n_p4ORf","description":"Investigate multiple blank black PowerShell windows on this PC without touching the agent-hosting window","stage":"done","createdAt":"2026-03-15T08:02:36.776Z","updatedAt":"2026-03-15T08:41:30.427Z"}
 {"id":"m3QQujuT","description":"Investigate root cause of codex runner argument conflict (--dangerously-bypass-approvals-and-sandbox with --full-auto)","stage":"done","createdAt":"2026-03-15T08:10:36.776Z","updatedAt":"2026-03-15T08:15:06.282Z"}
@@ -103,3 +102,4 @@
 {"id":"weJ_YbSC","description":"Speed up Fish full leaderboard generation","stage":"pending","createdAt":"2026-03-16T11:22:39.486Z","updatedAt":"2026-03-16T11:22:39.486Z"}
 {"id":"7-9GkJOm","description":"Fix workspace-agent-hub width-dependent access-code overlay and hidden background UI inconsistency","stage":"committed","createdAt":"2026-03-16T12:56:40.269Z","updatedAt":"2026-03-16T14:36:52.875Z","committedEventId":"vPkpbgmQvsigQUx9"}
 {"id":"taBw9XpF","description":"Connect Stripe webhook for qti-studio billing and verify automatic Pro entitlement sync","stage":"done","createdAt":"2026-03-16T13:01:01.710Z","updatedAt":"2026-03-16T13:15:09.768Z"}
+{"id":"azZUSR0e","description":"Add a one-click ghws script that pulls all nested git repositories except submodules","stage":"done","createdAt":"2026-03-17T01:39:58.415Z","updatedAt":"2026-03-17T01:53:44.106Z"}
