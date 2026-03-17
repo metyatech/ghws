@@ -16,6 +16,17 @@ The cross-device AI agent session fabric now lives in the sibling repository `wo
 - Run `compose-agentsmd` from the repository root when rules change.
 - Run `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-hooks.ps1` to configure local git hooks.
 
+## One-click update
+
+To pull the latest changes for every repository in the workspace, run:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/pull-all.ps1
+```
+
+This script discovers every direct child directory that is a standalone Git repository (`.git/` is a directory), runs `git pull` on each one, and prints a per-repo status summary.
+Submodules (`.git` is a file) are detected and skipped automatically. Non-git directories are silently ignored. If any repository fails to pull, it is reported and the script exits with code 1 after finishing all others.
+
 ## Workspace tools
 
 - `workspace-agent-hub`: Windows + WSL `tmux` session fabric for AI agent CLI handoff across PC and smartphone. GitHub: `https://github.com/metyatech/workspace-agent-hub`
