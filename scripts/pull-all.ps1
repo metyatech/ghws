@@ -8,8 +8,8 @@ $ErrorActionPreference = 'Continue'
 # that reside inside a .git directory (e.g. .git/modules/...) are excluded so
 # internal git storage is never mistaken for a repository.  Submodules (whose
 # .git entry is a file, not a directory) are detected and skipped. Repositories
-# without an upstream branch, or whose local changes block pull, are reported
-# as skips rather than hard failures.
+# without an upstream branch are reported as notes, while repositories whose
+# local changes block pull remain failures.
 # ---------------------------------------------------------------------------
 
 function Get-RelPath {
@@ -61,10 +61,10 @@ function Get-PullStatus {
 
     $joined = $OutputLines -join "`n"
     if ($joined -match 'Your local changes to the following files would be overwritten by merge:') {
-        return 'SKIP (local changes)'
+        return 'FAILED (local changes)'
     }
     if ($joined -match 'There is no tracking information for the current branch\.') {
-        return 'SKIP (no upstream)'
+        return 'NOTE (no upstream)'
     }
 
     return "FAILED (exit $ExitCode)"
@@ -135,9 +135,9 @@ function Invoke-PullAll {
         if (-not (Test-RepoHasUpstream -RepoPath $item.FullName)) {
             Write-Host ""
             Write-Host ">> $relPath  [$($item.FullName)]" -ForegroundColor Yellow
-            Write-Host '   No upstream branch is configured for the current branch.' -ForegroundColor DarkGray
-            Write-Host '   [SKIP (no upstream)]' -ForegroundColor DarkGray
-            $results.Add([PSCustomObject]@{ RelPath = $relPath; FullPath = $item.FullName; Status = 'SKIP (no upstream)' })
+            Write-Host '   No upstream branch is configured for the current branch.' -ForegroundColor DarkYellow
+            Write-Host '   [NOTE (no upstream)]' -ForegroundColor DarkYellow
+            $results.Add([PSCustomObject]@{ RelPath = $relPath; FullPath = $item.FullName; Status = 'NOTE (no upstream)' })
             continue
         }
 
@@ -159,7 +159,11 @@ function Invoke-PullAll {
             continue
         }
 
-        $statusColor = if ($status -like 'SKIP*') { 'DarkGray' } else { 'Red' }
+        $statusColor = switch -Wildcard ($status) {
+            'SKIP*' { 'DarkGray' }
+            'NOTE*' { 'DarkYellow' }
+            default { 'Red' }
+        }
         Write-Host "   [$status]" -ForegroundColor $statusColor
         $results.Add([PSCustomObject]@{ RelPath = $relPath; FullPath = $item.FullName; Status = $status })
     }
@@ -177,6 +181,7 @@ function Invoke-PullAll {
         $color = switch -Wildcard ($r.Status) {
             'OK'            { 'Green'    }
             'SKIP*'         { 'DarkGray' }
+            'NOTE*'         { 'DarkYellow' }
             default         { 'Red'      }
         }
         Write-Host ("  {0,-50} {1}  [{2}]" -f $r.RelPath, $r.Status, $r.FullPath) -ForegroundColor $color

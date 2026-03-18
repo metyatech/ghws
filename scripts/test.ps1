@@ -74,8 +74,8 @@ $pullAllContent = [IO.File]::ReadAllText($pullAllScript)
 . $pullAllScript
 
 # ---------------------------------------------------------------------------
-# pull-all.ps1 regression: classify expected non-pullable states as SKIP and
-# normalize stderr lines so git messages stay readable.
+# pull-all.ps1 regression: classify expected non-pullable states and normalize
+# stderr lines so git messages stay readable.
 # ---------------------------------------------------------------------------
 
 $localChangesStatus = Get-PullStatus -ExitCode 1 -OutputLines @(
@@ -83,16 +83,16 @@ $localChangesStatus = Get-PullStatus -ExitCode 1 -OutputLines @(
     'AGENTS.md',
     'Please commit your changes or stash them before you merge.'
 )
-if ($localChangesStatus -ne 'SKIP (local changes)') {
-    Write-Error "pull-all test FAIL: local-change pull block should classify as SKIP, got '$localChangesStatus'"
+if ($localChangesStatus -ne 'FAILED (local changes)') {
+    Write-Error "pull-all test FAIL: local-change pull block should remain FAILED, got '$localChangesStatus'"
     exit 1
 }
 
 $noUpstreamStatus = Get-PullStatus -ExitCode 1 -OutputLines @(
     'There is no tracking information for the current branch.'
 )
-if ($noUpstreamStatus -ne 'SKIP (no upstream)') {
-    Write-Error "pull-all test FAIL: missing-upstream pull block should classify as SKIP, got '$noUpstreamStatus'"
+if ($noUpstreamStatus -ne 'NOTE (no upstream)') {
+    Write-Error "pull-all test FAIL: missing-upstream pull block should classify as NOTE, got '$noUpstreamStatus'"
     exit 1
 }
 
