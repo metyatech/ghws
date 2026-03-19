@@ -69,6 +69,65 @@ if ($parseErrors.Count -gt 0) {
     exit 1
 }
 
+$pullAllContent = [IO.File]::ReadAllText($pullAllScript)
+
+. $pullAllScript
+
+# ---------------------------------------------------------------------------
+# pull-all.ps1 regression: classify expected non-pullable states and normalize
+# stderr lines so git messages stay readable.
+# ---------------------------------------------------------------------------
+
+$localChangesStatus = Get-PullStatus -ExitCode 1 -OutputLines @(
+    'error: Your local changes to the following files would be overwritten by merge:',
+    'AGENTS.md',
+    'Please commit your changes or stash them before you merge.'
+)
+if ($localChangesStatus -ne 'FAILED (local changes)') {
+    Write-Error "pull-all test FAIL: local-change pull block should remain FAILED, got '$localChangesStatus'"
+    exit 1
+}
+
+$noUpstreamStatus = Get-PullStatus -ExitCode 1 -OutputLines @(
+    'There is no tracking information for the current branch.'
+)
+if ($noUpstreamStatus -ne 'NOTE (no upstream)') {
+    Write-Error "pull-all test FAIL: missing-upstream pull block should classify as NOTE, got '$noUpstreamStatus'"
+    exit 1
+}
+
+$unknownFailureStatus = Get-PullStatus -ExitCode 7 -OutputLines @('fatal: unexpected failure')
+if ($unknownFailureStatus -ne 'FAILED (exit 7)') {
+    Write-Error "pull-all test FAIL: unexpected failures must remain FAILED, got '$unknownFailureStatus'"
+    exit 1
+}
+
+$stderrMessage = 'There is no tracking information for the current branch.'
+$stderrRecord  = [System.Management.Automation.ErrorRecord]::new(
+    [System.Management.Automation.RemoteException]::new($stderrMessage),
+    'git-stderr',
+    [System.Management.Automation.ErrorCategory]::NotSpecified,
+    $null
+)
+$displayLines = ConvertTo-DisplayLines -CommandOutput @($stderrRecord, 'stdout line')
+if ($displayLines.Count -ne 2 -or $displayLines[0] -ne $stderrMessage -or $displayLines[1] -ne 'stdout line') {
+    Write-Error "pull-all test FAIL: stderr normalization did not preserve readable git output"
+    exit 1
+}
+
+$tmpDirUpstream = Join-Path ([IO.Path]::GetTempPath()) "ghws-pull-all-upstream-$([IO.Path]::GetRandomFileName())"
+[void][IO.Directory]::CreateDirectory($tmpDirUpstream)
+$null = & git -C $tmpDirUpstream init
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "pull-all test FAIL: could not initialize temp repo for upstream detection"
+    exit 1
+}
+if (Test-RepoHasUpstream -RepoPath $tmpDirUpstream) {
+    Write-Error 'pull-all test FAIL: fresh repo without tracking branch was incorrectly treated as pullable'
+    exit 1
+}
+try { [IO.Directory]::Delete($tmpDirUpstream, $true) } catch {}
+
 # Behavioral smoke-test in a temp sandbox
 $tmpDir  = Join-Path ([IO.Path]::GetTempPath()) "ghws-pull-all-test-$([IO.Path]::GetRandomFileName())"
 $scripts = Join-Path $tmpDir 'scripts'
@@ -103,9 +162,8 @@ $skipped  = @()
 $ignored  = @()
 
 $rootName    = Split-Path $tmpDir -Leaf
-$candidates  = @(Get-Item -Path $tmpDir)
-$candidates += Get-ChildItem -Path $tmpDir -Directory -Recurse -Force |
-    Where-Object { $_.FullName -notmatch ([regex]::Escape("${sep}.git${sep}")) }
+$candidateInfo = Get-WorkspaceCandidates -WorkspaceRoot (Get-Item -Path $tmpDir) -Separator $sep
+$candidates    = @($candidateInfo.Candidates)
 
 foreach ($item in $candidates) {
     $gitEntry = Join-Path $item.FullName '.git'
@@ -182,23 +240,15 @@ $parentASub = Join-Path $parentA 'sub'
 
 # Mirror pull-all discovery + relative-path computation
 $sep2     = [IO.Path]::DirectorySeparatorChar
-$rootStr2 = $tmpDir2.TrimEnd($sep2)
-
-function Get-RelPathTest([string]$fullPath) {
-    if ($fullPath -eq $rootStr2) { return '.' }
-    return $fullPath.Substring($rootStr2.Length + 1)
-}
-
 $detectedRelPaths = @()
 $skippedRelPaths  = @()
 
-$candidates2  = @(Get-Item -Path $tmpDir2)
-$candidates2 += Get-ChildItem -Path $tmpDir2 -Directory -Recurse -Force |
-    Where-Object { $_.FullName -notmatch ([regex]::Escape("${sep2}.git${sep2}")) }
+$candidateInfo2 = Get-WorkspaceCandidates -WorkspaceRoot (Get-Item -Path $tmpDir2) -Separator $sep2
+$candidates2    = @($candidateInfo2.Candidates)
 
 foreach ($item in $candidates2) {
     $gitEntry = Join-Path $item.FullName '.git'
-    $relPath  = Get-RelPathTest $item.FullName
+    $relPath  = Get-RelPath -WorkspaceRootPath $tmpDir2 -FullPath $item.FullName -Separator $sep2
     if (-not (Test-Path -Path $gitEntry)) { continue }
     if ((Get-Item -Path $gitEntry -Force).PSIsContainer -eq $false) {
         $skippedRelPaths += $relPath
@@ -239,12 +289,25 @@ if ($skippedRelPaths -notcontains $expectedSubPath) {
 }
 
 # ---------------------------------------------------------------------------
+# pull-all.ps1 regression: recursive discovery suppresses noisy enumeration
+# errors while still capturing them for summary reporting.
+# ---------------------------------------------------------------------------
+
+if ($pullAllContent -notmatch 'Get-ChildItem\s+`?\s*-Path\s+\$WorkspaceRoot\.FullName\s+`?\s*-Directory\s+`?\s*-Recurse\s+`?\s*-Force\s+`?\s*-ErrorAction\s+SilentlyContinue') {
+    Write-Error 'pull-all test FAIL: recursive discovery must suppress noisy enumeration errors'
+    exit 1
+}
+if ($pullAllContent -notmatch '-ErrorVariable\s+discoveryErrors') {
+    Write-Error 'pull-all test FAIL: recursive discovery must retain suppressed enumeration errors for summary reporting'
+    exit 1
+}
+
+# ---------------------------------------------------------------------------
 # pull-all.ps1 regression: summary output includes full path
 # Verifies that the Summary: section's Write-Host line references FullPath so
 # repositories with ambiguous leaf names remain unambiguous in the summary.
 # ---------------------------------------------------------------------------
 
-$pullAllContent = [IO.File]::ReadAllText($pullAllScript)
 # Split on the "Summary:" string and check the tail of the script
 $summarySection = ($pullAllContent -split 'Summary:')[1]
 if ($null -eq $summarySection -or $summarySection -notmatch '\$r\.FullPath') {
