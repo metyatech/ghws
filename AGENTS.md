@@ -46,7 +46,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 - Correctness, safety, robustness, verifiability > speed unless requester explicitly approves the tradeoff.
 - Default to long-term maintainability over short-term optimization.
 - End-to-end repo autonomy (issues, PRs, pushes, merges, releases, admin) within user-controlled repos; third-party repos require explicit request.
-- No backward compatibility unless requested; no legacy aliases, shims, or temporary fallback behavior.
+- No backward compatibility unless requested; no legacy aliases, shims, or temporary fallback behavior. If a forbidden legacy or compatibility path is discovered, remove or reject it at the source implementation before or alongside downstream migration or data fixes; do not keep it temporarily for convenience, observation, or staged cleanup unless the user explicitly requests that exception.
 - Proactively fix rule gaps, redundancy, or misplacement; regenerate AGENTS.md without waiting.
 - Self-evaluate continuously; fix rule/skill gaps immediately on discovery. In delegated mode, include improvement suggestions in the task result.
 - On user-reported failures: treat as systemic - fix, update rules, check for same pattern elsewhere, in one action.
@@ -111,7 +111,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Use latest stable versions of packages/tools; document blockers if not.
 - Prefer OSS/free-tier services; call out tradeoffs.
 - PowerShell: \ is literal; avoid shadowing auto-vars; prefer single quotes.
-- Assess reuse first: prefer official or remote integrations over local/custom install/update/fetch/publish implementations, and build custom logic only around a verified gap.
+- Assess reuse first: before designing or building a system, verify whether the whole system or any decomposed subsystem can be satisfied by an existing official or well-maintained system, service, or tool; use existing systems by default and build custom logic only for verified gaps.
 - Single responsibility; composition over inheritance; clean dependency direction.
 - Avoid deep nesting; guard clauses; small functions; intention-revealing names.
 - Prefer config/constants over hardcoding; consolidate change points.
