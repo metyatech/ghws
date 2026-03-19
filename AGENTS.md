@@ -55,10 +55,11 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/autonomous-operations.md
 - Investigate unclear items before proceeding; no assumptions without approval. Make scope/risk/cost/irreversibility decisions explicit.
 - In direct mode, treat any normal user instruction as approval for the full in-scope follow-up work needed to satisfy that request, unless the user explicitly narrows scope or higher-priority rules require additional approval.
 - After any user instruction, infer and execute the natural delivery chain by default: implementation, testing, debugging, runtime verification, deployment/release when applicable, documentation updates, follow-on defect cleanup, and residual-risk reduction, until the strongest justified terminal state is reached or an irreducible blocker remains.
+- When the user has requested multiple tasks, keep the conversation focused on the current in-progress task until it reaches a clear terminal state or blocker. Do not shift discussion to later requested tasks early unless the user explicitly asks to switch now.
 - When asked to handle PR review feedback, keep running the full PR review loop across successive review rounds without waiting for another user prompt: address feedback, verify, commit/push, re-request the relevant reviewer(s), monitor for new feedback, and repeat until no actionable review feedback remains or a blocker requires user input.
 - Do not stop at intermediate milestones or pause for optional reassurance, optional next-step confirmation, or convenience check-ins while actionable in-scope work remains; interrupt only for blockers, mandatory approvals imposed by higher-priority rules, explicit stop/pause instructions, or material scope/risk changes that require user input.
 - Do not lower the requested outcome on your own. If the intended end state is not yet fully met, continue working or explicitly return the remaining gap to the user; never treat partial satisfaction as completion by your own judgment.
-- Actively consider whether user input carries intent beyond its literal wording, and when it does, state that inferred intent and propose the matching next step.
+- Actively consider whether user input carries intent beyond its literal wording, and when it does, state that inferred intent and propose the matching next step. For requests to design or build systems jointly managed by humans and AI agents, make actors, canonical store, human surface, AI surface, sync, conflict policy, validation surfaces, generated artifacts, and human startup path explicit before implementation, and use the `human-ai-system-builder` skill.
 - If a problem can be fundamentally solved by modifying global rules, solve it by modifying global rules.
 - When modifying global rules, choose the shortest rule change that is still sufficient to solve the problem.
 - When multiple viable approaches exist, default to the highest-standard option that maximizes long-term quality, maintainability, and durability; lower-standard tradeoffs require explicit user request.
@@ -85,6 +86,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 - Avoid interactive git prompts by using --no-edit or setting GIT_EDITOR=true.
 - If elevated privileges are required, use sudo directly; do not launch a separate elevated shell (e.g., Start-Process -Verb RunAs). Fall back to run as Administrator only when sudo is unavailable.
 - Keep changes scoped to affected repositories; when shared modules change, update consumers and verify at least one.
+- When the destination repo/path is inferred rather than explicitly requested, verify from the repo's stated purpose and the user's intent that it is the canonical home for the work; structural or tooling fit alone is insufficient, and if ownership is unclear, keep the work isolated until the destination is confirmed.
 - If no branch is specified, work on the current branch; direct commits to main/master are allowed.
 - Do not assume agent platform capabilities beyond what is available; fail explicitly when unavailable.
 - When building a CLI, follow standard conventions: --help/-h, --version/-V, stdin/stdout piping, --json output, --dry-run for mutations, deterministic exit codes, and JSON Schema config validation.
@@ -109,7 +111,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/implementation-and-coding
 - Use latest stable versions of packages/tools; document blockers if not.
 - Prefer OSS/free-tier services; call out tradeoffs.
 - PowerShell: \ is literal; avoid shadowing auto-vars; prefer single quotes.
-- Assess reuse first; prefer remote dependencies over local paths.
+- Assess reuse first: prefer official or remote integrations over local/custom install/update/fetch/publish implementations, and build custom logic only around a verified gap.
 - Single responsibility; composition over inheritance; clean dependency direction.
 - Avoid deep nesting; guard clauses; small functions; intention-revealing names.
 - Prefer config/constants over hardcoding; consolidate change points.
@@ -143,6 +145,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/linting-formatting-and-st
 - Treat warnings as errors in CI.
 - Do not disable rules globally; keep suppressions narrow, justified, and time-bounded.
 - Pin tool versions (lockfiles/manifests) for reproducible CI.
+- Repositories with GitHub Actions must configure Dependabot version updates for applicable package ecosystems and for `github-actions`, unless the repository has no external dependency/update surface.
 - For web UI projects, enforce automated visual accessibility checks in CI.
 - Require dependency vulnerability scanning, secret scanning, and CodeQL for supported languages.
 
@@ -234,6 +237,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/release-and-publication.m
 - Verify published packages resolve and run correctly before reporting done.
 - For new user-owned repositories created during a task, create the GitHub remote and push the initial history before reporting complete unless the user explicitly opts out.
 - For public repos, set GitHub Description, Topics, and Homepage. Assign topics from the standard set defined in the `release-publish` skill.
+- For public npm packages published from GitHub Actions, use npm trusted publishing (OIDC) instead of long-lived npm tokens whenever supported, and keep the publish workflow on a Node/npm runtime that satisfies trusted-publishing requirements.
 - Before reporting a publishable-package change as complete, verify the full delivery chain (commit → push → version bump → release → publish → install verify). Procedures in the `release-publish` skill.
 - For user-owned publishable packages, when the user asks to commit/push or finalize a fix, treat release/publish as in-scope follow-up by default and execute the full delivery chain unless the user explicitly opts out.
 
