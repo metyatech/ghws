@@ -82,6 +82,7 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/command-execution.md
 - Do not add wrappers or pipes to commands unless the user explicitly asks.
 - Prefer repository-standard scripts/commands (package.json scripts, README instructions).
 - Reproduce reported command issues by running the same command (or closest equivalent) before proposing fixes.
+- Treat nonzero exits from external commands as failures unless a specific exit code is explicitly documented and checked as an expected condition; never map unknown nonzero exits to benign states.
 - When a Windows process is intended to run headlessly, every non-interactive child console process in that spawn chain must also be launched headlessly (`windowsHide: true`, `CreateNoWindow`, or `Start-Process -WindowStyle Hidden` as appropriate).
 - From a windowless PowerShell parent, do not spawn non-interactive console children with the `&` call operator; use an explicit hidden process launch that preserves output/exit-code handling.
 - When diagnosing third-party tool failures, check the latest stable release first; if the latest still reproduces the failure, treat upgrade as insufficient, record the verified limitation, and use a deterministic workaround when available.
