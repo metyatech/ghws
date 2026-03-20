@@ -12,8 +12,6 @@
 - Before applying any rule updates, present the planned changes first with an ANSI-colored diff-style preview, ask for explicit approval, then make the edits.
 - These tool rules live in tools/tool-rules.md in the compose-agentsmd repository; do not duplicate them in other rule modules.
 
-<<<<<<< HEAD
-=======
 Source: github:metyatech/agent-rules@HEAD/rules/global/agent-rules-composition.md
 
 # Rule composition and maintenance
@@ -319,7 +317,6 @@ Source: github:metyatech/agent-rules@HEAD/rules/global/writing-and-documentation
 ## Markdown linking
 - When a Markdown document links to a local file, use a path relative to the Markdown file.
 
->>>>>>> 50a987c (Fix pull-all ownership classification)
 Source: agent-rules-local/ghws-workspace.md
 
 # GHWS workspace repository management
