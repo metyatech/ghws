@@ -70,11 +70,33 @@ function Get-PullStatus {
     return "FAILED (exit $ExitCode)"
 }
 
+function Check-RepoUpstream {
+    param([string]$RepoPath)
+
+    $raw = & git -C $RepoPath rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>&1
+    $exit = $LASTEXITCODE
+    $lines = ConvertTo-DisplayLines -CommandOutput $raw
+    return [PSCustomObject]@{ ExitCode = $exit; OutputLines = $lines; HasUpstream = ($exit -eq 0) }
+}
+
+function Classify-RevParseResult {
+    param([int]$ExitCode, [string[]]$OutputLines)
+
+    if ($ExitCode -eq 0) { return 'HAS_UPSTREAM' }
+
+    $joined = $OutputLines -join "`n"
+    if ($joined -match 'dubious ownership' -or $joined -match 'safe\.directory') {
+        return 'FAILED (dubious ownership)'
+    }
+
+    return 'NOTE (no upstream)'
+}
+
 function Test-RepoHasUpstream {
     param([string]$RepoPath)
 
-    $null = & git -C $RepoPath rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>$null
-    return ($LASTEXITCODE -eq 0)
+    $res = Check-RepoUpstream -RepoPath $RepoPath
+    return $res.HasUpstream
 }
 
 function Get-WorkspaceCandidates {
@@ -132,7 +154,18 @@ function Invoke-PullAll {
         }
 
         # A local branch with no upstream cannot be pulled deterministically.
-        if (-not (Test-RepoHasUpstream -RepoPath $item.FullName)) {
+        $upstreamInfo = Check-RepoUpstream -RepoPath $item.FullName
+        if (-not $upstreamInfo.HasUpstream) {
+            $classification = Classify-RevParseResult -ExitCode $upstreamInfo.ExitCode -OutputLines $upstreamInfo.OutputLines
+            if ($classification -like 'FAILED*') {
+                Write-Host ""
+                Write-Host ">> $relPath  [$($item.FullName)]" -ForegroundColor Yellow
+                foreach ($l in $upstreamInfo.OutputLines) { Write-Host "   $l" }
+                Write-Host "   [$classification]" -ForegroundColor Red
+                $results.Add([PSCustomObject]@{ RelPath = $relPath; FullPath = $item.FullName; Status = $classification })
+                continue
+            }
+
             Write-Host ""
             Write-Host ">> $relPath  [$($item.FullName)]" -ForegroundColor Yellow
             Write-Host '   No upstream branch is configured for the current branch.' -ForegroundColor DarkYellow

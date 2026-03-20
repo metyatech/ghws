@@ -128,6 +128,21 @@ if (Test-RepoHasUpstream -RepoPath $tmpDirUpstream) {
 }
 try { [IO.Directory]::Delete($tmpDirUpstream, $true) } catch {}
 
+# Dubious ownership classification test (should be treated as a failure, not NOTE)
+$dubiousLines = @(
+    'fatal: detected dubious ownership in repository at /some/path',
+    'To add an exception, run: git config --global --add safe.directory /some/path'
+)
+$dubiousStatus = Classify-RevParseResult -ExitCode 128 -OutputLines $dubiousLines
+if ($dubiousStatus -eq 'NOTE (no upstream)') {
+    Write-Error "pull-all test FAIL: dubious ownership must not be classified as NOTE (no upstream), got '$dubiousStatus'"
+    exit 1
+}
+if ($dubiousStatus -notmatch 'FAILED') {
+    Write-Error "pull-all test FAIL: dubious ownership must be classified as FAILED, got '$dubiousStatus'"
+    exit 1
+}
+
 # Behavioral smoke-test in a temp sandbox
 $tmpDir  = Join-Path ([IO.Path]::GetTempPath()) "ghws-pull-all-test-$([IO.Path]::GetRandomFileName())"
 $scripts = Join-Path $tmpDir 'scripts'
