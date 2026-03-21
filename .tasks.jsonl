@@ -136,3 +136,4 @@
 {"id":"_bX_UpQR","description":"Codex 起動時の agent-dotfiles 導入処理で変更がない場合は再インストールを避けるよう、起動処理の差分判定とキャッシュ条件を見直す","stage":"pending","createdAt":"2026-03-21T10:17:57.881Z","updatedAt":"2026-03-21T10:17:57.881Z"}
 {"id":"b5ylDM5m","description":"Retire AI Agent Sessions as a user-facing entrypoint and unify PC shortcuts/entry flow on Workspace Agent Hub","stage":"committed","createdAt":"2026-03-21T10:23:18.860Z","updatedAt":"2026-03-21T10:31:02.602Z","committedEventId":"tCUkIR3xxlnCJhV5"}
 {"id":"ufKxh0Jd","description":"Workspace Agent Hub の Manager 画面でトピック詳細メッセージを最新先頭表示に変更するUX見直し","stage":"pending","createdAt":"2026-03-21T10:26:22.406Z","updatedAt":"2026-03-21T10:26:22.406Z"}
+{"id":"kvNl7a2k","description":"Make workspace-agent-hub Manager show obvious live processing status so users can tell whether AI is moving","stage":"committed","createdAt":"2026-03-21T10:49:12.676Z","updatedAt":"2026-03-21T11:16:58.446Z","committedEventId":"8LIdAMolLa5j68yX"}
