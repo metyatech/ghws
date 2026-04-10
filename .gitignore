@@ -4,6 +4,8 @@
 !AGENTS.md
 !README.md
 !LICENSE
+!docs/
+!docs/**
 !agent-rules-local/
 !agent-rules-local/**
 !.github/

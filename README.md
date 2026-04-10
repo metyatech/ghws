@@ -54,6 +54,7 @@ Submodules (`.git` is a file) are detected and skipped automatically; the skip a
 
 ## Links
 
+- [Managed Worktree System Design](docs/managed-worktree-system-design.md)
 - [CHANGELOG.md](CHANGELOG.md)
 - [SECURITY.md](SECURITY.md)
 - [CONTRIBUTING.md](CONTRIBUTING.md)
