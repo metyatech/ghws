@@ -186,3 +186,4 @@
 {"id":"wJYy-MEN","description":"Investigate why two Workspace Agent Hub Manager items stay stuck at AI queue-waiting and identify the exact blocker","stage":"done","createdAt":"2026-04-13T13:42:02.354Z","updatedAt":"2026-04-13T13:51:26.207Z"}
 {"id":"B0s-RRkS","description":"Fix thread-inbox concurrent write loss and workspace-agent-hub false queued UI state for stranded Manager threads","stage":"done","createdAt":"2026-04-13T15:06:24.563Z","updatedAt":"2026-04-13T16:40:18.902Z"}
 {"id":"Q59FTa8U","description":"Make workspace-agent-hub Manager stranded-thread state canonical and auto-recover safe orphaned waiting topics","stage":"done","createdAt":"2026-04-13T23:45:15.385Z","updatedAt":"2026-04-14T00:49:52.903Z"}
+{"id":"hqnN1phu","description":"Fix workspace-agent-hub manager status mismatch where queued is shown while resume/start work is already running","stage":"done","createdAt":"2026-04-14T03:04:42.297Z","updatedAt":"2026-04-14T03:48:43.577Z"}
