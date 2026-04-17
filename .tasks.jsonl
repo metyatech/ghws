@@ -199,3 +199,4 @@
 {"id":"RlQibnUR","description":"Disable OpenCode auto-update prompts so the local metyatech/opencode fork remains active","stage":"done","createdAt":"2026-04-17T00:33:29.501Z","updatedAt":"2026-04-17T00:33:50.749Z"}
 {"id":"o8u4YFSm","description":"Configure OmO to prefer OpenAI GPT models with GitHub Copilot fallback","stage":"done","createdAt":"2026-04-17T01:27:03.338Z","updatedAt":"2026-04-17T01:31:35.301Z"}
 {"id":"B7acnxoG","description":"Configure OmO to prefer Google Gemini API with GitHub Copilot fallback","stage":"done","createdAt":"2026-04-17T04:42:42.387Z","updatedAt":"2026-04-17T04:44:51.035Z"}
+{"id":"HA20pMAw","description":"Enable OmO runtime fallback for OpenAI usage-limit failover","stage":"committed","createdAt":"2026-04-17T05:05:14.394Z","updatedAt":"2026-04-17T05:07:15.915Z","committedEventId":"wR0VHDFOnICRYjWl"}
