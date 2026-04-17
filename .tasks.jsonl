@@ -201,3 +201,4 @@
 {"id":"B7acnxoG","description":"Configure OmO to prefer Google Gemini API with GitHub Copilot fallback","stage":"done","createdAt":"2026-04-17T04:42:42.387Z","updatedAt":"2026-04-17T04:44:51.035Z"}
 {"id":"HA20pMAw","description":"Enable OmO runtime fallback for OpenAI usage-limit failover","stage":"committed","createdAt":"2026-04-17T05:05:14.394Z","updatedAt":"2026-04-17T05:07:15.915Z","committedEventId":"wR0VHDFOnICRYjWl"}
 {"id":"WLuGpmlt","description":"Remove unsupported Copilot Claude Opus max variants from OmO config","stage":"committed","createdAt":"2026-04-17T05:15:18.526Z","updatedAt":"2026-04-17T05:21:37.540Z","committedEventId":"1jcKSoFLvRDqJL-R"}
+{"id":"7hgdedo1","description":"Audit OmO model and variant settings for unusable entries","stage":"committed","createdAt":"2026-04-17T05:23:50.493Z","updatedAt":"2026-04-17T05:33:07.043Z","committedEventId":"ZagxL8igxJqGrIAQ"}
