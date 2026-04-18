@@ -204,3 +204,4 @@
 {"id":"7hgdedo1","description":"Audit OmO model and variant settings for unusable entries","stage":"committed","createdAt":"2026-04-17T05:23:50.493Z","updatedAt":"2026-04-17T05:33:07.043Z","committedEventId":"ZagxL8igxJqGrIAQ"}
 {"id":"l5_b3DEB","description":"Add completion notifications to AI CLI PowerShell wrappers","stage":"committed","createdAt":"2026-04-17T05:43:37.458Z","updatedAt":"2026-04-17T05:55:59.707Z","committedEventId":"-FAyMC5TzoN-6bzl"}
 {"id":"2vvs4z0L","description":"Remove obsolete direct-mode SystemSounds completion rule now that CLI notifications are configured","stage":"committed","createdAt":"2026-04-17T06:10:21.291Z","updatedAt":"2026-04-17T06:16:41.366Z","committedEventId":"Rynipmv15sBkvkS0"}
+{"id":"5DGOY64Q","description":"Implement ghws bootstrap path for standardized high-quality repo workflow","stage":"committed","createdAt":"2026-04-18T00:18:55.898Z","updatedAt":"2026-04-18T04:24:02.020Z","committedEventId":"koO8BYzpOmmcooEU"}
