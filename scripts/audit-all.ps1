@@ -14,7 +14,7 @@ $resolvedWorkspaceRoot = if ($WorkspaceRoot) {
 } else {
     $scriptRepoRoot
 }
-$profilePath = Join-Path $scriptRepoRoot 'config\repo-bootstrap-profiles.json'
+$profilePath = Join-Path $scriptRepoRoot 'scripts\bootstrap-assets\repo-bootstrap-profiles.json'
 
 function Get-RepoSlugFromRemoteUrl {
     param([Parameter(Mandatory = $true)][string]$RemoteUrl)
