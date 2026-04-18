@@ -1,6 +1,35 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Continue'
 
+function Invoke-GitCommand {
+    param([string[]]$GitArgs)
+
+    $gitEnvNames = @(
+        'GIT_DIR',
+        'GIT_WORK_TREE',
+        'GIT_INDEX_FILE',
+        'GIT_PREFIX',
+        'GIT_COMMON_DIR',
+        'GIT_OBJECT_DIRECTORY',
+        'GIT_ALTERNATE_OBJECT_DIRECTORIES'
+    )
+    $savedValues = @{}
+    foreach ($name in $gitEnvNames) {
+        $savedValues[$name] = [Environment]::GetEnvironmentVariable($name, 'Process')
+        if ($null -ne $savedValues[$name]) {
+            [Environment]::SetEnvironmentVariable($name, $null, 'Process')
+        }
+    }
+
+    try {
+        & git @GitArgs
+    } finally {
+        foreach ($name in $gitEnvNames) {
+            [Environment]::SetEnvironmentVariable($name, $savedValues[$name], 'Process')
+        }
+    }
+}
+
 # ---------------------------------------------------------------------------
 # pull-all.ps1
 # Runs `git pull` on every standalone Git repository found anywhere under the
@@ -73,7 +102,7 @@ function Get-PullStatus {
 function Check-RepoUpstream {
     param([string]$RepoPath)
 
-    $raw = & git -C $RepoPath rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>&1
+    $raw = Invoke-GitCommand -GitArgs @('-C', $RepoPath, 'rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{upstream}') 2>&1
     $exit = $LASTEXITCODE
     $lines = ConvertTo-DisplayLines -CommandOutput $raw
     return [PSCustomObject]@{ ExitCode = $exit; OutputLines = $lines; HasUpstream = ($exit -eq 0) }
@@ -178,7 +207,7 @@ function Invoke-PullAll {
         Write-Host ""
         Write-Host ">> $relPath  [$($item.FullName)]" -ForegroundColor Yellow
 
-        $pullOutput   = & git -C $item.FullName pull 2>&1
+        $pullOutput   = Invoke-GitCommand -GitArgs @('-C', $item.FullName, 'pull') 2>&1
         $displayLines = ConvertTo-DisplayLines -CommandOutput $pullOutput
         $exitCode     = $LASTEXITCODE
         $status       = Get-PullStatus -ExitCode $exitCode -OutputLines $displayLines

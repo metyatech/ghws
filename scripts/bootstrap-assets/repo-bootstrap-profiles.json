@@ -1,0 +1,5 @@
+{
+  "metyatech/opencode": {
+    "verifyCommand": "bun run lint; bun run typecheck; bun turbo test:ci"
+  }
+}
