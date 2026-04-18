@@ -12,6 +12,8 @@ This repository is the workspace index and agent-rules composition root for the 
 - Update docs and rules together when behavior changes.
 - Regenerate `AGENTS.md` by running `compose-agentsmd`.
 - Commit with a clear message and open a PR if desired.
+- Use `scripts/bootstrap-user-repo.ps1` to apply the standard high-quality workflow to user-controlled repositories under `ghws`.
+- Use `scripts/audit-all.ps1` and `scripts/verify-all.ps1` to check drift across user-controlled repositories.
 
 ## Development commands
 
