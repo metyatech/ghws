@@ -2,6 +2,7 @@
 tracker:
   kind: linear
   team: ENG
+  project_slug: ENG-1
   trigger_label: symphony
 
 workspaces_root: ./workspaces
