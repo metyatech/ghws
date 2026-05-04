@@ -1,4 +1,6 @@
-linear:
+---
+tracker:
+  kind: linear
   team: ENG
   trigger_label: symphony
 
@@ -10,13 +12,13 @@ repositories:
 
 agent:
   command: opencode
-  prompt: |
-    # Task from Linear: {{ issue.title }}
-    
-    {{ issue.description }}
-    
-    ---
-    ## 対象リポジトリ
-    {% for r in repos %}
-    - {{ r.name }} ({{ r.path }})
-    {% endfor %}
+---
+# Task from Linear: {{ issue.title }}
+
+{{ issue.description }}
+
+---
+## 対象リポジトリ
+{% for r in repos %}
+- {{ r.name }} ({{ r.path }})
+{% endfor %}
