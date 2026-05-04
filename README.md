@@ -16,48 +16,6 @@ The cross-device AI agent session fabric now lives in the sibling repository `wo
 - Run `compose-agentsmd` from the repository root when rules change.
 - Run `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-hooks.ps1` to configure local git hooks.
 
-## Bootstrap a user-controlled repository
-
-Use the workspace bootstrap script to apply the standard high-quality OpenCode workflow to a user-controlled repository.
-
-Already cloned under `ghws`:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/bootstrap-user-repo.ps1 -RepoRoot D:\ghws\some-repo
-```
-
-Not cloned yet but owned by `metyatech`:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/bootstrap-user-repo.ps1 -Repository metyatech/some-repo
-```
-
-The bootstrap applies these pieces:
-
-- `agent-rules-local/high-quality-workflow.md`
-- `.opencode/commands/start-task.md`
-- `.opencode/commands/verify.md`
-- `.opencode/commands/fix-bug.md`
-- `.opencode/commands/deliver.md`
-
-It also ensures `agent-ruleset.json` includes the local workflow rule, runs `compose-agentsmd`, and configures hooks if the target repository exposes `scripts/setup-hooks.ps1`.
-
-If a repository has a special verification contract, define it in `scripts/bootstrap-assets/repo-bootstrap-profiles.json` or pass `-VerifyCommand` explicitly.
-
-## Audit and verify user-controlled repositories
-
-Audit all top-level repositories under `ghws`:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit-all.ps1 -WorkspaceRoot D:\ghws
-```
-
-Verify all in-scope repositories that expose a canonical verification contract:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-all.ps1 -WorkspaceRoot D:\ghws
-```
-
 ## One-click update
 
 **Double-click in Explorer**: `pull-all.cmd` at the workspace root.

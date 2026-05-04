@@ -1,5 +1,6 @@
 *
 !.gitignore
+!WORKFLOW.md
 !agent-ruleset.json
 !AGENTS.md
 !README.md
