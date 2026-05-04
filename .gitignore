@@ -25,3 +25,4 @@
 !.gemini/**
 .env
 start.ps1
+.env
