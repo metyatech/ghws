@@ -23,3 +23,5 @@
 # agent settings
 !.gemini
 !.gemini/**
+.env
+start.ps1
