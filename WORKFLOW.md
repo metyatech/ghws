@@ -18,7 +18,7 @@ agent:
 {{ issue.description }}
 
 ---
-## 対象リポジトリ
+## Targets
 {% for r in repos %}
 - {{ r.name }} ({{ r.path }})
 {% endfor %}
