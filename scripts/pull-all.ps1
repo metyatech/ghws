@@ -49,6 +49,30 @@ function ConvertTo-DisplayLines {
     return $lines
 }
 
+function Invoke-WorkspaceGit {
+    param([string[]]$Arguments)
+
+    $saved = @{
+        GIT_DIR       = $env:GIT_DIR
+        GIT_WORK_TREE = $env:GIT_WORK_TREE
+        GIT_INDEX_FILE = $env:GIT_INDEX_FILE
+    }
+    Remove-Item Env:GIT_DIR -ErrorAction SilentlyContinue
+    Remove-Item Env:GIT_WORK_TREE -ErrorAction SilentlyContinue
+    Remove-Item Env:GIT_INDEX_FILE -ErrorAction SilentlyContinue
+    try {
+        return & git @Arguments 2>&1
+    } finally {
+        foreach ($name in $saved.Keys) {
+            if ($null -eq $saved[$name]) {
+                Remove-Item "Env:$name" -ErrorAction SilentlyContinue
+            } else {
+                Set-Item "Env:$name" $saved[$name]
+            }
+        }
+    }
+}
+
 function Get-PullStatus {
     param(
         [int]$ExitCode,
@@ -73,7 +97,7 @@ function Get-PullStatus {
 function Check-RepoUpstream {
     param([string]$RepoPath)
 
-    $raw = & git -C $RepoPath rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>&1
+    $raw = Invoke-WorkspaceGit -Arguments @('-C', $RepoPath, 'rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{upstream}')
     $exit = $LASTEXITCODE
     $lines = ConvertTo-DisplayLines -CommandOutput $raw
     return [PSCustomObject]@{ ExitCode = $exit; OutputLines = $lines; HasUpstream = ($exit -eq 0) }
@@ -178,7 +202,7 @@ function Invoke-PullAll {
         Write-Host ""
         Write-Host ">> $relPath  [$($item.FullName)]" -ForegroundColor Yellow
 
-        $pullOutput   = & git -C $item.FullName pull 2>&1
+        $pullOutput   = Invoke-WorkspaceGit -Arguments @('-C', $item.FullName, 'pull')
         $displayLines = ConvertTo-DisplayLines -CommandOutput $pullOutput
         $exitCode     = $LASTEXITCODE
         $status       = Get-PullStatus -ExitCode $exitCode -OutputLines $displayLines
