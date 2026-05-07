@@ -2,7 +2,6 @@
 tracker:
   kind: linear
   team: ENG
-  project_slug: ENG-1
   trigger_label: symphony
 
 workspaces_root: ./workspaces
@@ -11,6 +10,10 @@ repositories:
   owner: metyatech
   protocol: https
   required: true
+  local:
+    prefer_existing: true
+    roots:
+      - .
 
 agent:
   command: codex app-server
