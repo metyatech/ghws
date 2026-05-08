@@ -213,3 +213,4 @@
 {"id":"ryzNMo1W","description":"Remove duplicated intro content from javascript-course-docs based on course-common-docs","stage":"done","createdAt":"2026-04-21T00:54:50.037Z","updatedAt":"2026-04-21T08:59:57.839Z","committedEventId":"RX5eb2yPySKuEF61"}
 {"id":"uRXOVD-4","description":"Commit and push ghws root tracker updates after opencode maintenance","stage":"committed","createdAt":"2026-04-24T10:50:03.181Z","updatedAt":"2026-04-24T10:54:18.686Z","committedEventId":"uuWX5OOsLazdFCPW"}
 {"id":"YH8HmJUt","description":"Configure Symphony workflow to remove stale Linear project filter","stage":"committed","createdAt":"2026-05-06T02:49:22.728Z","updatedAt":"2026-05-07T14:46:00.000Z"}
+{"id":"cf4st-ce","description":"Investigate and repair opencode session project_id mismatch for ses_22943cf32ffeRX1I5R9uYBN2gH","stage":"done","createdAt":"2026-05-07T12:06:42.543Z","updatedAt":"2026-05-07T12:21:34.702Z"}
