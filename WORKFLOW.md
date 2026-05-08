@@ -14,6 +14,11 @@ repositories:
     prefer_existing: true
     roots:
       - .
+    isolation: mwt
+    init_if_missing: true
+    init_no_verify: true
+    branch_template: "symphony/{{ issue.identifier }}"
+    path_template: "{{ workspace }}/{{ repo }}"
 
 agent:
   command: codex app-server
