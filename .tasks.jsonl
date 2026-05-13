@@ -214,3 +214,4 @@
 {"id":"uRXOVD-4","description":"Commit and push ghws root tracker updates after opencode maintenance","stage":"committed","createdAt":"2026-04-24T10:50:03.181Z","updatedAt":"2026-04-24T10:54:18.686Z","committedEventId":"uuWX5OOsLazdFCPW"}
 {"id":"YH8HmJUt","description":"Configure Symphony workflow to remove stale Linear project filter","stage":"committed","createdAt":"2026-05-06T02:49:22.728Z","updatedAt":"2026-05-07T14:46:00.000Z"}
 {"id":"cf4st-ce","description":"Investigate and repair opencode session project_id mismatch for ses_22943cf32ffeRX1I5R9uYBN2gH","stage":"done","createdAt":"2026-05-07T12:06:42.543Z","updatedAt":"2026-05-07T12:21:34.702Z"}
+{"id":"n0sfm1Dj","description":"Fix Sisyphus/OmO fallback so openai/gpt-5.5 is attempted before google/gemini-3.1-pro-preview","stage":"committed","createdAt":"2026-05-13T06:51:50.396Z","updatedAt":"2026-05-13T07:13:00.556Z","committedEventId":"9Vm1aoW1kfqD2UYc"}
