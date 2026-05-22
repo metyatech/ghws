@@ -218,3 +218,13 @@
 {"id":"Y99fyT_B","description":"Root-fix opencode prompt_async so accepted prompts always materialize assistant runs after active-run failure","stage":"committed","createdAt":"2026-05-14T06:23:39.918Z","updatedAt":"2026-05-14T07:03:16.814Z","committedEventId":"QPhNgyGoIESvX-OA"}
 {"id":"gwOF2Ax9","description":"Add first-class opencode fallback retry API and make OmO reuse existing user turns without prompt duplication","stage":"committed","createdAt":"2026-05-14T07:31:19.149Z","updatedAt":"2026-05-14T08:16:40.457Z","committedEventId":"NTegAPkZYs5DiPoi"}
 {"id":"afH8GMxe","description":"Rescue opencode session ses_1e460164cffeOI0L8BCALq01A1 after context exceeded send failure","stage":"committed","createdAt":"2026-05-14T10:48:54.137Z","updatedAt":"2026-05-14T11:00:11.584Z","committedEventId":"aMBAvqG-Ah4m4S43"}
+{"id":"bSWAyq3R","description":"Apply wt-fix-exercise-contrast copies back to course-docs-site and course-docs-platform, then delete copied directories","stage":"done","createdAt":"2026-05-14T13:01:42.262Z","updatedAt":"2026-05-14T13:46:18.710Z"}
+{"id":"1UGnh7qA","description":"Repair stuck opencode session ses_1d96e2a59ffebsraQZGJvoCH5b on this PC","stage":"done","createdAt":"2026-05-15T04:24:42.642Z","updatedAt":"2026-05-15T04:35:48.817Z"}
+{"id":"PbqPyuK5","description":"Explain Playwright timeout and webServer teardown behavior on Windows","stage":"done","createdAt":"2026-05-18T03:45:02.469Z","updatedAt":"2026-05-18T03:50:25.890Z"}
+{"id":"WeWEm-16","description":"Report findings on Next.js + Playwright best practices","stage":"done","createdAt":"2026-05-18T04:04:03.805Z","updatedAt":"2026-05-18T04:04:03.805Z"}
+{"id":"L7LM3pjn","description":"Confirm current best practices for Next.js + Playwright on Windows","stage":"done","createdAt":"2026-05-18T04:04:11.633Z","updatedAt":"2026-05-18T04:06:50.313Z"}
+{"id":"6YrnVrlv","description":"Create web-foundations-docs and link from course docs","stage":"done","createdAt":"2026-05-22T05:52:46.520Z","updatedAt":"2026-05-22T06:19:09.940Z"}
+{"id":"aoHiMD3-","description":"Revise web foundations extraction to move image-backed explanations","stage":"done","createdAt":"2026-05-22T07:41:38.827Z","updatedAt":"2026-05-22T07:58:33.721Z"}
+{"id":"gsZaeSi9","description":"Restore original wording in web foundations docs","stage":"done","createdAt":"2026-05-22T08:40:28.216Z","updatedAt":"2026-05-22T08:50:54.275Z"}
+{"id":"k-sjRhue","description":"Narrow paths URLs external files common page scope","stage":"done","createdAt":"2026-05-22T09:19:53.775Z","updatedAt":"2026-05-22T09:23:48.799Z"}
+{"id":"5pYFX7xQ","description":"Set up web-foundations-docs Vercel GitHub Actions deploy","stage":"done","createdAt":"2026-05-22T09:40:56.423Z","updatedAt":"2026-05-22T10:09:21.235Z"}
