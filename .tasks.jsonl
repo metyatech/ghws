@@ -195,3 +195,5 @@
 {"id":"QobIe5uE","description":"Investigate repeated compaction and no-work continuation in OpenCode session ses_18f3f29a0ffeujz5vRq3Suyjr5","stage":"done","createdAt":"2026-05-30T02:54:15.604Z","updatedAt":"2026-05-30T03:06:59.770Z","committedEventId":"yuXEIYB-d7fvDwF4"}
 {"id":"Uf9mg6v3","description":"Investigate stale opencode task progress display for ses_18ef885c1ffeVgcHkiEYtzgg9S","stage":"done","createdAt":"2026-05-30T05:04:39.833Z","updatedAt":"2026-05-30T05:11:32.775Z"}
 {"id":"YCgFX0Jb","description":"Implement durable OmO background task parent notification reconciliation","stage":"in-progress","createdAt":"2026-05-30T05:35:54.222Z","updatedAt":"2026-05-30T05:35:54.222Z"}
+{"id":"4agafl4w","description":"Configure .jsonl LSP support in the appropriate workspace/editor configuration","stage":"pending","createdAt":"2026-05-30T05:42:51.093Z","updatedAt":"2026-05-30T05:42:51.093Z"}
+{"id":"R8lDD7LY","description":"Prepare and publish eligible QTI npm packages, including qti-to-track package hygiene","stage":"committed","createdAt":"2026-05-30T05:44:55.486Z","updatedAt":"2026-05-30T05:59:35.209Z","committedEventId":"SEyAEFh-JkHR1aKQ"}
