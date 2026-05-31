@@ -204,3 +204,4 @@
 {"id":"DRPWCi83","description":"Add missing CLI flags to qti-to-track publish (--session, --material-title, --no-material, --no-track-map, --material-type)","stage":"pending","createdAt":"2026-05-30T16:42:01.554Z","updatedAt":"2026-05-30T16:42:01.554Z"}
 {"id":"i1xvhBys","description":"Allow qti-to-track publish dry-run without credentials","stage":"pending","createdAt":"2026-05-30T16:42:01.715Z","updatedAt":"2026-05-30T16:42:01.715Z"}
 {"id":"00QJm5oe","description":"Update weekly-quiz-workbench qti-to-track dependency pin and verify","stage":"committed","createdAt":"2026-05-31T01:07:54.269Z","updatedAt":"2026-05-31T01:11:15.452Z","committedEventId":"SpxJK3G284tST64O"}
+{"id":"Y_WCbJBq","description":"Cross-repo QTI problem-format final integration verification and minimal fixes","stage":"done","createdAt":"2026-05-31T04:27:15.601Z","updatedAt":"2026-05-31T04:33:00.052Z"}
