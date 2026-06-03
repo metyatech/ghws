@@ -217,3 +217,5 @@
 {"id":"aKLYlfMS","description":"Investigate opencode session ses_17e11573effeSrAByqHz1lt6U7 context display accuracy","stage":"done","createdAt":"2026-06-03T07:03:25.610Z","updatedAt":"2026-06-03T07:10:03.679Z"}
 {"id":"5-C_n9D9","description":"Fix opencode Context display to show current context window usage while keeping session cost cumulative","stage":"committed","createdAt":"2026-06-03T07:19:05.929Z","updatedAt":"2026-06-03T07:34:07.972Z","committedEventId":"41sFbiMekeLaFfPZ"}
 {"id":"W2z9dLIx","description":"Remove security-related rules from the composed agent rules","stage":"done","createdAt":"2026-06-03T07:29:48.305Z","updatedAt":"2026-06-03T07:39:15.126Z"}
+{"id":"WUN2SCAK","description":"Investigate why oh-my-openagent-patch did not fallback after Claude Opus 4.8 session limit in opencode session ses_173912ee0ffePz4dxVB9xpkQSe","stage":"done","createdAt":"2026-06-03T07:59:58.766Z","updatedAt":"2026-06-03T08:10:09.391Z"}
+{"id":"pcwbTQzt","description":"Make oh-my-openagent-patch runtime fallback robust against unrecognized provider/session-limit failures","stage":"done","createdAt":"2026-06-03T08:17:23.972Z","updatedAt":"2026-06-03T08:29:07.493Z"}
