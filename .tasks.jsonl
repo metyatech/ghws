@@ -216,4 +216,4 @@
 {"id":"Rd8Q-Ab9","description":"Fix opencode auto-compaction overflow accounting so multi-step cache-read totals do not trigger premature compaction","stage":"done","createdAt":"2026-06-03T05:53:31.832Z","updatedAt":"2026-06-03T06:26:26.490Z","committedEventId":"PE01WHySU7BpRaZn"}
 {"id":"aKLYlfMS","description":"Investigate opencode session ses_17e11573effeSrAByqHz1lt6U7 context display accuracy","stage":"done","createdAt":"2026-06-03T07:03:25.610Z","updatedAt":"2026-06-03T07:10:03.679Z"}
 {"id":"5-C_n9D9","description":"Fix opencode Context display to show current context window usage while keeping session cost cumulative","stage":"committed","createdAt":"2026-06-03T07:19:05.929Z","updatedAt":"2026-06-03T07:34:07.972Z","committedEventId":"41sFbiMekeLaFfPZ"}
-{"id":"W2z9dLIx","description":"Remove security-related rules from the composed agent rules","stage":"in-progress","createdAt":"2026-06-03T07:29:48.305Z","updatedAt":"2026-06-03T07:29:58.354Z"}
+{"id":"W2z9dLIx","description":"Remove security-related rules from the composed agent rules","stage":"done","createdAt":"2026-06-03T07:29:48.305Z","updatedAt":"2026-06-03T07:39:15.126Z"}
