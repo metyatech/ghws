@@ -3,7 +3,6 @@ Set-StrictMode -Version Latest
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..')
 $requiredPaths = @(
     (Join-Path $repoRoot 'agent-ruleset.json'),
-    (Join-Path $repoRoot 'agent-rules-local\ghws-workspace.md'),
     (Join-Path $repoRoot 'README.md')
 )
 
