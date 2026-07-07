@@ -3,10 +3,8 @@ $ErrorActionPreference = 'Continue'
 
 # ---------------------------------------------------------------------------
 # pull-all.ps1
-# Runs `git pull` on every standalone Git repository found anywhere under the
-# workspace root, including the root itself.  Discovery is recursive; paths
-# that reside inside a .git directory (e.g. .git/modules/...) are excluded so
-# internal git storage is never mistaken for a repository.  Submodules (whose
+# Runs `git pull` on every standalone Git repository found at the workspace
+# root or in a direct child directory of the workspace root. Submodules (whose
 # .git entry is a file, not a directory) are detected and skipped. Repositories
 # without an upstream branch are reported as notes, while repositories whose
 # local changes block pull remain failures.
@@ -133,16 +131,14 @@ function Get-WorkspaceCandidates {
     $candidates = [System.Collections.Generic.List[System.IO.DirectoryInfo]]::new()
     $candidates.Add($WorkspaceRoot)
 
-    $descendants = Get-ChildItem `
+    $children = Get-ChildItem `
         -Path $WorkspaceRoot.FullName `
         -Directory `
-        -Recurse `
         -Force `
         -ErrorAction SilentlyContinue `
-        -ErrorVariable discoveryErrors |
-        Where-Object { $_.FullName -notmatch ([regex]::Escape("${Separator}.git${Separator}")) }
+        -ErrorVariable discoveryErrors
 
-    foreach ($directory in $descendants) {
+    foreach ($directory in $children) {
         $candidates.Add($directory)
     }
 

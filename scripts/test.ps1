@@ -148,11 +148,11 @@ $scripts = Join-Path $tmpDir 'scripts'
 [void][IO.Directory]::CreateDirectory($scripts)
 
 # Workspace structure under $tmpDir (acts as the workspace root):
-#   .git/                          - root is a standalone git repo (expect: detected)
-#   repo-normal/                   - standalone git repo (expect: detected)
-#   repo-sub/                      - submodule (.git is file, expect: skipped)
-#   not-git/                       - plain dir (expect: ignored)
-#   repo-normal/.git/modules/inner - internal .git storage path (expect: NOT detected)
+#   .git/              - root is a standalone git repo (expect: detected)
+#   repo-normal/       - direct child standalone git repo (expect: detected)
+#   repo-sub/          - direct child submodule (.git is file, expect: skipped)
+#   not-git/           - direct child plain dir (expect: ignored)
+#   repo-normal/nested - nested standalone git repo (expect: NOT detected)
 
 [void][IO.Directory]::CreateDirectory((Join-Path $tmpDir '.git'))  # root is a standalone repo
 
@@ -165,11 +165,10 @@ $notGit     = Join-Path $tmpDir 'not-git'
 [IO.File]::WriteAllText((Join-Path $repoSub '.git'), 'gitdir: ../.git/modules/sub')  # file -> submodule
 [void][IO.Directory]::CreateDirectory($notGit)
 
-# Fake internal .git storage path — naive recursion would wrongly detect this as a repo root
-$innerPath = Join-Path $repoNormal '.git\modules\inner'
-[void][IO.Directory]::CreateDirectory((Join-Path $innerPath '.git'))
+$nestedRepo = Join-Path $repoNormal 'nested'
+[void][IO.Directory]::CreateDirectory((Join-Path $nestedRepo '.git'))
 
-# Mirror the pull-all discovery logic: root + recursive, excluding .git internal paths
+# Mirror the pull-all discovery logic: root + direct child directories only
 $sep      = [IO.Path]::DirectorySeparatorChar
 $detected = @()
 $skipped  = @()
@@ -212,15 +211,14 @@ if ($ignored -notcontains 'not-git') {
     Write-Error "pull-all test FAIL: plain dir was not ignored"
     exit 1
 }
-if ($detected -contains 'inner') {
-    Write-Error "pull-all test FAIL: internal .git/modules path was incorrectly detected as a repo"
+if ($detected -contains 'nested') {
+    Write-Error "pull-all test FAIL: nested repo was incorrectly detected as a repo"
     exit 1
 }
 
 # ---------------------------------------------------------------------------
-# pull-all.ps1 regression: relative-path labeling for unambiguous identity
-# Covers: duplicate leaf names in different parent directories, and
-# submodule hierarchy context (parent path visible in skipped label).
+# pull-all.ps1 regression: relative-path labeling for direct child repositories
+# and submodules.
 # ---------------------------------------------------------------------------
 
 $tmpDir2 = Join-Path ([IO.Path]::GetTempPath()) "ghws-pull-all-test2-$([IO.Path]::GetRandomFileName())"
@@ -228,29 +226,21 @@ $tmpDir2 = Join-Path ([IO.Path]::GetTempPath()) "ghws-pull-all-test2-$([IO.Path]
 
 # Workspace structure:
 #   .git/              - root is a standalone repo
-#   parent-a/repo/     - standalone repo (leaf name "repo")
-#   parent-b/repo/     - standalone repo (same leaf name "repo" — must be distinguishable)
-#   parent-a/sub/      - submodule under parent-a (hierarchy context must be visible)
+#   repo-a/            - direct child standalone repo
+#   repo-b/            - direct child standalone repo
+#   submodule-child/   - direct child submodule
 
 [void][IO.Directory]::CreateDirectory((Join-Path $tmpDir2 '.git'))
 
-$parentA = Join-Path $tmpDir2 'parent-a'
-$parentB = Join-Path $tmpDir2 'parent-b'
-[void][IO.Directory]::CreateDirectory($parentA)
-[void][IO.Directory]::CreateDirectory($parentB)
-
-# parent-a/repo and parent-b/repo — both standalone, both named "repo"
-$parentARepo = Join-Path $parentA 'repo'
-$parentBRepo = Join-Path $parentB 'repo'
-[void][IO.Directory]::CreateDirectory($parentARepo)
-[void][IO.Directory]::CreateDirectory((Join-Path $parentARepo '.git'))
-[void][IO.Directory]::CreateDirectory($parentBRepo)
-[void][IO.Directory]::CreateDirectory((Join-Path $parentBRepo '.git'))
-
-# parent-a/sub — submodule; relative path must expose the parent-a context
-$parentASub = Join-Path $parentA 'sub'
-[void][IO.Directory]::CreateDirectory($parentASub)
-[IO.File]::WriteAllText((Join-Path $parentASub '.git'), 'gitdir: ../../.git/modules/sub')
+$repoA = Join-Path $tmpDir2 'repo-a'
+$repoB = Join-Path $tmpDir2 'repo-b'
+$submoduleChild = Join-Path $tmpDir2 'submodule-child'
+[void][IO.Directory]::CreateDirectory($repoA)
+[void][IO.Directory]::CreateDirectory((Join-Path $repoA '.git'))
+[void][IO.Directory]::CreateDirectory($repoB)
+[void][IO.Directory]::CreateDirectory((Join-Path $repoB '.git'))
+[void][IO.Directory]::CreateDirectory($submoduleChild)
+[IO.File]::WriteAllText((Join-Path $submoduleChild '.git'), 'gitdir: ../.git/modules/submodule-child')
 
 # Mirror pull-all discovery + relative-path computation
 $sep2     = [IO.Path]::DirectorySeparatorChar
@@ -274,45 +264,38 @@ foreach ($item in $candidates2) {
 # Clean up temp dir
 try { [IO.Directory]::Delete($tmpDir2, $true) } catch {}
 
-# Both "repo" entries must appear with distinct relative paths
-$repoRelPaths = @($detectedRelPaths | Where-Object { $_ -like '*repo*' })
-if ($repoRelPaths.Count -ne 2) {
-    Write-Error "pull-all test FAIL: expected 2 repos named 'repo' from different parents, got $($repoRelPaths.Count)"
+if ($detectedRelPaths -notcontains '.') {
+    Write-Error "pull-all test FAIL: root repo relative path '.' not found, got: $($detectedRelPaths -join ', ')"
     exit 1
 }
-if ($repoRelPaths[0] -eq $repoRelPaths[1]) {
-    Write-Error "pull-all test FAIL: duplicate leaf-name repos have identical relative paths (not distinguishable)"
+if ($detectedRelPaths -notcontains 'repo-a') {
+    Write-Error "pull-all test FAIL: direct child repo relative path 'repo-a' not found, got: $($detectedRelPaths -join ', ')"
     exit 1
 }
-$expectedParentA = "parent-a${sep2}repo"
-$expectedParentB = "parent-b${sep2}repo"
-if ($repoRelPaths -notcontains $expectedParentA) {
-    Write-Error "pull-all test FAIL: expected relative path '$expectedParentA', got: $($repoRelPaths -join ', ')"
+if ($detectedRelPaths -notcontains 'repo-b') {
+    Write-Error "pull-all test FAIL: direct child repo relative path 'repo-b' not found, got: $($detectedRelPaths -join ', ')"
     exit 1
 }
-if ($repoRelPaths -notcontains $expectedParentB) {
-    Write-Error "pull-all test FAIL: expected relative path '$expectedParentB', got: $($repoRelPaths -join ', ')"
-    exit 1
-}
-
-# Submodule's relative path must include the parent directory name for context
-$expectedSubPath = "parent-a${sep2}sub"
-if ($skippedRelPaths -notcontains $expectedSubPath) {
-    Write-Error "pull-all test FAIL: submodule relative path '$expectedSubPath' not found in skipped list, got: $($skippedRelPaths -join ', ')"
+if ($skippedRelPaths -notcontains 'submodule-child') {
+    Write-Error "pull-all test FAIL: direct child submodule relative path 'submodule-child' not found, got: $($skippedRelPaths -join ', ')"
     exit 1
 }
 
 # ---------------------------------------------------------------------------
-# pull-all.ps1 regression: recursive discovery suppresses noisy enumeration
+# pull-all.ps1 regression: direct child discovery suppresses noisy enumeration
 # errors while still capturing them for summary reporting.
 # ---------------------------------------------------------------------------
 
-if ($pullAllContent -notmatch 'Get-ChildItem\s+`?\s*-Path\s+\$WorkspaceRoot\.FullName\s+`?\s*-Directory\s+`?\s*-Recurse\s+`?\s*-Force\s+`?\s*-ErrorAction\s+SilentlyContinue') {
-    Write-Error 'pull-all test FAIL: recursive discovery must suppress noisy enumeration errors'
+if ($pullAllContent -match '-Recurse') {
+    Write-Error 'pull-all test FAIL: discovery must not use recursive Get-ChildItem traversal'
+    exit 1
+}
+if ($pullAllContent -notmatch 'Get-ChildItem\s+`?\s*-Path\s+\$WorkspaceRoot\.FullName\s+`?\s*-Directory\s+`?\s*-Force\s+`?\s*-ErrorAction\s+SilentlyContinue') {
+    Write-Error 'pull-all test FAIL: direct child discovery must suppress noisy enumeration errors'
     exit 1
 }
 if ($pullAllContent -notmatch '-ErrorVariable\s+discoveryErrors') {
-    Write-Error 'pull-all test FAIL: recursive discovery must retain suppressed enumeration errors for summary reporting'
+    Write-Error 'pull-all test FAIL: direct child discovery must retain suppressed enumeration errors for summary reporting'
     exit 1
 }
 
